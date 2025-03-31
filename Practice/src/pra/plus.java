@@ -4,7 +4,7 @@ public class plus {
 
 	public static void main(String[] args) {
 
-		// testEx 22
+		// testEx 222
 		int a = 1;
 		int b = 3;
 		
