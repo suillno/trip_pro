@@ -92,7 +92,14 @@
         <button type="submit">아이디 찾기</button>
       </form>
 
-      <!-- 결과가 나오는 곳 -->
+      <!-- 인증번호 입력 박스 -->
+      <div id="verifyBox" style="display: none">
+        <label for="verification">인증번호 입력</label>
+        <input type="text" id="verification" placeholder="인증번호 입력" />
+        <button id="verifyBtn" style="margin-top: 10px">인증번호 확인</button>
+      </div>
+
+      <!-- 결과 박스 -->
       <div class="result" id="resultBox" style="display: none"></div>
 
       <div class="link">
@@ -101,7 +108,6 @@
     </div>
 
     <script>
-      // 임시 회원 정보 데이터 (예시)
       const userData = [
         { name: "홍길동", email: "hong@example.com", userid: "hong123" },
         { name: "김영희", email: "kim@example.com", userid: "kim456" },
@@ -110,24 +116,50 @@
 
       const form = document.getElementById("findForm");
       const resultBox = document.getElementById("resultBox");
+      const verifyBox = document.getElementById("verifyBox");
+      const verifyBtn = document.getElementById("verifyBtn");
+
+      let currentUser = null;
+      let generatedCode = "";
+
+      function generateCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+      }
 
       form.addEventListener("submit", function (e) {
-        e.preventDefault(); // 기본 제출 막기
+        e.preventDefault();
 
         const inputName = document.getElementById("username").value.trim();
         const inputEmail = document.getElementById("email").value.trim();
 
-        // 사용자 정보 검색
         const foundUser = userData.find(
           (user) => user.name === inputName && user.email === inputEmail
         );
 
         if (foundUser) {
-          resultBox.style.display = "block";
-          resultBox.textContent = `회원님의 아이디는 "${foundUser.userid}" 입니다.`;
+          currentUser = foundUser;
+          generatedCode = generateCode();
+          alert("인증번호가 발송되었습니다: " + generatedCode); // 실제 발송은 백엔드 필요
+
+          verifyBox.style.display = "block";
+          resultBox.style.display = "none";
         } else {
           resultBox.style.display = "block";
           resultBox.textContent = "일치하는 회원 정보가 없습니다.";
+          verifyBox.style.display = "none";
+        }
+      });
+
+      verifyBtn.addEventListener("click", function () {
+        const inputCode = document.getElementById("verification").value.trim();
+
+        if (inputCode === generatedCode) {
+          resultBox.style.display = "block";
+          resultBox.textContent = `회원님의 아이디는 "${currentUser.userid}" 입니다.`;
+          verifyBox.style.display = "none";
+        } else {
+          resultBox.style.display = "block";
+          resultBox.textContent = "인증번호가 올바르지 않습니다.";
         }
       });
     </script>
