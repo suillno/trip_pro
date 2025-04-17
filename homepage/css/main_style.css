@@ -3,20 +3,19 @@ body {
   font-family: "Jua", sans-serif;
 }
 
-/* 상단바: 로고 + 로그인 */
+/* 상단바(헤더) 영역 설정: 로고와 로그인 버튼이 포함된 고정된 바 */
 .top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  padding: 0 20px;
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  border-bottom: 1px solid #ddd;
+  display: flex; /* 내부 요소를 가로로 정렬 (로고 + 로그인 버튼) */
+  justify-content: space-between; /* 좌우 끝으로 로고와 로그인 버튼 배치 */
+  align-items: center; /* 수직 가운데 정렬 */
+  height: 60px; /* 상단바의 높이 */
+  padding: 0 10px; /* 좌우 여백 10px */
+  position: fixed; /* 화면 상단에 고정 */
+  width: 100%; /* 전체 너비 차지 */
+  top: 0; /* 상단에 고정 */
+  left: 0; /* 좌측 시작 */
+  border-bottom: 1px solid #ddd; /* 하단 테두리 회색 선 */
+  box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
 }
 
 .logo-box {
@@ -25,17 +24,16 @@ body {
   font-weight: bold;
 }
 
-/* 로그인 버튼 */
+/* 로그인 버튼 스타일 설정 */
 .login-form button {
-  padding: 8px 10px;
-  background-color: #ff2e63;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  max-width: 100%;
-  margin-right: auto;
+  padding: 8px 10px; /* 버튼 안쪽 여백 설정 */
+  background-color: #ff2e63; /* 버튼 배경색 (핑크 계열) */
+  color: white; /* 글자 색상을 흰색으로 */
+  border: none; /* 테두리 제거 */
+  border-radius: 4px; /* 모서리를 둥글게 처리 */
+  font-size: 14px; /* 글자 크기 설정 */
+  cursor: pointer; /* 마우스를 올리면 포인터 모양으로 변경 */
+  max-width: 100%; /* 최대 너비는 부모 요소 너비까지만 설정 */
 }
 
 /* 좌우 레이아웃 */
