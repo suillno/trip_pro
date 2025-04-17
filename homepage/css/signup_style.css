@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  /* border: 1px solid red; */
+}
+h2 {
+  color: rgb(255, 0, 0);
+}
+
+.userLabel {
+  display: inline-block;
+  width: 120px;
+  font-size: 14px;
+}
+legend {
+  display: none;
+}
+.userInput {
+  width: 230px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.row {
+  /* margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px; */
+  /* 마진 순서 상 우 하 좌 [시계방향?] */
+  /* margin: 10px 20px 30px 40px; */
+  /* 마진 값을 x,y 축 */
+  margin: 20px 0px;
+}
+.form {
+  width: 400px;
+  margin: 50px auto 50px;
+}
+.fieldset {
+  padding: 20px;
+}
+.button {
+  background-color: #ff2e63;
+  width: 355px;
+  color: #ffffff;
+  border: 0;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+.userName {
+  width: 80px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+
+.emailInput {
+  width: 80px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.emailSelect {
+  width: 127px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+
+.userTel {
+  width: 44px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+
+.userTelSub {
+  width: 44px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.logo {
+  font-family: "Jua", sans-serif;
+  font-size: 48px;
+  color: #ff2e63;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.userBirthday {
+  width: 65px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.SelBirthday {
+  width: 90px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.button2 {
+  background-color: #ff2e63;
+  width: 65px;
+  color: #ffffff;
+  border: 0;
+  font-size: 10px;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+
+.UserVerification {
+  width: 160px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.button3 {
+  background-color: #ff2e63;
+  width: 65px;
+  color: #ffffff;
+  border: 0;
+  font-size: 10px;
+  border-radius: 5px;
+  padding: 5px 0;
+}
