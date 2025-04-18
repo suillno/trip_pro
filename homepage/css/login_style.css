@@ -1,3 +1,79 @@
+/* ccs리셋 */
+/* 1. 모든 요소 기본 여백 제거 + 박스 크기 계산 방식 통일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. HTML5 시멘틱 태그 기본 display 설정 */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/* 3. 링크 기본 스타일 제거 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 4. 목록 점 제거 */
+ul,
+ol,
+li {
+  list-style: none;
+  padding-left: 0%;
+}
+
+/* 5. 이미지: 텍스트 아래 공간 제거 */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 6. 버튼 기본 제거 */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* 7. 폼 요소 글꼴 통일 */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+/* 8. strong, em 강조 스타일 유지 */
+strong,
+em {
+  font-weight: bold;
+}
+
+/* 9. body 기본 설정 */
+body {
+  line-height: 1.5;
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  color: #222;
+  background-color: #fff;
+}
+/* ccs리셋 끝 */
+
 /* 모든 요소에 box-sizing을 border-box로 설정해서 padding이 너비에 포함되도록 함 */
 * {
   box-sizing: border-box;
