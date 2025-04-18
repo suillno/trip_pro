@@ -12,6 +12,7 @@ h2 {
   width: 120px;
   font-size: 14px;
 }
+
 legend {
   display: none;
 }
@@ -37,7 +38,8 @@ legend {
   margin: 150px auto 50px;
 }
 .fieldset {
-  padding: 20px;
+  padding: 15px;
+  border: 1px solid s;
 }
 .button {
   background-color: #ff2e63;
