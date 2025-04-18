@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: "Jua", sans-serif;
+  font-family: "Nanum Gothic", sans-serif;
 }
 
 /* 상단바(헤더) 영역 설정: 로고와 로그인 버튼이 포함된 고정된 바 */
@@ -19,6 +19,7 @@ body {
 }
 
 .logo-box {
+  font-family: "Jua", sans-serif;
   font-size: 24px;
   color: #ff2e63;
   font-weight: bold;
@@ -26,12 +27,12 @@ body {
 
 /* 로그인 버튼 스타일 설정 */
 .login-form button {
-  padding: 8px 10px; /* 버튼 안쪽 여백 설정 */
+  padding: 5px 5px; /* 버튼 안쪽 여백 설정 */
   background-color: #ff2e63; /* 버튼 배경색 (핑크 계열) */
   color: white; /* 글자 색상을 흰색으로 */
   border: none; /* 테두리 제거 */
   border-radius: 4px; /* 모서리를 둥글게 처리 */
-  font-size: 14px; /* 글자 크기 설정 */
+  font-size: 12px; /* 글자 크기 설정 */
   cursor: pointer; /* 마우스를 올리면 포인터 모양으로 변경 */
   max-width: 100%; /* 최대 너비는 부모 요소 너비까지만 설정 */
 }
@@ -52,9 +53,12 @@ body {
 }
 
 .sidebar h4 {
+  border-top: rgba(0, 0, 0, 0.2) 2px solid;
+  border-bottom: rgba(0, 0, 0, 0.2) 1px solid;
   margin-top: 30px;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
+  padding: 8px;
 }
 
 .sidebar p {
@@ -64,7 +68,7 @@ body {
 .sidebar a {
   text-decoration: none;
   color: #444;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .sidebar a:hover {
@@ -75,6 +79,8 @@ body {
 .main-content {
   flex: 1;
   padding: 30px;
+}
+.hot-issue {
 }
 
 @media screen and (max-width: 480px) {
