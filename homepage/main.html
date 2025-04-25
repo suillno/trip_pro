@@ -4,55 +4,119 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>야가자 yagaja</title>
+    <!-- 폰트링크 -->
     <link
       href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- css 링크 -->
+    <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/main_style.css" />
   </head>
   <body>
-    <!-- 최상단 헤더 : 로고 + 로그인 버튼 -->
+    <!-- 상단 고정바 -->
     <header class="top-bar">
-      <div class="logo-box">yagaja</div>
-      <form class="login-form" action="login.html">
-        <button type="submit">로그인</button>
-      </form>
+      <div class="wrapper">
+        <div class="logo-box"><a href="main.html">yagaja</a></div>
+        <form class="login-form" action="login.html">
+          <button type="submit">로그인</button>
+        </form>
+      </div>
     </header>
 
-    <!-- 좌측 사이드바 + 메인 콘텐츠 -->
-    <div class="container">
-      <aside class="sidebar">
-        <!-- 이번달 핫이슈 -->
-        <section class="hot-issue">
-          <h4>이번달 핫이슈!</h4>
-          <p><a href="">이런 축제 어때?</a></p>
-          <p><a href="">꿀잠은 이쪽이야</a></p>
-          <p><a href="">베스트 추천!</a></p>
-        </section>
+    <!-- 메인 콘텐츠 전체 감싸는 wrapper -->
+    <div class="wrapper">
+      <div class="container">
+        <!-- 사이드바 -->
+        <button type="button" class="mobileSide">
+          <img src="icon/menu.png" alt="" />
+        </button>
+        <aside class="sidebar">
+          <section class="hot-issue">
+            <h4>이번달 핫이슈!</h4>
+            <p><a href="">이런 축제 어때?</a></p>
+            <p><a href="">꿀잠은 이쪽이야</a></p>
+            <p><a href="">베스트 추천!</a></p>
+          </section>
 
-        <!-- 게시판 -->
-        <section class="board">
-          <h4>게시판</h4>
-          <p><a href="#notice">공지사항</a></p>
-          <p><a href="#review">후기게시판</a></p>
-          <p><a href="#tripshare">여행계획게시판</a></p>
-          <p><a href="#free">잡담게시판</a></p>
-        </section>
+          <section class="board">
+            <h4>게시판</h4>
+            <p><a href="#notice">공지사항</a></p>
+            <p><a href="#review">후기게시판</a></p>
+            <p><a href="#tripshare">여행계획게시판</a></p>
+            <p><a href="#free">잡담게시판</a></p>
+          </section>
 
-        <!-- 관리자 메뉴 -->
-        <section class="admin">
-          <h4>관리자 페이지</h4>
-          <p><a href="admin.html">회원관리</a></p>
-          <p><a href="admin.html">게시글관리</a></p>
-          <p><a href="admin.html">신고처리</a></p>
-          <p><a href="admin.html">통계/분석</a></p>
-          <p><a href="admin.html">관리자계정관리</a></p>
-        </section>
-      </aside>
+          <section class="admin">
+            <h4>관리자 페이지</h4>
+            <p><a href="admin.html">회원관리</a></p>
+            <p><a href="admin.html">게시글관리</a></p>
+            <p><a href="admin.html">신고처리</a></p>
+            <p><a href="admin.html">통계/분석</a></p>
+            <p><a href="admin.html">관리자계정관리</a></p>
+          </section>
+        </aside>
+        <!-- 모바일환경 게시판표기 -->
+        <script>
+          const button = document.querySelector(".mobileSide");
+          const sidebar = document.querySelector(".sidebar");
+          button.addEventListener("click", () => {
+            sidebar.classList.add("show");
+          });
+          button.addEventListener("mouseleave", () => {
+            sidebar.classList.remove("show");
+          });
+          sidebar.addEventListener("mouseenter", () => {
+            sidebar.classList.add("show");
+          });
+          sidebar.addEventListener("mouseleave", () => {
+            sidebar.classList.remove("show");
+          });
+        </script>
+        <!-- 본문 영역 -->
+        <main class="main-content">
+          <h2>전국 축제 검색</h2>
+          <!-- 축제 검색창 -->
+          <form class="searchForm">
+            <input
+              type="text"
+              class=""
+              id="search"
+              placeholder="찾고 싶은 축제를 입력하세요 예)지역명,축제명"
+            />
+            <!-- 검색아이콘 -->
+            <button type="submit" class="ico">
+              <img src="icon/search.png" alt="" />
+            </button>
+          </form>
 
-      <main class="main-content">
-        <!-- 향후 콘텐츠 -->
-      </main>
+          <!-- 메인 이미지 -->
+          <div class="bannerGrid">
+            <div class="grid-item item1"><img src="img1.jpg" alt="" /></div>
+            <div class="grid-item item2"><img src="img2.jpg" alt="" /></div>
+            <div class="grid-item item3"><img src="img3.jpg" alt="" /></div>
+            <div class="grid-item item4"><img src="img4.jpg" alt="" /></div>
+            <div class="grid-item item5"><img src="img5.jpg" alt="" /></div>
+            <div class="grid-item item6"><img src="img6.jpg" alt="" /></div>
+            <div class="grid-item item7"><img src="img7.jpg" alt="" /></div>
+          </div>
+
+          <!-- 검색창 제출시 동작 -->
+          <script>
+            const search = document.querySelector(".searchForm");
+            search.addEventListener("submit", function (e) {
+              e.preventDefault();
+              const search = document.querySelector("#search");
+              console.log(search.value);
+            });
+          </script>
+        </main>
+      </div>
     </div>
   </body>
 </html>
