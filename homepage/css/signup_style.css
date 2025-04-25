@@ -30,7 +30,7 @@ legend {
   /* 마진 순서 상 우 하 좌 [시계방향?] */
   /* margin: 10px 20px 30px 40px; */
   /* 마진 값을 x,y 축 */
-  margin: 20px 0px;
+  margin-top: 20px;
 }
 .form {
   width: 400px;
@@ -48,6 +48,7 @@ legend {
   border-radius: 5px;
   padding: 5px 0;
   cursor: pointer;
+  margin-top: 30px;
 }
 .userName {
   width: 80px;
@@ -89,7 +90,7 @@ legend {
 }
 .logo {
   font-family: "Jua", sans-serif;
-  font-size: 48px;
+  font-size: 50px;
   color: #ff2e63;
   text-align: center;
   margin-bottom: 30px;
@@ -135,4 +136,38 @@ legend {
   border-radius: 5px;
   padding: 5px 0;
   cursor: pointer;
+  margin-top: px;
+}
+.redline {
+  border: 1px solid red;
+}
+.p {
+  color: rgba(128, 128, 128, 0.5);
+  display: block;
+  text-align: center;
+
+  font-size: 20px;
+}
+.pp {
+  margin-bottom: 50px;
+}
+#idError {
+  font-size: 10px;
+  color: red;
+  text-align: right;
+}
+#pwError {
+  font-size: 10px;
+  color: red;
+  text-align: right;
+}
+#cpError {
+  font-size: 10px;
+  color: red;
+  text-align: right;
+}
+#nameError {
+  font-size: 10px;
+  color: red;
+  text-align: right;
 }

@@ -8,19 +8,28 @@
       href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/signup/style.css" />
+    <link rel="stylesheet" href="./css/signup_style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <form action="" class="form">
       <fieldset class="fieldset">
         <legend>로그인 폼</legend>
-        <h2 class="logo">회원가입</h2>
+        <h2 class="logo">Yagaja</h2>
+
+        <div class="pp"><p class="p">사용자 정보를 입력하세요.</p></div>
 
         <!-- 아이디 -->
         <div class="row">
           <label for="userid" class="userLabel">아이디</label>
-          <input type="text" id="userid" class="userInput" placeholder="ID" />
+          <input
+            type="text"
+            id="userid"
+            class="userInput"
+            placeholder="아이디 입력"
+          />
         </div>
+        <p id="idError"></p>
 
         <!-- 비밀번호 -->
         <div class="row">
@@ -29,9 +38,10 @@
             type="password"
             id="userpw"
             class="userInput"
-            placeholder="Password"
+            placeholder="비밀번호 입력"
           />
         </div>
+        <p id="pwError"></p>
 
         <!-- 비밀번호 확인 -->
         <div class="row">
@@ -40,9 +50,10 @@
             type="password"
             id="userCP"
             class="userInput"
-            placeholder="Confirm Password"
+            placeholder="비밀번호 입력확인"
           />
         </div>
+        <p id="cpError"></p>
 
         <!-- 이름 -->
         <div class="row">
@@ -51,9 +62,10 @@
             type="text"
             id="Name"
             class="userInput"
-            placeholder="Full Name"
+            placeholder="이름 입력"
           />
         </div>
+        <p id="nameError"></p>
 
         <!-- 전화번호 -->
         <div class="row">
@@ -64,9 +76,9 @@
             <option value="">031</option>
           </select>
           <span>-</span>
-          <input type="tel" class="userTelSub" />
+          <input type="tel" class="userTelSub" maxlength="4" />
           <span>-</span>
-          <input type="tel" class="userTelSub" />
+          <input type="tel" class="userTelSub" maxlength="4" />
         </div>
 
         <!-- 생년월일 -->
@@ -103,7 +115,7 @@
             type="text"
             id="Address"
             class="userInput"
-            placeholder="Address"
+            placeholder="주소"
           />
         </div>
 
@@ -114,7 +126,7 @@
             type="text"
             id="Address2"
             class="userInput"
-            placeholder="Address Line 2"
+            placeholder="상세주소"
           />
         </div>
 
@@ -126,7 +138,7 @@
               type="email"
               id="email"
               class="emailInput"
-              placeholder="Email"
+              placeholder="이메일"
             />
             <span>@</span>
             <select class="emailSelect" id="emailSelect">
@@ -165,11 +177,113 @@
         </div>
 
         <!-- 회원가입 버튼 -->
-        <button class="button" type="submit">회원가입</button>
+        <div>
+          <button class="button" type="submit">회원가입</button>
+        </div>
       </fieldset>
     </form>
 
     <script>
+      let idCheck = false; // 아이디
+      let pwCheck = false; // 비밀번호
+      let cpCheck = false; // 비밀번호 확인
+      let naCheck = false; // 이름
+      let telCheck = false; // 전화번호
+      let hpCheck = false; // 생년월일
+      let adCheck = false; // 주소
+      let subadCheck = false; // 상세주소
+      let mailCheck = false; // 이메일
+      let Check = false; // 이메일 인증번호호
+      document.querySelector(".form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (
+          idCheck &&
+          pwCheck &&
+          cpCheck &&
+          nameCheck &&
+          telCheck &&
+          hpCheck &&
+          adCheck &&
+          subadCheck &&
+          mailCheck &&
+          Check
+        ) {
+          // 제출
+        }
+      });
+      // 아이디 중복확인 처리
+      document.querySelector("#userid").addEventListener("keyup", function () {
+        const userInput = this;
+        const userId = userInput.value;
+        const idError = document.getElementById("idError"); // 에러 메시지 표시용
+
+        const idRegex = /^[a-z0-9]{5,20}$/; // 소문자+숫자 5~20자
+        const hasKorean = /[가-힣]/; // 한글 포함 여부
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/; // 특수문자 포함 여부
+
+        console.log(!idRegex.test(userId));
+        if (
+          !idRegex.test(userId) ||
+          hasKorean.test(userId) ||
+          hasSpecialChar.test(userId)
+        ) {
+          // 아이디 숫자 길이 체크
+          userInput.classList.add("redline");
+          idError.textContent =
+            "아이디는 5~20자 영문 소문자와 숫자만 가능합니다.";
+          idCheck = false;
+        } else {
+          userInput.classList.remove("redline");
+          idError.textContent = ""; // 에러 메시지 초기화
+          idCheck = true;
+        }
+      });
+      document.querySelector("#userpw").addEventListener("keyup", function () {
+        const userInput = this;
+        const userpw = userInput.value;
+        const pwError = document.getElementById("pwError"); // 에러 메시지 표시용
+        const pwRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,20}$/;
+        if (!pwRegex.test(userpw)) {
+          userInput.classList.add("redline");
+          pwError.textContent =
+            "비밀번호는 8~20자, 영문 대소문자, 숫자, 특수문자를 모두 포함해야 합니다.";
+          pwCheck = false;
+        } else {
+          userInput.classList.remove("redline");
+          pwError.textContent = "";
+          pwCheck = true;
+        }
+      });
+      document.querySelector("#userCP").addEventListener("keyup", function (e) {
+        const { value } = e.target;
+        const pw = document.querySelector("#userpw").value;
+        const cpError = document.getElementById("pwError"); // 에러 메시지 표시용
+        if (value !== pw) {
+          this.classList.add("redline");
+          cpError.textContent = "비밀번호가 일치하지 않습니다.";
+          cpCheck = false;
+        } else {
+          this.classList.remove("redline");
+          cpError.textContent = "";
+          cpCheck = true;
+        }
+      });
+      document.querySelector("#Name").addEventListener("keyup", function (e) {
+        const { value } = e.target;
+        const nameError = document.querySelector("#nameError");
+        const nameRegex = /^[가-힣]{2,}$/;
+        if (!nameRegex.test(value)) {
+          e.target.classList.add("redline");
+          nameError.textContent = "이름은 한글 2자 이상만 입력 가능합니다.";
+          nameCheck = false;
+        } else {
+          e.target.classList.remove("redline");
+          nameError.textContent = "";
+          nameCheck = true;
+        }
+      });
+
       // 이메일 도메인 직접입력 처리
       document.querySelector("#emailSelect").addEventListener("change", (e) => {
         const v = e.target.value;
