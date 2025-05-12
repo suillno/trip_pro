@@ -181,6 +181,9 @@ body {
     z-index: 1000;
     background-color: #eee;
   }
+  .sideClose {
+    display: none;
+  }
 
   /* 사이드바 폰트사이즈 조정 */
   .sidebar section h4 {
