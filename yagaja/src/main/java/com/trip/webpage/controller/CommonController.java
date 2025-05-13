@@ -25,10 +25,6 @@ public class CommonController {
 	@GetMapping("/")
 	// 요청이 들어오면 "index" 뷰를 반환하고, 모델(Model)에 데이터도 함께 전달하는 메서드
 	public String index(Model model) {
-
-	    // "message"라는 이름으로 문자열 "hellow"를 모델에 저장 (뷰에서 ${message}로 사용 가능)
-	    model.addAttribute("message", "hellow");
-
 	    // 뷰 이름으로 "index"를 반환 → 뷰 리졸버가 index.jsp 또는 index.html을 찾아 렌더링
 	    return "index";
 	}

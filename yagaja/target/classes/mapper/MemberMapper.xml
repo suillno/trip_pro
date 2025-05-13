@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper 경로지정 -->
+<mapper namespace="com.trip.webpage.mapper.MemberMapper">
+	<!-- 쿼리 생성하여 VO에 담기 -->
+	<select id="selectMember"  resultType="com.trip.webpage.vo.MemberVO">
+		SELECT * FROM MEMBER
+	</select>
+
+</mapper>
+
+<!-- 멥퍼 흐름 -->
+<!-- EmpMapper.xml >> EmpDAO.java >> EmpVO.java >> Service >> Controller >> html -->

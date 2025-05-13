@@ -44,6 +44,82 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		 <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
+
+<dependency>
+
+    <groupId>org.apache.tomcat.embed</groupId>
+
+    <artifactId>tomcat-embed-jasper</artifactId>
+
+    <version>10.1.2</version>
+
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+
+<dependency>
+
+    <groupId>org.projectlombok</groupId>
+
+    <artifactId>lombok</artifactId>
+
+    <version>1.18.24</version>
+
+    <scope>provided</scope>
+
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11 -->
+
+<dependency>
+
+    <groupId>com.oracle.database.jdbc</groupId>
+
+    <artifactId>ojdbc11</artifactId>
+
+    <version>23.3.0.23.09</version>
+
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
+
+<dependency>
+
+    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+
+    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+
+    <version>1.16</version>
+
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+
+<dependency>
+
+    <groupId>org.mybatis.spring.boot</groupId>
+
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+
+    <version>3.0.3</version>
+
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter-test -->
+
+<dependency>
+
+    <groupId>org.mybatis.spring.boot</groupId>
+
+    <artifactId>mybatis-spring-boot-starter-test</artifactId>
+
+    <version>3.0.3</version>
+
+    <scope>test</scope>
+
+</dependency>
+		
 	</dependencies>
 
 	<build>
