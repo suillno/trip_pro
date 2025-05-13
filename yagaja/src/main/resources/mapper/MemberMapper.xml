@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- mapper 경로지정 -->
+<!-- MyBatis에서 사용할 매퍼 설정: DTD(Document Type Definition) 명시 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML 파일이 연결될 Mapper 인터페이스 지정 -->
 <mapper namespace="com.trip.webpage.mapper.MemberMapper">
-	<!-- 쿼리 생성하여 VO에 담기 -->
-	<select id="selectMember"  resultType="com.trip.webpage.vo.MemberVO">
-		SELECT * FROM MEMBER
+
+	<!-- 
+	 - selectMember: Mapper 인터페이스에서 호출할 메서드 ID
+	 - resultType: 결과를 매핑할 클래스 타입 (MemberVO)
+	 - 실행할 SQL 문장을 작성
+	 -->
+	<select id="selectMember" resultType="MemberVO">
+		SELECT * FROM MEMBER  
+	</select>
+	
+	<select id="selectMemberCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
 	</select>
 
 </mapper>
 
-<!-- 멥퍼 흐름 -->
-<!-- EmpMapper.xml >> EmpDAO.java >> EmpVO.java >> Service >> Controller >> html -->
+
+<!-- 
+멥퍼 작동 흐름 요약:
+
+1. MemberMapper.xml
+   - SQL 쿼리 작성 및 결과 매핑 방식 지정
+   - <select> 등의 태그로 SQL 실행 정의
+
+2. MemberMapper.java (인터페이스)
+   - XML의 쿼리를 자바 메서드처럼 호출할 수 있도록 선언
+
+3. MemberVO.java
+   - SELECT 결과를 저장할 데이터 객체 (VO)
+
+4. MemberService.java / MemberServiceImpl.java
+   - Mapper 호출 로직을 포함한 비즈니스 처리 담당
+
+5. MemberController.java
+   - 사용자 요청을 받아 서비스 호출 및 뷰 전달
+
+6. test.html
+   - 최종적으로 사용자에게 데이터를 출력하는 화면 (Thymeleaf 등 사용)
+ -->

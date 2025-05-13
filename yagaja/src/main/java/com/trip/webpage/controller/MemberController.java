@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.trip.webpage.service.MemberService;
 import com.trip.webpage.vo.MemberVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 	// 서비스 객체 자동생성
 	@Autowired
@@ -52,7 +55,8 @@ public class MemberController {
 	// sql 데이터 연결 테스트
 	@GetMapping("/test") 
 		public String showTest() {
-			List<MemberVO> vo = memberService.seletMember();
+			List<MemberVO> vo = memberService.selectMember();
+			log.info(vo.toString());
 			return "/member/test";
 		}
 }

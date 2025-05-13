@@ -11,4 +11,6 @@ public interface MemberMapper {
 	
 	List<MemberVO> selectMember();
 	
+	int selectMemberCount();
+	
 }
