@@ -25,18 +25,15 @@
         }
       </style>
       <!-- 로그인 폼 -->
-      <form>
-        <!-- 아이디 입력 -->
-        <label for="userid">아이디</label>
-        <input type="text" id="userid" placeholder="아이디 입력" />
+	  <form th:action="@{/member/loginProc}" th:object="${userInfo}" method="post">
+	    <label for="userid">아이디</label>
+	    <input type="text" id="userid" th:field="*{userId}" placeholder="아이디 입력" />
 
-        <!-- 비밀번호 입력 -->
-        <label for="password">비밀번호</label>
-        <input type="password" id="password" placeholder="비밀번호 입력" />
+	    <label for="password">비밀번호</label>
+	    <input type="password" id="password" th:field="*{userPw}" placeholder="비밀번호 입력" />
 
-        <!-- 로그인 버튼 -->
-        <button type="submit">로그인</button>
-
+	    <button type="submit">로그인</button>
+	  </form>
         <!-- 하단 링크들 -->
         <div class="link">
           <p>
@@ -45,7 +42,6 @@
             <a href="/member/signup">회원가입</a>
           </p>
         </div>
-      </form>
     </div>
   </body>
 </html>

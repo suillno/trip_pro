@@ -13,7 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class MemberVO {
 	
-	private String userID;
 	private Long isAdmin;
 	private String userPw;
 	private String userName;
@@ -26,6 +25,6 @@ public class MemberVO {
 	private char emailAuth;
 	private String emailAuthCode;
 	private char blockCode;
-	
+	private String userId;
 
 }

@@ -2,12 +2,14 @@
 package com.trip.webpage.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trip.webpage.mapper.MemberMapper;
 import com.trip.webpage.service.MemberService;
+import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,5 +30,17 @@ public class MemberServiceImpl implements MemberService {
 		log.info(String.valueOf(memberMapper.selectMemberCount()));
 		return memberMapper.selectMember(); // Mapper의 SQL 실행 결과 반환
 	}
+
+	// 로그인동작 구현 로그인결과 반환
+	@Override
+	public MemberVO userLogin(LoginRequest loginRequest) {
+		MemberVO result = memberMapper.userLogin(loginRequest);
+		if (result != null) {
+            log.info("로그인 성공: {}", result.getUserId());
+        } else {
+            log.warn("로그인 실패: {}", loginRequest.getUsername());
+        }
+        return result;
+    }
 	
 }

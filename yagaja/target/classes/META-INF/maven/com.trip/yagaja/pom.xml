@@ -119,7 +119,12 @@
     <scope>test</scope>
 
 </dependency>
-		
+
+		<dependency>
+			<groupId>com.trip</groupId>
+			<artifactId>trip</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
