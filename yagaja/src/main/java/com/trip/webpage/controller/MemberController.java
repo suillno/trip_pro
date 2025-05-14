@@ -49,7 +49,7 @@ public class MemberController {
 	public String userLoginProc(@ModelAttribute LoginRequest loginRequest,
 	                            HttpSession session,
 	                            Model model) {
-	    log.info("로그인 요청 ID: {}, PW: {}", loginRequest.getUsername(), loginRequest.getPassword());
+	    log.info("로그인 요청 ID: {}, PW: {}", loginRequest.getUserId(), loginRequest.getUserPw());
 
 	    MemberVO result = memberService.userLogin(loginRequest);
 

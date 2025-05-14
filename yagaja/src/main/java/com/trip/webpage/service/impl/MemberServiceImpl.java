@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 		if (result != null) {
             log.info("로그인 성공: {}", result.getUserId());
         } else {
-            log.warn("로그인 실패: {}", loginRequest.getUsername());
+            log.warn("로그인 실패: {}", loginRequest.getUserId());
         }
         return result;
     }
