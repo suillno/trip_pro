@@ -42,7 +42,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/admin/**")
                 // /member/info 경로에도 적용
                 .addPathPatterns("/member/info");
-
         // 기본 구현을 호출 (생략 가능하지만 명시적 호출)
         WebMvcConfigurer.super.addInterceptors(registry);
     }

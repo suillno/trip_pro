@@ -41,7 +41,7 @@ body {
 }
 
 /* 로그인 버튼 */
-.login-form button {
+.login-form {
   padding: 8px 10px;
   background-color: #ff2e63;
   color: white;
@@ -157,6 +157,18 @@ body {
 .item4 {
   grid-column: span 3; /* 가로로 전체 차지 */
   height: 200px;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userName {
+  margin: 0;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 /* 반응형 모바일 대응 */

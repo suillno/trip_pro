@@ -43,5 +43,8 @@
           </p>
         </div>
     </div>
+	<script th:if="${error}" th:inline="javascript">
+	    alert([[${error}]]);
+	</script>
   </body>
 </html>

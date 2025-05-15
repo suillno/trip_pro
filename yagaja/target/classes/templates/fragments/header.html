@@ -4,9 +4,11 @@
   <div th:fragment="header" class="top-bar">
     <div class="wrapper">
       <div class="logo-box"><a href="/">yagaja</a></div>
-      <a class="login-form" href="/member/login">
-        <button type="button">로그인</button>
-      </a>
+	  <div class="user-area">
+	  <p class="userName" th:text="${userInfo != null} ? ${userInfo.userName} : ''"></p>
+	  <a class="login-form" href="/member/logout" th:if="${userInfo != null}" onclick="return confirm('정말 로그아웃하시겠습니까?');">로그아웃</a>
+	  </div>
+	  <a class="login-form" href="/member/login" th:unless="${userInfo != null}">로그인</a>
     </div>
   </div>
 </body>
