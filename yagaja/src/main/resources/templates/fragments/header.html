@@ -5,6 +5,7 @@
     <div class="wrapper">
       <div class="logo-box"><a href="/">yagaja</a></div>
 	  <div class="user-area">
+		<!-- 로그인 여부 체크후 사용자이름 표기 및 로그아웃 버튼교체 -->
 	  <p class="userName" th:text="${userInfo != null} ? ${userInfo.userName} : ''"></p>
 	  <a class="login-form" href="/member/logout" th:if="${userInfo != null}" onclick="return confirm('정말 로그아웃하시겠습니까?');">로그아웃</a>
 	  </div>
