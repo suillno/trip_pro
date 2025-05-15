@@ -194,7 +194,18 @@ body {
     background-color: #eee;
   }
   .sideClose {
-    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .sideClose img {
+    width: 20px;
+    height: 20px;
   }
 
   /* 사이드바 폰트사이즈 조정 */

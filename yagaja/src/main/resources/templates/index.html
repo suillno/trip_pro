@@ -28,6 +28,16 @@
         const searchInput = document.querySelector("#search");
         console.log(searchInput.value);
       });
+	  <!-- 관광데이터 가져오기 -->
+	  fetch("https://apis.data.go.kr/B551011/KorService2/searchFestival2?serviceKey=dfkqgFHSVFefp3CpeXZ5psT9s6iWXzaWacsy9b%2FgDvuEJpzyy9Vpah1z2ktIKXO85kIcRQAGZwdqUjUDbD6dkg%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&eventStartDate=20240501&eventEndDate=20240531")
+	    .then(response => response.json())
+	    .then(data => {
+	      console.log("축제 목록:", data.response.body.items.item);
+	      // 여기에 DOM 출력 처리 등 추가
+	    })
+	    .catch(error => {
+	      console.error("API 호출 실패:", error);
+	    });
     </script>
   </div>
 </body>

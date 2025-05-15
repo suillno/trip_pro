@@ -34,10 +34,11 @@
     <script>
       const button = document.querySelector(".mobileSide");
       const sidebar = document.querySelector(".sidebar");
+	  const closeSidebar = document.querySelector(".sideClose");
       button.addEventListener("click", () => {
         sidebar.classList.add("show");
       });
-      button.addEventListener("mouseleave", () => {
+      closeSidebar.addEventListener("click", () => {
         sidebar.classList.remove("show");
       });
       sidebar.addEventListener("mouseenter", () => {
