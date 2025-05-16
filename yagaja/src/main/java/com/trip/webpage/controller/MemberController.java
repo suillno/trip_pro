@@ -91,10 +91,10 @@ public class MemberController {
 	    return mav;
 	}
 	// sql 데이터 연결 테스트
-	@GetMapping("/test") 
-		public String showTest() {
-			List<MemberVO> vo = memberService.selectMember();
-			log.info(vo.toString());
-			return "/member/test";
+	@GetMapping("/memberDetail") 
+		public ModelAndView memberDetail() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("userInfo", new MemberVO());
+	    return mav;
 		}
 }

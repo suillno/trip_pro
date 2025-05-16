@@ -23,7 +23,7 @@
 	  <!-- 관리자여부 userInfo에 값이 있으면 isAdmin값을 체크하여 1이면 관리자 -->
       <section class="admin" th:if="${userInfo != null and userInfo.isAdmin == 1}">
         <h4>관리자 페이지</h4>
-        <p><a href="admin.html">회원관리</a></p>
+        <p><a href="/member/memberDetail">회원관리</a></p>
         <p><a href="admin.html">게시글관리</a></p>
         <p><a href="admin.html">신고처리</a></p>
         <p><a href="admin.html">통계/분석</a></p>

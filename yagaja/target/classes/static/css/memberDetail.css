@@ -1,0 +1,31 @@
+body {
+  font-family: "맑은 고딕", sans-serif;
+  font-size: 12px;
+} 
+ table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table tr th, table tr td {
+    padding: 10px;
+    border-top: 1px solid #777;
+	border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+  }
+  table tr td:first-of-type {
+    text-align: center;
+  }
+  h2 {
+    margin: 30px 50px;
+  }
+  .tableCenter {
+    text-align: left; /* 부모 div가 자식 table을 가운데 정렬 */
+  }
+
+  .memberTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tableCenter {
+	width: 100%;
+  }
