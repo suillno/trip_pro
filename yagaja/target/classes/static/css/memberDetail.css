@@ -29,3 +29,38 @@ body {
   .tableCenter {
 	width: 100%;
   }
+  
+  .pagination {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .pagination ul {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+  }
+
+  .pagination li a {
+    display: block;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .pagination li.active a {
+    background-color: #ff2e63;
+    color: white;
+    font-weight: bold;
+    border-color: #ff2e63;
+  }
+
+  .pagination li a:hover {
+    background-color: #ddd;
+  }
