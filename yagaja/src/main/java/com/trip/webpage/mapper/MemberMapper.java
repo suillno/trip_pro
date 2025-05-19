@@ -14,11 +14,11 @@ public interface MemberMapper {
 	
 	List<MemberVO> selectMember();
 	
-	int selectListCount(SearchHelper searchHelper);
+	int selectMemberCount(SearchHelper searchHelper);
 	
 	int selectMemberCount();
 	// MamberMapper.xml userLogin 쿼리를 자바 메서드형태로 선언
 	MemberVO userLogin(LoginRequest loginRequest);
 	
-	List<MemberVO> selectList(SearchHelper searchHelper);
+	int blockMember(MemberVO vo);
 }

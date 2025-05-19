@@ -45,15 +45,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
 	@Override
-	public List<MemberVO> selectList(SearchHelper searchHelper) {
+	public int selectMemberCount(SearchHelper searchHelper) {
 		// TODO Auto-generated method stub
-		return memberMapper.selectMember();
+		return memberMapper.selectMemberCount(searchHelper);
 	}
 
 	@Override
-	public int selectListCount(SearchHelper searchHelper) {
+	public int blockMember(MemberVO vo) {
 		// TODO Auto-generated method stub
-		return memberMapper.selectListCount(searchHelper);
+		return memberMapper.blockMember(vo);
 	}
 	
 }

@@ -7,16 +7,7 @@
 <!-- 이 XML 파일이 연결될 Mapper 인터페이스 지정 -->
 <mapper namespace="com.trip.webpage.mapper.MemberMapper">
 
-	<select id="selectList" resultType="MemberVO" parameterType="SearchHelper">
-		SELECT USER_ID, USER_NAME, REG_DATE, EMAIL, BLOCK_CODE, ROW_NUMBER FROM (
-			SELECT B.USER_ID, B.USER_NAME, B.REG_DATE, B.EMAIL, B.BLOCK_CODE, 
-				ROW_NUMBER() OVER (ORDER BY BOARD_NO) AS ROW_NUMBER
-				FROM MEMBER B
-			ORDER BY B.USER_NAME
-		) OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY
-	</select>
-
-	<select id="selectListCount" resultType="int" parameterType="SearchHelper">
+	<select id="selectMemberCount" resultType="int" parameterType="SearchHelper">
 		SELECT COUNT(*) AS cnt FROM MEMBER
 	</select>
 
@@ -42,6 +33,14 @@
         WHERE USER_ID = #{userId}
         AND USER_PW = STANDARD_HASH(#{userPw}, 'SHA256')
     </select>
+    
+    <!-- 불량회원 관리 -->
+    <update id="blockMember" parameterType="MemberVO">
+		UPDATE MEMBER
+		SET BLOCK_CODE = #{blockCode}
+		WHERE USER_ID = #{userId}
+	</update>
+    
 </mapper>
 
 

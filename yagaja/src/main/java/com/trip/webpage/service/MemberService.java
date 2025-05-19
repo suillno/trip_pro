@@ -13,6 +13,6 @@ public interface MemberService {
 	// DAO (MemberMapper)의 selectMember()를 호출하여 DB에서 회원 정보를 가져옴
 	List<MemberVO> selectMember();
 	MemberVO userLogin(LoginRequest loginRequest); // Mapper 로그인용 메서드호출
-	List<MemberVO> selectList(SearchHelper searchHelper);
-	int selectListCount(SearchHelper searchHelper);
+	int selectMemberCount(SearchHelper searchHelper);
+	int blockMember(MemberVO vo);
 }
