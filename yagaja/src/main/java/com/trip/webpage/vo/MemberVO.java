@@ -20,7 +20,6 @@ public class MemberVO {
 	private String phoneNum;
 	private Date regDate;
 	private Date dropDate;
-	private String userAddr;
 	private char dropYn;
 	private char emailAuth;
 	private String emailAuthCode;

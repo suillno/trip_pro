@@ -87,7 +87,7 @@ public class AdminController {
 	         vo.setBlockCode(blockCodes.get(i).charAt(0));
 	         memberService.blockMember(vo);
 	     }
-
+	    
 	     // ✅ 변경 후 목록 페이지로 redirect
 	     mav.setViewName("redirect:/admin/memberDetail");
 	     return mav;
