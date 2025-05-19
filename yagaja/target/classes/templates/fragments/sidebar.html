@@ -29,23 +29,13 @@
         <p><a href="admin.html">통계/분석</a></p>
         <p><a href="admin.html">관리자계정관리</a></p>
       </section>
-      <button type="button" class="sideClose"><img src="/img/close.png" alt="" /></button>
     </aside>
     <script>
       const button = document.querySelector(".mobileSide");
       const sidebar = document.querySelector(".sidebar");
 	  const closeSidebar = document.querySelector(".sideClose");
       button.addEventListener("click", () => {
-        sidebar.classList.add("show");
-      });
-      closeSidebar.addEventListener("click", () => {
-        sidebar.classList.remove("show");
-      });
-      sidebar.addEventListener("mouseenter", () => {
-        sidebar.classList.add("show");
-      });
-      sidebar.addEventListener("mouseleave", () => {
-        sidebar.classList.remove("show");
+        sidebar.classList.toggle("show");
       });
     </script>
   </div>

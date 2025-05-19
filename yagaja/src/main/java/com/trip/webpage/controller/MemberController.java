@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.vo.BoardVO;
@@ -81,7 +82,7 @@ public class MemberController {
 	    return mav;
 	}
 	// 패스워드 찿기 연결
-	@GetMapping("/password")
+	@GetMapping("/passwordSearch")
 	public ModelAndView showPasswordSearch() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userInfo", new MemberVO());
@@ -136,4 +137,14 @@ public class MemberController {
 
         return mav;
     }
+    
+    @GetMapping("/checkId")
+    @ResponseBody // json 리턴시사용
+    public HashMap<String, Object> checkId(@RequestParam("userId") String userId){
+    	HashMap<String, Object> resultMap = new HashMap<>();
+    	log.info(userId);
+    	resultMap.put("isDuplicate", true);
+    	return resultMap;
+    }
+    
 }

@@ -28,6 +28,7 @@
             class="userInput"
             placeholder="아이디 입력"
           />
+		  <button type="button" id="btnCheckId">중복확인</button>
         </div>
         <p id="idError"></p>
 
@@ -184,6 +185,41 @@
     </form>
 
     <script>
+	  document.querySelector('#btnCheckId').addEventListener('click', function(e){
+		e.target.disabled = true;
+		console.log('클릭');
+	  })
+	  const userId = document.querySelector.value;
+	  console.log(userId);
+	  
+	  // 아이디값이 비어있으면 알람
+	  if (userId.trim() === ''){
+		alert('아이디 입력하세요');
+	  }
+	  // fetch(경로).then(res => res.json())
+	  fetch(`/user/checkeId?userId=${userId}`).then(res => res.json()).then(data => {
+		console.log(data);
+		if (data.isDuplicate) {
+			e.target.disabled = false;
+		}
+	  }).catch(err => {
+		console.log(err);
+		e.target.disabled = false;
+	  })
+	  
+	  // 제출시 동작
+	  document.querySelector('#btnSubmit').addEventListener('click', (e) => {
+		const userId = document.querySelector("#userId").value;
+		const userPassword = document.querySelector("#userPassword").value;
+		const request = {
+			userId,
+			userPassword
+		}
+		// 결과를 post 형태로 보내기
+		
+	  })
+	  
+		
       let idCheck = false; // 아이디
       let pwCheck = false; // 비밀번호
       let cpCheck = false; // 비밀번호 확인
