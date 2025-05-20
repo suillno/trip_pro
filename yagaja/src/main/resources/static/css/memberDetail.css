@@ -95,3 +95,30 @@
 	border-radius: 4px;
 	margin-right: 4%;
   }
+  
+  .bottom-controls {
+	display: flex;
+	  justify-content: space-between; /* 양 끝 배치 */
+	  align-items: center;
+	  padding: 20px;
+	  margin-top: 30px;
+	  position: relative;
+  }
+  
+  /* 셀렉트 + 인풋을 감싼 그룹 */
+  .search-group {
+	position: absolute;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  display: flex;
+	  gap: 8px;
+	  font-family: "맑은 고딕", sans-serif;
+	  	font-size: 12px;
+  }
+
+  /* 저장 버튼은 오른쪽 끝으로 밀기 */
+  .bottom-controls .btn-primary {
+    margin-left: auto;
+  }
+  
+

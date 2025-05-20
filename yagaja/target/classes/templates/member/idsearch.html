@@ -1,103 +1,68 @@
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>아이디 찾기</title>
-    <!-- 폰트링크 -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
-      rel="stylesheet"
-    />
-    <!-- 스타일 링크 -->
-    <link rel="stylesheet" href="/css/reset.css" />
-    <link rel="stylesheet" href="/css/idsearch.css" />
-  </head>
-  <body>
-    <div class="find-box">
-      <h1 class="logo"><a href="/">yagaja</a></h1>
-      <p class="logo_text">아이디를 찿기위한 정보를 입력해주세요</p>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>아이디 찾기</title>
 
-      <form id="findForm" action="member/">
-        <label for="username">이름</label>
-        <input type="text" id="username" name="name" placeholder="이름 입력" required />
+  <!-- 구글 웹폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
 
-        <label for="email">이메일</label>
-        <input type="email" id="email" name="email" placeholder="이메일 입력" required />
+  <!-- 리셋 및 전용 CSS -->
+  <link rel="stylesheet" href="/css/reset.css" />
+  <link rel="stylesheet" href="/css/idsearch.css" />
+  <!-- SweetAlert2 CSS & JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="find-box">
+    <!-- 로고 및 안내 -->
+    <h1 class="logo"><a href="/">yagaja</a></h1>
+    <p class="logo_text">아이디를 찾기 위한 정보를 입력해주세요</p>
 
-        <button type="submit">아이디 찾기</button>
-      </form>
+    <!-- ✅ 사용자 입력 폼 -->
+    <form id="findForm" action="/member/findId" method="post">
+      <label for="userId">이름</label>
+      <!-- Spring에 전달될 VO 필드명과 맞춰야 함 (userName, email) -->
+      <input type="text" id="userName" name="userName" placeholder="이름 입력" value="테스트유저" required />
 
-      <!-- 인증번호 입력 박스 -->
-      <div id="verifyBox" style="display: none">
-        <label for="verification">인증번호 입력</label>
-        <input type="text" id="verification" placeholder="인증번호 입력" />
-        <button id="verifyBtn" style="margin-top: 10px">인증번호 확인</button>
-      </div>
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" placeholder="이메일 입력" value="test002@example.com" required />
 
-      <!-- 결과 박스 -->
-      <div class="result" id="resultBox" style="display: none"></div>
+      <button type="submit">아이디 찾기</button>
+    </form>
 
-      <div class="link">
-        <p><a href="memeber/login">로그인 화면으로 돌아가기</a></p>
-      </div>
+    <!-- 결과 박스 (JS 사용 시 보여줄 수 있음, 현재는 미사용) -->
+    <div class="result" id="resultBox" style="display: none"></div>
+
+    <div class="link">
+      <p><a href="/member/login">로그인 화면으로 돌아가기</a></p>
     </div>
+  </div>
+  
+   <!-- SweetAlert2 호출 -->
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+  let foundId = [[${userId}]];
+  if (foundId !== null && foundId !== '') {
+    Swal.fire({
+      icon: 'success',
+      title: '아이디 찾기 완료',
+      text: '회원님의 아이디는: ' + foundId + ' 입니다.',
+      confirmButtonText: '확인',
+      confirmButtonColor: '#3085d6'
+    });
+  } else if (foundId === null || foundId !== '') {
+	Swal.fire({
+		icon: 'warning',
+		title: '일치하는 회원 없음',
+		text: '입력하신 정보와 일치하는 회원이 없습니다.',
+		confirmButtonText: '다시 시도하기',
+		confirmButtonColor: '#7a5cf4'
+  });
+  }
+  /*]]>*/
+  </script>
 
-    <script>
-      const userData = [
-        { name: "홍길동", email: "hong@example.com", userid: "hong123" },
-        { name: "김영희", email: "kim@example.com", userid: "kim456" },
-        { name: "이철수", email: "lee@example.com", userid: "lee789" },
-      ];
-
-      const form = document.getElementById("findForm");
-      const resultBox = document.getElementById("resultBox");
-      const verifyBox = document.getElementById("verifyBox");
-      const verifyBtn = document.getElementById("verifyBtn");
-
-      let currentUser = null;
-      let generatedCode = "";
-
-      function generateCode() {
-        return Math.floor(100000 + Math.random() * 900000).toString();
-      }
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const inputName = document.getElementById("username").value.trim();
-        const inputEmail = document.getElementById("email").value.trim();
-
-        const foundUser = userData.find(
-          (user) => user.name === inputName && user.email === inputEmail
-        );
-
-        if (foundUser) {
-          currentUser = foundUser;
-          generatedCode = generateCode();
-          alert("인증번호가 발송되었습니다: " + generatedCode); // 실제 발송은 백엔드 필요
-
-          verifyBox.style.display = "block";
-          resultBox.style.display = "none";
-        } else {
-          resultBox.style.display = "block";
-          resultBox.textContent = "일치하는 회원 정보가 없습니다.";
-          verifyBox.style.display = "none";
-        }
-      });
-
-      verifyBtn.addEventListener("click", function () {
-        const inputCode = document.getElementById("verification").value.trim();
-
-        if (inputCode === generatedCode) {
-          resultBox.style.display = "block";
-          resultBox.textContent = `회원님의 아이디는 "${currentUser.userid}" 입니다.`;
-          verifyBox.style.display = "none";
-        } else {
-          resultBox.style.display = "block";
-          resultBox.textContent = "인증번호가 올바르지 않습니다.";
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>

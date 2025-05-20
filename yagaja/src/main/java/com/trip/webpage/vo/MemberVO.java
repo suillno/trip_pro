@@ -25,5 +25,6 @@ public class MemberVO {
 	private String emailAuthCode;
 	private char blockCode;
 	private String userId;
+	private String birthDate;
 
 }

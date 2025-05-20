@@ -76,10 +76,11 @@ public class MemberController {
 	}
 	
 	// 아이디 찿기 연결
-	@GetMapping("/idsearch")
+	@RequestMapping("/idsearch")
 	public ModelAndView showIdsearch() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userInfo", new MemberVO());
+		mav.addObject("userId", "");
 	    return mav;
 	}
 	// 패스워드 찿기 연결
@@ -127,4 +128,26 @@ public class MemberController {
 		mav.setViewName("redirect:/member/login");
 		return mav;
 	}
+	
+	// 아이디 찾기
+	@PostMapping("/findId")
+	public ModelAndView findId(@ModelAttribute MemberVO memberVO) {
+
+	    MemberVO result = memberService.findUserId(memberVO);
+	    log.info("아이디 찾기 결과: {}", result != null ? result.toString() : "일치하는 회원 없음");
+
+	    ModelAndView mav = new ModelAndView();
+
+	    if (result != null) {
+	        mav.addObject("userId", result.getUserId());   // alert용
+	        mav.addObject("found", true);                  // 성공 여부 표시
+	    } else {
+	        mav.addObject("userId", null);
+	        mav.addObject("found", false);                 // 실패 표시
+	    }
+
+	    mav.setViewName("member/idsearch");
+	    return mav;
+	}
+
 }

@@ -20,7 +20,9 @@ public interface MemberMapper {
 	// MamberMapper.xml userLogin 쿼리를 자바 메서드형태로 선언
 	MemberVO userLogin(LoginRequest loginRequest);
 	
-	int blockMember(MemberVO vo);
+	int blockMember(MemberVO memberVO);
 	
-	int insertUser(MemberVO memberVO);  
+	int insertUser(MemberVO memberVO);
+
+	MemberVO findUserId(MemberVO memberVO);  
 }

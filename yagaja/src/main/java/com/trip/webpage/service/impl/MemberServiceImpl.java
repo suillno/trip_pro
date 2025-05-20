@@ -51,15 +51,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int blockMember(MemberVO vo) {
+	public int blockMember(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		return memberMapper.blockMember(vo);
+		return memberMapper.blockMember(memberVO);
 	}
 
 	@Override
 	public int insertUser(MemberVO memberVO) {
 		// TODO Auto-generated method stub
 		return memberMapper.insertUser(memberVO);
+	}
+
+	@Override
+	public MemberVO findUserId(MemberVO memberVO) {
+		MemberVO result = memberMapper.findUserId(memberVO);
+	
+		return result;
 	}
 
 	

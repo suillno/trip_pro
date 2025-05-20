@@ -39,7 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
         // Interceptor 등록
         registry.addInterceptor(sessionInterceptor)
                 // /admin 하위 모든 경로에 적용
-                .addPathPatterns("/admin/**")
+//                .addPathPatterns("/admin/**")
                 // /member/info 경로에도 적용
                 .addPathPatterns("/member/info");
         // 기본 구현을 호출 (생략 가능하지만 명시적 호출)

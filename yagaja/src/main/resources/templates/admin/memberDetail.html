@@ -21,7 +21,7 @@
       </colgroup>
       <thead>
         <tr>
-          <th>번호</th>
+          <th></th>
           <th>아이디</th>
           <th>이름</th>
           <th>가입일</th>
@@ -52,10 +52,17 @@
       </tbody>
     </table>
 
-    <!-- ✅ 저장 버튼 -->
-    <div style="text-align: right; margin-top: 20px;">
-      <button type="button" class="btn btn-primary" onclick="saveBlockChanges()">저장</button>
-    </div>
+	<div class="bottom-controls">
+	  <div class="search-group">
+	    <select name="searchType">
+	      <option value="userId">아이디</option>
+	      <option value="userName">이름</option>
+	    </select>
+	    <input type="text" id="searchMember" name="searchMember" />
+	  </div>
+
+	  <button type="button" class="btn btn-primary" onclick="saveBlockChanges()">저장</button>
+	</div>
   </form>
 
   <!-- ✅ 페이징 처리 -->
