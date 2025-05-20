@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.vo.SearchHelper;
+import com.trip.webpage.vo.SearchHelper;
 import com.trip.webpage.mapper.MemberMapper;
 import com.trip.webpage.service.MemberService;
 import com.trip.webpage.vo.LoginRequest;
@@ -61,5 +61,6 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return memberMapper.insertUser(memberVO);
 	}
+
 	
 }

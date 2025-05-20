@@ -3,7 +3,7 @@ package com.trip.webpage.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.vo.SearchHelper;
+import com.trip.webpage.vo.SearchHelper;
 import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
 
