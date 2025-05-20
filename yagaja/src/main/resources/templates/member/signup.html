@@ -1,334 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/signup_style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </head>
-  <body>
-    <form action="" class="form">
-      <fieldset class="fieldset">
-        <legend>로그인 폼</legend>
-        <h2 class="logo">Yagaja</h2>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/signup_style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+</head>
+<body>
+  <form method="post" class="form" id="signupForm">
+    <fieldset class="fieldset">
+      <legend>회원가입</legend>
+      <h2 class="logo">Yagaja</h2>
 
-        <div class="pp"><p class="p">사용자 정보를 입력하세요.</p></div>
+      <!-- 아이디 -->
+      <div class="row">
+        <label for="userId" class="userLabel">아이디</label>
+        <input type="text" id="userId" name="userId" class="emailInput" placeholder="아이디 입력"required />
+        <button type="button" id="btnCheckId" class="button2">중복확인</button>
+        <p id="userIdError"></p>
+      </div>
 
-        <!-- 아이디 -->
-        <div class="row">
-          <label for="userid" class="userLabel">아이디</label>
-          <input
-            type="text"
-            id="userid"
-            class="userInput"
-            placeholder="아이디 입력"
-          />
-		  <button type="button" id="btnCheckId">중복확인</button>
-        </div>
-        <p id="idError"></p>
+      <!-- 비밀번호 -->
+      <div class="row">
+        <label for="userPw" class="userLabel">비밀번호</label>
+        <input type="password" id="userPw" name="userPw" class="userInput" placeholder="비밀번호 입력" required/>
+        <p id="userPwError"></p>
+      </div>
 
-        <!-- 비밀번호 -->
-        <div class="row">
-          <label for="userpw" class="userLabel">비밀번호</label>
-          <input
-            type="password"
-            id="userpw"
-            class="userInput"
-            placeholder="비밀번호 입력"
-          />
-        </div>
-        <p id="pwError"></p>
+      <!-- 비밀번호 확인 -->
+      <div class="row">
+        <label for="userCp" class="userLabel">비밀번호 확인</label>
+        <input type="password" id="userCp" name="userCp" class="userInput" placeholder="비밀번호 확인 입력"required />
+        <p id="userCpError"></p>
+      </div>
 
-        <!-- 비밀번호 확인 -->
-        <div class="row">
-          <label for="userCP" class="userLabel">비밀번호 확인</label>
-          <input
-            type="password"
-            id="userCP"
-            class="userInput"
-            placeholder="비밀번호 입력확인"
-          />
-        </div>
-        <p id="cpError"></p>
+      <!-- 이름 -->
+      <div class="row">
+        <label for="userName" class="userLabel">이름</label>
+        <input type="text" id="userName" name="userName" class="userInput" placeholder="이름 입력" required />
+        <p id="userNameError"></p>
+      </div>
 
-        <!-- 이름 -->
-        <div class="row">
-          <label for="Name" class="userLabel">이름</label>
-          <input
-            type="text"
-            id="Name"
-            class="userInput"
-            placeholder="이름 입력"
-          />
-        </div>
-        <p id="nameError"></p>
+      <!-- 전화번호 -->
+      <div class="row">
+        <label for="phoneNum" class="userLabel">전화번호</label>
+        <input type="tel" id="phoneNum" name="phoneNum" class="userInput" placeholder="전화번호 입력 (-제외한 숫자만)" />
+        <p id="phoneNumError"></p>
+      </div>
 
-        <!-- 전화번호 -->
-        <div class="row">
-          <label for="tel" class="userLabel">전화번호</label>
-          <select class="userTel" id="tel">
-            <option value="">010</option>
-            <option value="">02</option>
-            <option value="">031</option>
-          </select>
-          <span>-</span>
-          <input type="tel" class="userTelSub" maxlength="4" />
-          <span>-</span>
-          <input type="tel" class="userTelSub" maxlength="4" />
-        </div>
+      <!-- 생년월일 -->
+      <div class="row">
+        <label for="birth" class="userLabel">생년월일</label>
+        <input type="tel" id="birth" name="birth" class="userInput" placeholder="생년월일 입력 (예: 950101)" required/>
+        <p id="birthError"></p>
+      </div>
 
-        <!-- 생년월일 -->
-        <div class="row">
-          <label class="userLabel" for="Birthday">생년월일</label>
-          <input
-            class="userBirthday"
-            type="text"
-            id="Birthday"
-            placeholder="년(4자)"
-          />
-          <select class="SelBirthday">
-            <option value="" hidden>월</option>
-            <option value="">01</option>
-            <option value="">02</option>
-            <option value="">03</option>
-            <option value="">04</option>
-            <option value="">05</option>
-            <option value="">06</option>
-            <option value="">07</option>
-            <option value="">08</option>
-            <option value="">09</option>
-            <option value="">10</option>
-            <option value="">11</option>
-            <option value="">12</option>
-          </select>
-          <input class="userBirthday" type="text" placeholder="일" />
-        </div>
+      <!-- 이메일 -->
+      <div class="row">
+        <label for="email" class="userLabel">이메일</label>
+        <input type="email" id="email" name="email" class="emailInput" placeholder="이메일 입력"required />
+        <button type="button" id="btnSendCode" class="button2">인증번호</button>
+        <span id="timer" style="font-size: 14px; color: red;"></span>
+        <p id="emailError"></p>
+      </div>
 
-        <!-- 주소 -->
-        <div class="row">
-          <label for="Address" class="userLabel">주소</label>
-          <input
-            type="text"
-            id="Address"
-            class="userInput"
-            placeholder="주소"
-          />
-        </div>
+      <!-- 인증번호 -->
+      <div class="row">
+        <label for="Verification" class="userLabel">인증번호</label>
+        <input type="text" id="Verification" name="Verification" class="userInput" placeholder="인증번호 입력" required/>
+        <p id="VerificationError"></p>
+      </div>
 
-        <!-- 상세주소 -->
-        <div class="row">
-          <label for="Address2" class="userLabel">상세주소</label>
-          <input
-            type="text"
-            id="Address2"
-            class="userInput"
-            placeholder="상세주소"
-          />
-        </div>
+      <!-- 회원가입 버튼 -->
+      <div class="row">
+        <button type="submit" class="button" id="btnSubmit">회원가입</button>
+      </div>
+    </fieldset>
+  </form>
 
-        <!-- 이메일 -->
-        <div class="row">
-          <label for="email" class="userLabel">이메일</label>
-          <div style="display: inline-block">
-            <input
-              type="email"
-              id="email"
-              class="emailInput"
-              placeholder="이메일"
-            />
-            <span>@</span>
-            <select class="emailSelect" id="emailSelect">
-              <option value="">선택하세요.</option>
-              <option value="naver.com">naver.com</option>
-              <option value="daum.net">daum.net</option>
-              <option value="nate.com">nate.com</option>
-              <option value="di">직접입력</option>
-            </select>
-            <button type="submit" class="button2">인증번호</button>
-
-            <div style="margin-top: 5px">
-              <input
-                type="text"
-                id="emailPostFix"
-                class="userInput"
-                style="display: none"
-              />
-              <div style="margin-top: 5px">
-                <span id="timer" style="font-size: 14px; color: red"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 인증번호 -->
-        <div class="row">
-          <label for="Verification" class="userLabel">인증번호</label>
-          <input
-            type="text"
-            id="Verification"
-            class="UserVerification"
-            placeholder="인증번호를 입력하세요"
-          />
-          <button type="submit" class="button3" value="">인증번호 확인</button>
-        </div>
-
-        <!-- 회원가입 버튼 -->
-        <div>
-          <button class="button" type="submit">회원가입</button>
-        </div>
-      </fieldset>
-    </form>
-
-    <script>
-      let idCheck = false; // 아이디
-      let pwCheck = false; // 비밀번호
-      let cpCheck = false; // 비밀번호 확인
-      let naCheck = false; // 이름
-      let telCheck = false; // 전화번호
-      let hpCheck = false; // 생년월일
-      let adCheck = false; // 주소
-      let subadCheck = false; // 상세주소
-      let mailCheck = false; // 이메일
-      let Check = false; // 이메일 인증번호호
-      document.querySelector(".form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        if (
-          idCheck &&
-          pwCheck &&
-          cpCheck &&
-          nameCheck &&
-          telCheck &&
-          hpCheck &&
-          adCheck &&
-          subadCheck &&
-          mailCheck &&
-          Check
-        ) {
-          // 제출
+  <!-- 스크립트 -->
+  <script>
+    $.validator.addMethod("regex", function (value, element, regexp) {
+      // 정규식이 문자열이 아니라 RegExp 객체일 경우만 처리
+      if (regexp instanceof RegExp) {
+        return this.optional(element) || regexp.test(value);
+      }
+      return true;
+    }, "형식이 올바르지 않습니다.");
+    
+    // jQuery Validation 설정
+    $("#signupForm").validate({
+      rules: {
+        userId: {
+          required: true,
+          minlength: 5,
+          maxlength: 20,
+          regex: /^[a-z0-9]+$/
+        },
+        userPw: {
+          required: true,
+          minlength: 8,
+          maxlength: 20,
+          regex: /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()]).+$/
+        },
+        userCp: {
+          required: true,
+          equalTo: "#userPw"
+        },
+        userName: {
+          required: true,
+          regex: /^[가-힣]{2,}$/
+        },
+        phoneNum: {
+          required: true,
+          regex: /^\d{10,11}$/
+        },
+        birth: {
+          required: true,
+          regex: /^\d{6}$/
+        },
+        email: {
+          required: true,
+          email: true,
+          regex:/^[a-zA-Z0-9._%+-]+@(naver\.com|daum\.net|hanmail\.net|nate\.com)$/
+        },
+        Verification: {
+          required: true
         }
-      });
-      // 아이디 중복확인 처리
-      document.querySelector("#userid").addEventListener("keyup", function () {
-        const userInput = this;
-        const userId = userInput.value;
-        const idError = document.getElementById("idError"); // 에러 메시지 표시용
+      },
+      messages: {
+        userId: {
+          required: "아이디를 입력하세요.",
+          minlength: "아이디는 5자 이상이어야 합니다.",
+          maxlength: "아이디는 20자 이하로 입력해주세요.",
+          regex: "영문 소문자와 숫자만 사용 가능합니다."
+        },
+        userPw: {
+          required: "비밀번호를 입력하세요.",
+          minlength: "비밀번호는 8자 이상이어야 합니다.",
+          regex: "영문 소문자, 숫자, 특수문자를 포함해야 합니다."
+        },
+        userCp: {
+          required: "비밀번호 확인을 입력하세요.",
+          equalTo: "비밀번호가 일치하지 않습니다."
+        },
+        userName: {
+          required: "이름을 입력하세요.",
+          regex: "이름은 한글 2자 이상이어야 합니다."
+        },
+        phoneNum: {
+          required: "전화번호를 입력하세요.",
+          regex: "숫자만 입력해주세요. (10~11자리)"
+        },
+        birth: {
+          required: "생년월일을 입력하세요.",
+          regex: "예: 950101 형식으로 입력해주세요."
+        },
+        email: {
+          required: "이메일을 입력하세요.",
+          email: "올바른 이메일 형식이 아닙니다.",
+          regex: "올바른 이메일 형식이 아닙니다."
+        },
+        Verification: {
+          required: "인증번호를 입력하세요."
+        }
+      },
+      errorPlacement: function (error, element) {
+        const id = element.attr("id");
+        $(`#${id}Error`).html(error);
+      },
+      submitHandler: function () {
+        const request = {
+          userId: $("#userId").val(),
+          userPw: $("#userPw").val(),
+          userName: $("#userName").val(),
+          phoneNum: $("#phoneNum").val(),
+          birth: $("#birth").val(),
+          email: $("#email").val()
+        };
 
-        const idRegex = /^[a-z0-9]{5,20}$/; // 소문자+숫자 5~20자
-        const hasKorean = /[가-힣]/; // 한글 포함 여부
-        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/; // 특수문자 포함 여부
+        fetch("/member/joinAction", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(request)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.result === "success") {
+            Swal.fire("🎉 가입 완료", "회원가입이 성공적으로 완료되었습니다!", "success");
+          } else {
+            Swal.fire("🚫 가입 실패", "서버에서 오류가 발생했습니다.", "error");
+          }
+        });
 
-        console.log(!idRegex.test(userId));
-        if (
-          !idRegex.test(userId) ||
-          hasKorean.test(userId) ||
-          hasSpecialChar.test(userId)
-        ) {
-          // 아이디 숫자 길이 체크
-          userInput.classList.add("redline");
-          idError.textContent =
-            "아이디는 5~20자 영문 소문자와 숫자만 가능합니다.";
-          idCheck = false;
-        } else {
-          userInput.classList.remove("redline");
-          idError.textContent = ""; // 에러 메시지 초기화
-          idCheck = true;
+        return false;
+      }
+    });
+
+    $(document).ready(function () {
+      // 이메일 인증 상태 변수
+      let isCodeSent = false;
+
+      // 아이디 중복 확인
+      $("#btnCheckId").on("click", function () {
+        const userId = $("#userId").val().trim();
+        if (!userId) {
+          return Swal.fire("⚠️ 입력 오류", "아이디를 입력하세요.", "warning");
         }
-      });
-      document.querySelector("#userpw").addEventListener("keyup", function () {
-        const userInput = this;
-        const userpw = userInput.value;
-        const pwError = document.getElementById("pwError"); // 에러 메시지 표시용
-        const pwRegex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,20}$/;
-        if (!pwRegex.test(userpw)) {
-          userInput.classList.add("redline");
-          pwError.textContent =
-            "비밀번호는 8~20자, 영문 대소문자, 숫자, 특수문자를 모두 포함해야 합니다.";
-          pwCheck = false;
-        } else {
-          userInput.classList.remove("redline");
-          pwError.textContent = "";
-          pwCheck = true;
-        }
-      });
-      document.querySelector("#userCP").addEventListener("keyup", function (e) {
-        const { value } = e.target;
-        const pw = document.querySelector("#userpw").value;
-        const cpError = document.getElementById("pwError"); // 에러 메시지 표시용
-        if (value !== pw) {
-          this.classList.add("redline");
-          cpError.textContent = "비밀번호가 일치하지 않습니다.";
-          cpCheck = false;
-        } else {
-          this.classList.remove("redline");
-          cpError.textContent = "";
-          cpCheck = true;
-        }
-      });
-      document.querySelector("#Name").addEventListener("keyup", function (e) {
-        const { value } = e.target;
-        const nameError = document.querySelector("#nameError");
-        const nameRegex = /^[가-힣]{2,}$/;
-        if (!nameRegex.test(value)) {
-          e.target.classList.add("redline");
-          nameError.textContent = "이름은 한글 2자 이상만 입력 가능합니다.";
-          nameCheck = false;
-        } else {
-          e.target.classList.remove("redline");
-          nameError.textContent = "";
-          nameCheck = true;
-        }
+        fetch(`/member/checkId?userId=${userId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.duplicate) {
+              Swal.fire("중복된 아이디", "이미 사용 중인 아이디입니다.", "error");
+            }
+            if (userId.length < 5 || userId.length > 20) {
+              return Swal.fire("❌ 길이 오류", "아이디는 5자 이상 20자 이하로 입력해주세요.", "error");
+            } else {
+              Swal.fire("사용 가능", "이 아이디는 사용할 수 있습니다.", "success");
+            }
+          });
       });
 
-      // 이메일 도메인 직접입력 처리
-      document.querySelector("#emailSelect").addEventListener("change", (e) => {
-        const v = e.target.value;
-        if (v === "di") {
-          document.querySelector("#emailPostFix").style = "display: block";
-          document.querySelector("#emailPostFix").value = "";
-        } else {
-          document.querySelector("#emailPostFix").style = "display: none";
-          document.querySelector("#emailPostFix").value = v;
-        }
-      });
-
-      // 인증번호 타이머 기능
+      // 이메일 인증 타이머
       let countdown;
       let timerSeconds = 180;
 
-      document.querySelector(".button2").addEventListener("click", (e) => {
-        e.preventDefault(); // 폼 제출 막기
-        clearInterval(countdown); // 기존 타이머 제거
-        timerSeconds = 180; // 3분
-        document.getElementById("Verification").disabled = false;
-        startTimer(); // 타이머 시작
+      $("#btnSendCode").on("click", function (e) {
+        e.preventDefault();
+
+        const email = $("#email").val().trim();
+
+        // 이메일 형식이 올바르지 않으면 타이머 시작하지 않음
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@(naver\.com|daum\.net|hanmail\.net|nate\.com)$/;
+        if (!emailRegex.test(email)) {
+          return Swal.fire("⚠️ 이메일 형식 오류", "올바른 이메일을 입력해주세요.", "warning");
+        }
+
+        // 인증 코드가 이미 전송된 상태일 경우 버튼을 눌러도 타이머가 시작되지 않음
+        if (isCodeSent) {
+          return Swal.fire("⚠️ 이미 인증번호가 전송되었습니다.", "인증번호는 한 번만 요청할 수 있습니다.", "warning");
+        }
+
+        isCodeSent = true; // 인증번호 전송 상태 업데이트
+        clearInterval(countdown);
+        timerSeconds = 180;
+        $("#Verification").prop("disabled", false);
+        startTimer();
       });
 
       function startTimer() {
-        const timerEl = document.getElementById("timer");
-
+        const timerEl = $("#timer");
         countdown = setInterval(() => {
           const minutes = Math.floor(timerSeconds / 60);
-          const seconds = timerSeconds % 60;
-
-          timerEl.textContent = `전송되었습니다: ${minutes}:${seconds
-            .toString()
-            .padStart(2, "0")}`;
-
-          if (timerSeconds <= 0) {
+          const seconds = String(timerSeconds % 60).padStart(2, "0");
+          timerEl.text(`⏳ 남은 시간: ${minutes}:${seconds}`);
+          if (timerSeconds-- <= 0) {
             clearInterval(countdown);
-            timerEl.textContent = "⏰ 인증 시간이 만료되었습니다.";
-            document.getElementById("Verification").disabled = true;
+            timerEl.text("⏰ 인증 시간이 만료되었습니다.");
+            $("#Verification").prop("disabled", true);
           }
-
-          timerSeconds--;
         }, 1000);
       }
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>

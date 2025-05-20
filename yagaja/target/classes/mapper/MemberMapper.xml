@@ -40,10 +40,7 @@
 		SET BLOCK_CODE = #{blockCode}
 		WHERE USER_ID = #{userId}
 	</update>
-    
 </mapper>
-
-
 
 <!-- 
 멥퍼 작동 흐름 요약:

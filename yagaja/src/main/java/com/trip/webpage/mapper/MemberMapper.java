@@ -21,4 +21,6 @@ public interface MemberMapper {
 	MemberVO userLogin(LoginRequest loginRequest);
 	
 	int blockMember(MemberVO vo);
+	
+	int insertUser(MemberVO memberVO);  
 }

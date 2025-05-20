@@ -55,5 +55,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return memberMapper.blockMember(vo);
 	}
+
+	@Override
+	public int insertUser(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return memberMapper.insertUser(memberVO);
+	}
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -96,4 +97,34 @@ public class MemberController {
 	    return mav;
 	}
     
+	@GetMapping("/checkId")
+	@ResponseBody
+	public HashMap<String, Object> checkId (@RequestParam ("userId") String userId){
+		HashMap<String, Object> resultMap = new HashMap<>();
+		log.info(userId);
+		resultMap.put("isDuplicate", true);
+		return resultMap;
+	}
+	
+	@PostMapping("/joinAction")
+	@ResponseBody
+	public HashMap<String, Object> joinAction (
+			@RequestBody MemberVO memberVO
+			) {
+		log.info(memberVO.toString());
+		HashMap<String, Object> map = new HashMap<>();
+		memberService.insertUser(memberVO);
+		map.put("result", "success");
+		return map;
+		
+	}
+	
+	@PostMapping("/signupProc") 
+	public ModelAndView signupProc(@ModelAttribute MemberVO memberVO) {
+		ModelAndView mav = new ModelAndView();
+		log.info(memberVO.toString());
+		memberService.insertUser(memberVO);
+		mav.setViewName("redirect:/member/login");
+		return mav;
+	}
 }

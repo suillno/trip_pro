@@ -16,6 +16,13 @@ legend {
   display: none;
 }
 .userInput {
+  width: 228px;
+  height: 18px;
+  background: #f1efef;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+}
+.userTel {
   width: 230px;
   height: 18px;
   background: #f1efef;
@@ -59,7 +66,7 @@ legend {
 }
 
 .emailInput {
-  width: 65px;
+  width: 160px;
   height: 18px;
   background: #f1efef;
   border: 1px solid #dcdde1;
@@ -81,13 +88,7 @@ legend {
   border-radius: 5px;
 }
 
-.userTelSub {
-  width: 44px;
-  height: 18px;
-  background: #f1efef;
-  border: 1px solid #dcdde1;
-  border-radius: 5px;
-}
+
 .logo {
   font-family: "Jua", sans-serif;
   font-size: 50px;
@@ -111,7 +112,7 @@ legend {
 }
 .button2 {
   background-color: #ff2e63;
-  width: 50px;
+  width: 65px;
   color: #ffffff;
   border: 0;
   font-size: 10px;
@@ -170,4 +171,29 @@ legend {
   font-size: 10px;
   color: red;
   text-align: right;
+}
+
+p[id$="Error"] {
+  font-size: 12px;
+  color: #e74c3c;
+  text-align: left;
+  margin-top: 5px;
+  padding-left: 5px;
+}
+
+/* 인풋 유효성 상태 */
+input.error {
+  border: 1px solid #e74c3c !important;
+  background-color: #fff0f0;
+}
+input.valid {
+  border: 1px solid #2ecc71;
+  background-color: #f0fff5;
+}
+
+/* 인증번호 입력 비활성 상태 */
+#Verification:disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
 }

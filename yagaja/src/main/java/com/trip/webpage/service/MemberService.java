@@ -15,4 +15,5 @@ public interface MemberService {
 	MemberVO userLogin(LoginRequest loginRequest); // Mapper 로그인용 메서드호출
 	int selectMemberCount(SearchHelper searchHelper);
 	int blockMember(MemberVO vo);
+	int insertUser(MemberVO memberVO); 
 }
