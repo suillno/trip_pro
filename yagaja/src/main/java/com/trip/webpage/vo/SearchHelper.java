@@ -23,7 +23,8 @@ public class SearchHelper {
 	private String searchType;
 	// 게시판 PK
 	private String userId;
-
+	
+	private String userName;
 	
 
 }

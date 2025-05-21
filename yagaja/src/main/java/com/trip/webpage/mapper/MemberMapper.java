@@ -11,18 +11,29 @@ import com.trip.webpage.vo.MemberVO;
 
 @Mapper
 public interface MemberMapper {
+
+	List<MemberVO> selectMember(SearchHelper searchHelper);
 	
 	List<MemberVO> selectMember();
-	
+
 	int selectMemberCount(SearchHelper searchHelper);
-	
+
 	int selectMemberCount();
+
 	// MamberMapper.xml userLogin 쿼리를 자바 메서드형태로 선언
 	MemberVO userLogin(LoginRequest loginRequest);
-	
+
 	int blockMember(MemberVO memberVO);
-	
+
 	int insertUser(MemberVO memberVO);
 
-	MemberVO findUserId(MemberVO memberVO);  
+	MemberVO findUserId(MemberVO memberVO);
+
+	List<MemberVO> selectList(SearchHelper searchHelper);
+
+	MemberVO findById(String id);
+	
+	int selectListCount(SearchHelper searchHelper);
+	
+	List<MemberVO> selectMemberList(SearchHelper searchHelper);
 }

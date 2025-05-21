@@ -15,10 +15,10 @@
       </section>
       <section class="board">
         <h4>게시판</h4>
-        <p><a href="#notice">공지사항</a></p>
-        <p><a href="#review">후기게시판</a></p>
-        <p><a href="#tripshare">여행계획게시판</a></p>
-        <p><a href="#free">잡담게시판</a></p>
+        <p><a href="/board/list?cate=1000">공지사항</a></p>
+        <p><a href="/board/revieww">후기게시판</a></p>
+        <p><a href="/board/tripshare">여행계획게시판</a></p>
+        <p><a href="/board/free">잡담게시판</a></p>
       </section>
 	  <!-- 관리자여부 userInfo에 값이 있으면 isAdmin값을 체크하여 1이면 관리자 -->
       <section class="admin" th:if="${userInfo != null and userInfo.isAdmin == 1}">

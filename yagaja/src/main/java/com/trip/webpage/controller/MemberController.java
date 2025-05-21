@@ -1,5 +1,6 @@
 package com.trip.webpage.controller;
 
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.vo.BoardVO;
-import com.example.demo.vo.EmpVO;
-import com.example.demo.vo.SearchHelper;
+
+import com.trip.webpage.vo.SearchHelper;
 import com.trip.webpage.service.MemberService;
 import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
@@ -76,11 +76,10 @@ public class MemberController {
 	}
 	
 	// 아이디 찿기 연결
-	@RequestMapping("/idsearch")
+	@GetMapping("/idsearch")
 	public ModelAndView showIdsearch() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userInfo", new MemberVO());
-		mav.addObject("userId", "");
 	    return mav;
 	}
 	// 패스워드 찿기 연결
@@ -97,57 +96,73 @@ public class MemberController {
 		mav.addObject("userInfo", new MemberVO());
 	    return mav;
 	}
+	 /**
+     * 게시글 목록 페이지
+     * - 검색 조건, 페이징 처리, 사용자 정보 전달
+     */
+    @GetMapping("/memberDetail")
+    public ModelAndView boardList(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("member/memberDetail");
+
+        if (searchHelper.getPageNumber() < 0) searchHelper.setPageNumber(0);
+
+        log.info(searchHelper.toString());
+
+        HttpSession session = request.getSession();
+        MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
+
+        // 사용자 정보가 있을 경우 전달, 없으면 빈 객체 전달
+        mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
+
+        // 페이징 계산
+        int currentPage = searchHelper.getPageNumber();
+        if (currentPage < 1) currentPage = 1;
+
+        int pageSize = searchHelper.getPageSize();
+        if (pageSize < 1) pageSize = 10;
+
+        int offset = (currentPage - 1) * pageSize;
+        searchHelper.setOffset(offset);
+
+        // 게시글 리스트 조회 및 페이징 정보 세팅
+        List<MemberVO> list = memberService.selectList(searchHelper);
+        int totalRecords = memberService.selectListCount(searchHelper);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+
+        mav.addObject("list", list);
+        mav.addObject("totalRecords", totalRecords);
+        mav.addObject("pageSize", pageSize);
+        mav.addObject("totalPages", totalPages);
+        mav.addObject("currentPage", currentPage);
+
+        return mav;
+    }
     
-	@GetMapping("/checkId")
+    @GetMapping("/checkId")
+    @ResponseBody // json 리턴시사용
+    public HashMap<String, Object> checkId(@RequestParam("userId") String userId){
+    	HashMap<String, Object> resultMap = new HashMap<>();
+    	log.info(userId);
+    	resultMap.put("isDuplicate", true);
+    	return resultMap;
+    }
+    @PostMapping("/joinAction")
 	@ResponseBody
-	public HashMap<String, Object> checkId (@RequestParam ("userId") String userId){
-		HashMap<String, Object> resultMap = new HashMap<>();
-		log.info(userId);
-		resultMap.put("isDuplicate", true);
-		return resultMap;
-	}
-	
-	@PostMapping("/joinAction")
-	@ResponseBody
-	public HashMap<String, Object> joinAction (
-			@RequestBody MemberVO memberVO
+	public HashMap<String, Object> joinAction(
+			@RequestBody HashMap<String, Object> requsetMap
 			) {
-		log.info(memberVO.toString());
 		HashMap<String, Object> map = new HashMap<>();
-		memberService.insertUser(memberVO);
 		map.put("result", "success");
 		return map;
-		
 	}
-	
-	@PostMapping("/signupProc") 
-	public ModelAndView signupProc(@ModelAttribute MemberVO memberVO) {
-		ModelAndView mav = new ModelAndView();
-		log.info(memberVO.toString());
-		memberService.insertUser(memberVO);
-		mav.setViewName("redirect:/member/login");
-		return mav;
-	}
-	
-	// 아이디 찾기
-	@PostMapping("/findId")
-	public ModelAndView findId(@ModelAttribute MemberVO memberVO) {
-
-	    MemberVO result = memberService.findUserId(memberVO);
-	    log.info("아이디 찾기 결과: {}", result != null ? result.toString() : "일치하는 회원 없음");
-
-	    ModelAndView mav = new ModelAndView();
-
-	    if (result != null) {
-	        mav.addObject("userId", result.getUserId());   // alert용
-	        mav.addObject("found", true);                  // 성공 여부 표시
-	    } else {
-	        mav.addObject("userId", null);
-	        mav.addObject("found", false);                 // 실패 표시
-	    }
-
-	    mav.setViewName("member/idsearch");
-	    return mav;
-	}
-
+    
+    @GetMapping("/detail/{id}")
+    public String memberDetail(@PathVariable String id, Model model) {
+    	MemberVO member = memberService.findById(id); // 서비스에서 member를 가져온다고 가정
+        model.addAttribute("member", member);
+        return "member/detail"; // detail.html 템플릿으로 이동
+    }
+    
+    
 }

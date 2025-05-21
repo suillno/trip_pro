@@ -11,10 +11,15 @@ public interface MemberService {
 	// MemberVO 목록을 조회하는 메서드 선언
 	// 실제 구현은 MemberServiceImpl에서 수행함
 	// DAO (MemberMapper)의 selectMember()를 호출하여 DB에서 회원 정보를 가져옴
-	List<MemberVO> selectMember();
 	MemberVO userLogin(LoginRequest loginRequest); // Mapper 로그인용 메서드호출
 	int selectMemberCount(SearchHelper searchHelper);
 	int blockMember(MemberVO memberVO);
 	int insertUser(MemberVO memberVO);
 	MemberVO findUserId(MemberVO memberVO); 
+	List<MemberVO> selectList(SearchHelper searchHelper);
+	int selectListCount(SearchHelper searchHelper);
+	MemberVO findById(String id);
+	List<MemberVO> selectMember();
+	// 회원 조회
+	List<MemberVO> selectMemberList(SearchHelper searchHelper);
 }

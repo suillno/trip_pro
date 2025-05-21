@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" 
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/layout}">
+<body>
+	<div layout:fragment="content">
+		<div th:object="${info}">
+			<h2 th:text="*{boardTitle}"></h2>
+			<div th:utext="*{boardContent}"></div>
+		</div>
+		<a th:href="${link}">목록</a>
+		<a th:href="|/board/modify/${info.boardNo}|">수정</a>
+		<a th:href="|/board/delete/${info.boardNo}|">삭제</a>
+	</div>
+</body>
+</html>

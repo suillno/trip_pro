@@ -69,5 +69,29 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public List<MemberVO> selectList(SearchHelper searchHelper) {
+		// TODO Auto-generated method stub
+		return memberMapper.selectMember(searchHelper);
+	}
+
+	@Override
+	public int selectListCount(SearchHelper searchHelper) {
+		// TODO Auto-generated method stub
+		return memberMapper.selectListCount(searchHelper);
+	}
+
+	@Override
+	public MemberVO findById(String id) {
+		// TODO Auto-generated method stub
+		return memberMapper.findById(id);
+	}
+	// 회원 조회
+	@Override
+	public List<MemberVO> selectMemberList(SearchHelper searchHelper) {
+		// TODO Auto-generated method stub
+		return memberMapper.selectMemberList(searchHelper);
+	}
+
 	
 }

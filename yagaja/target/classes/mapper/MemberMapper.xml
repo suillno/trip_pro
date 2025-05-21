@@ -15,9 +15,25 @@
 	 - selectMember: Mapper 인터페이스에서 호출할 메서드 ID
 	 - resultType: 결과를 매핑할 클래스 타입 (MemberVO)
 	 - 실행할 SQL 문장을 작성
+	 - 맴버 조회 조회 값이 없을때
 	 -->
 	<select id="selectMember" resultType="MemberVO">
 		SELECT * FROM MEMBER  
+	</select>
+	
+	
+	<!-- 멤버 조회 파라미터 있을때 -->
+	<select id="selectMemberList" parameterType="SearchHelper" resultType="MemberVO">
+  		 SELECT * FROM MEMBER
+  	WHERE 1 = 1
+  	<if test="userId != null and userId != ''">
+    	AND USER_ID LIKE '%' || #{userId} || '%'
+  	</if>
+  	<if test="userName != null and userName != ''">
+   	 AND USER_NAME LIKE '%' || #{userName} || '%'
+  	</if>
+  	ORDER BY USER_ID
+  	OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY
 	</select>
 	
 	<!-- 
@@ -49,6 +65,16 @@
 		WHERE USER_NAME = #{userName}
 		AND EMAIL = #{email}
 	</select>
+	
+	<select id="selectListCount" resultType="int" parameterType="SearchHelper"> 
+		SELECT COUNT(*) AS cnt FROM MEMBER 
+	</select>
+	
+	<select id="findById" resultType="MemberVO" parameterType="String"> 
+		SELECT * FROM MEMBER WHERE USER_ID = #{id} 
+	</select>
+	
+	
 </mapper>
 
 <!-- 

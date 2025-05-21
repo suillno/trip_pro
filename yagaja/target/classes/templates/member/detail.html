@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="'게시물 상세보기 - ' + ${title}">게시물 상세보기</title>
+  <link rel="stylesheet" href="/css/memberDetail.css" />
+</head>
+<body>
+  <div class="container" style="padding: 40px;">
+    <h2 th:text="${title}">게시물 제목</h2>
+    <p><strong>작성자:</strong> <span th:text="${author}">작성자</span></p>
+    <p><strong>작성일:</strong> <span th:text="${date}">2025-05-19</span></p>
+    <hr>
+    <div th:text="${content}">
+      게시물 내용이 여기에 표시됩니다.
+    </div>
+	<div th:object="${member}">
+		<p th:text="*{phoneNum}"></p>
+		<p th:text="*{isAdmin}"></p>
+	</div>
+  </div>
+</body>
+</html>

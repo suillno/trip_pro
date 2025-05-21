@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- MyBatis에서 사용할 매퍼 설정: DTD(Document Type Definition) 명시 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML 파일이 연결될 Mapper 인터페이스 지정 -->
+<mapper namespace="com.trip.webpage.mapper.BoardMapper">
+
+	<select id="selectList" parameterType="SearchHelper" resultType="BoardVO">
+	SELECT * FROM BOARD_DEFAULT WHERE CATE = #{cate}
+	</select>
+	
+	<select id="selectListCount" parameterType="SearchHelper" resultType="int">
+	SELECT COUNT(*) AS CNT FROM BOARD_DEFAULT WHERE CATE = #{cate}
+	</select>
+	
+	<insert id="insertBoard" parameterType="BoardDefaultVO"
+	useGeneratedKeys="true"
+        keyProperty="boardNo"
+        keyColumn="BOARD_NO">
+  INSERT INTO BOARD_DEFAULT (
+    BOD_IDX,
+    CATE,
+    BOD_TITLE,
+    BOD_CONSTENT,
+    REG_ID,
+    REG2_DATE,
+    UPDATE_ID,
+    UPDATE_DATE,
+    FILE_MST_ID,
+    USER_ID,
+    IS_VISIBLE,
+    USER_CNT,
+    FES_TITLE,
+    ACC_TITLE,
+    REPORT
+  ) VALUES (
+    #{bodIdx},
+    #{cate},
+    #{bodTitle},
+    #{bodConstent},
+    #{regId},
+    #{reg2Date},
+    #{updateId},
+    #{updateDate},
+    #{fileMstId},
+    #{userId},
+    #{isVisible},
+    #{userCnt},
+    #{fesTitle},
+    #{accTitle},
+    #{report}
+  )
+</insert>
+	
+	<select id="selectBoard" parameterType="Long" resultType="BoardVO"></select>
+	
+	<update id="updateBoard" parameterType="BoardVO"></update>
+	
+	<delete id="deleteBoard" parameterType="Long"></delete>
+	
+
+</mapper>

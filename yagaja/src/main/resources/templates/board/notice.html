@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+<head>
+  <meta charset="UTF-8" />
+  <title>회원 목록</title>
+  <link rel="stylesheet" href="/css/memberDetail.css" />
+</head>
+<body>
+  <div layout:fragment="content" class="tableCenter">
+    <h2>공지사항</h2>
+
+    <!-- ✅ 저장용 form -->
+    <form id="blockForm" method="post" action="/admin/blockMemberBulk">
+      <table class="memberTable">
+        <colgroup>
+          <col style="width: 30px" />
+          <col style="width: 100px" />
+          <col style="width: 100px" />
+          <col style="width: 120px" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>글 제목</th>
+            <th>조회수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="item, stat : ${list}">
+            <td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
+
+            <!-- ✅ 클릭 가능한 유저 이름 -->
+            <td>
+              <a th:href="@{/member/detail/{id}(id=${item.userId})}" th:text="${item.userName}"></a>
+            </td>
+
+            <td> <a th:href="@{/member/detail/{id}(id=${item.userId})}" th:text="${item.userName}"></a>제목</a></td>
+            <td>조회수</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ✅ 글쓰기 버튼 -->
+      <div style="text-align: right; margin-top: 20px;">
+        <button type="button" class="btn btn-primary" onclick="location.href='/board/write'">글쓰기</button>
+      </div>
+    </form>
+
+    <!-- ✅ 페이징 처리 -->
+    <div class="pagination">
+      <ul>
+        <li th:if="${currentPage > 1}">
+          <a th:href="@{|?pageNumber=${currentPage - 1}&pageSize=${pageSize}|}">« 이전</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+            th:classappend="${i == currentPage} ? 'active'">
+          <a th:href="@{|?pageNumber=${i}&pageSize=${pageSize}|}" th:text="${i}">1</a>
+        </li>
+        <li th:if="${currentPage < totalPages}">
+          <a th:href="@{|?pageNumber=${currentPage + 1}&pageSize=${pageSize}|}">다음 »</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
