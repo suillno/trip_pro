@@ -49,7 +49,6 @@ public class AdminController {
 	        // 조건 기반 조회
 	        log.info("검색 조건 있음: searchType={}, searchMember={}", searchType, searchMember);
 	    } else {
-	        // 조건 없을 경우 전체 조회
 	        log.info("검색 조건 없음, 전체 조회");
 	    }
 
@@ -68,9 +67,11 @@ public class AdminController {
 	    int offset = (currentPage - 1) * pageSize;
 	    searchHelper.setOffset(offset);
 
+	    log.info(searchMember);
 	    // 필터링 조건에 따라 조회 수행
 	    if (searchMember != null) {
 	    	List<MemberVO> list = memberService.selectMemberList(searchHelper);
+	    	log.info(list.toString());
 	    	mav.addObject("list", list);
 	    } else {
 	    	List<MemberVO> list = memberService.selectMember();

@@ -33,7 +33,7 @@
    	 AND USER_NAME LIKE '%' || #{userName} || '%'
   	</if>
   	ORDER BY USER_ID
-  	OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY
+  	OFFSET #{offset} ROWS FETCH NEXT 10 ROWS ONLY
 	</select>
 	
 	<!-- 
