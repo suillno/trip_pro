@@ -3,6 +3,7 @@ package com.trip.webpage.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,12 +58,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int insertUser(MemberVO memberVO) {
-		// TODO Auto-generated method stub
-		return memberMapper.insertUser(memberVO);
-	}
-
-	@Override
 	public MemberVO findUserId(MemberVO memberVO) {
 		MemberVO result = memberMapper.findUserId(memberVO);
 	
@@ -93,5 +88,17 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.selectMemberList(searchHelper);
 	}
 
+	// 회원가입
+	@Override
+	public int insertUser(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		
+		// 이메일 인증코드 작성
+		String emailAuthCode = UUID.randomUUID().toString();
+		log.info(emailAuthCode);
+		memberVO.setEmailAuthCode(emailAuthCode);
+		
+		return memberMapper.insertUser(memberVO);
+	}
 	
 }

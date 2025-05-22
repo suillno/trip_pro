@@ -22,4 +22,5 @@ public interface MemberService {
 	List<MemberVO> selectMember();
 	// 회원 조회
 	List<MemberVO> selectMemberList(SearchHelper searchHelper);
+	// 회원 가입
 }

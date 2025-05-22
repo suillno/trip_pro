@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- MyBatis에서 사용할 매퍼 설정: DTD(Document Type Definition) 명시 -->
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 이 XML 파일이 연결될 Mapper 인터페이스 지정 -->
 <mapper namespace="com.trip.webpage.mapper.MemberMapper">
@@ -18,24 +17,22 @@
 	 - 맴버 조회 조회 값이 없을때
 	 -->
 	<select id="selectMember" resultType="MemberVO">
-		SELECT * FROM MEMBER  
+		SELECT * FROM MEMBER
 	</select>
-	
-	
+
+
 	<!-- 멤버 조회 파라미터 있을때 -->
-	<select id="selectMemberList" parameterType="SearchHelper" resultType="MemberVO">
-  		 SELECT * FROM MEMBER
-  	WHERE 1 = 1
-  	<if test="userId != null and userId != ''">
-    	AND USER_ID LIKE '%' || #{userId} || '%'
-  	</if>
-  	<if test="userName != null and userName != ''">
-   	 AND USER_NAME LIKE '%' || #{userName} || '%'
-  	</if>
-  	ORDER BY USER_ID
-  	OFFSET #{offset} ROWS FETCH NEXT 10 ROWS ONLY
-	</select>
-	
+	<select id="selectMemberList" parameterType="SearchHelper"
+		resultType="MemberVO"> SELECT * FROM MEMBER WHERE 1 = 1 <if
+			test="userId != null and userId != ''">
+			AND USER_ID LIKE '%' || #{userId} || '%'
+		</if>
+  	<if
+			test="userName != null and userName != ''">
+			AND USER_NAME LIKE '%' || #{userName} || '%'
+		</if> ORDER BY
+		USER_ID OFFSET #{offset} ROWS FETCH NEXT 10 ROWS ONLY </select>
+
 	<!-- 
     로그인 시 아이디/비밀번호를 비교하여 해당 회원 정보를 조회하는 쿼리
     - id: Mapper 인터페이스에서 호출할 메서드명 (userLogin)
@@ -43,20 +40,20 @@
     - parameterType: 쿼리 실행 시 전달할 파라미터 객체 타입 (LoginRequest)
 	-->
 	<select id="userLogin" resultType="MemberVO" parameterType="LoginRequest">
-        SELECT 
-            *
-        FROM MEMBER
-        WHERE USER_ID = #{userId}
-        AND USER_PW = STANDARD_HASH(#{userPw}, 'SHA256')
-    </select>
-    
-    <!-- 불량회원 관리 -->
-    <update id="blockMember" parameterType="MemberVO">
+		SELECT
+		*
+		FROM MEMBER
+		WHERE USER_ID = #{userId}
+		AND USER_PW = STANDARD_HASH(#{userPw}, 'SHA256') AND DROP_YN = 'N'
+	</select>
+
+	<!-- 불량회원 관리 -->
+	<update id="blockMember" parameterType="MemberVO">
 		UPDATE MEMBER
 		SET BLOCK_CODE = #{blockCode}
 		WHERE USER_ID = #{userId}
 	</update>
-	
+
 	<!-- 이름, 이메일 아이디 찿기-->
 	<select id="findUserId" resultType="MemberVO" parameterType="MemberVO">
 		SELECT
@@ -65,16 +62,26 @@
 		WHERE USER_NAME = #{userName}
 		AND EMAIL = #{email}
 	</select>
-	
-	<select id="selectListCount" resultType="int" parameterType="SearchHelper"> 
-		SELECT COUNT(*) AS cnt FROM MEMBER 
+
+	<select id="selectListCount" resultType="int" parameterType="SearchHelper">
+		SELECT COUNT(*) AS cnt FROM MEMBER
 	</select>
-	
-	<select id="findById" resultType="MemberVO" parameterType="String"> 
-		SELECT * FROM MEMBER WHERE USER_ID = #{id} 
+
+	<select id="findById" resultType="MemberVO" parameterType="String">
+		SELECT * FROM MEMBER WHERE USER_ID = #{id}
 	</select>
-	
-	
+
+	<!-- 회원가입 -->
+	<insert id="insertUser" parameterType="MemberVO">
+		INSERT INTO MEMBER
+		(USER_ID, USER_PW, USER_NAME, PHONE_NUM, EMAIL, BIRTH_DATE,
+		EMAIL_AUTH_CODE)
+		VALUES
+		(#{userId}, STANDARD_HASH(#{userPw}, 'SHA256'), #{userName},
+		#{phoneNum}, #{email}, #{birthDate}, #{emailAuthCode} )
+	</insert>
+
+
 </mapper>
 
 <!-- 

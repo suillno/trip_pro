@@ -147,14 +147,18 @@ public class MemberController {
     	resultMap.put("isDuplicate", true);
     	return resultMap;
     }
-    @PostMapping("/joinAction")
+    // 회원가입 데이터 저장
+	@PostMapping("/joinAction")
 	@ResponseBody
-	public HashMap<String, Object> joinAction(
-			@RequestBody HashMap<String, Object> requsetMap
+	public HashMap<String, Object> joinAction (
+			@RequestBody MemberVO memberVO
 			) {
+		log.info(memberVO.toString());
 		HashMap<String, Object> map = new HashMap<>();
+		memberService.insertUser(memberVO);
 		map.put("result", "success");
 		return map;
+		
 	}
     
     @GetMapping("/detail/{id}")
@@ -164,5 +168,13 @@ public class MemberController {
         return "member/detail"; // detail.html 템플릿으로 이동
     }
     
+	@PostMapping("/signupProc") 
+	public ModelAndView signupProc(@ModelAttribute MemberVO memberVO) {
+		ModelAndView mav = new ModelAndView();
+		log.info(memberVO.toString());
+		memberService.insertUser(memberVO);
+		mav.setViewName("redirect:/member/login");
+		return mav;
+	}
     
 }

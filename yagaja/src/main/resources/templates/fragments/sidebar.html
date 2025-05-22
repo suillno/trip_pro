@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <body>
-  <div th:fragment="sidebar">
-    <!-- 사이드바 -->
-    <button type="button" class="mobileSide">
-      <img src="/img/menu.png" alt="" />
-    </button>
-    <aside class="sidebar">
-      <section class="hot-issue">
-        <h4>이번달 핫이슈!</h4>
-        <p><a href="">이런 축제 어때?</a></p>
-        <p><a href="">꿀잠은 이쪽이야</a></p>
-        <p><a href="">베스트 추천!</a></p>
-      </section>
-      <section class="board">
-        <h4>게시판</h4>
-        <p><a href="/board/list?cate=1000">공지사항</a></p>
-        <p><a href="/board/revieww">후기게시판</a></p>
-        <p><a href="/board/tripshare">여행계획게시판</a></p>
-        <p><a href="/board/free">잡담게시판</a></p>
-      </section>
-	  <!-- 관리자여부 userInfo에 값이 있으면 isAdmin값을 체크하여 1이면 관리자 -->
-      <section class="admin" th:if="${userInfo != null and userInfo.isAdmin == 1}">
-        <h4>관리자 페이지</h4>
-        <p><a href="/admin/memberDetail">회원관리</a></p>
-        <p><a href="admin.html">게시글관리</a></p>
-        <p><a href="admin.html">신고처리</a></p>
-        <p><a href="admin.html">통계/분석</a></p>
-        <p><a href="admin.html">관리자계정관리</a></p>
-      </section>
-    </aside>
-    <script>
-      const button = document.querySelector(".mobileSide");
-      const sidebar = document.querySelector(".sidebar");
-	  const closeSidebar = document.querySelector(".sideClose");
-      button.addEventListener("click", () => {
-        sidebar.classList.toggle("show");
-      });
-    </script>
-  </div>
+	<div th:fragment="sidebar">
+		<!-- 사이드바 -->
+		<button type="button" class="mobileSide">
+			<img src="/img/menu.png" alt="" />
+		</button>
+		<aside class="sidebar">
+			<section class="hot-issue">
+				<h4>이번달 핫이슈!</h4>
+				<p><a href="">이런 축제 어때?</a></p>
+				<p><a href="">꿀잠은 이쪽이야</a></p>
+				<p><a href="">베스트 추천!</a></p>
+			</section>
+			<section class="board">
+				<h4>게시판</h4>
+				<p><a href="/board/list?cate=1000">공지사항</a></p>
+				<p><a href="/board/revieww">후기게시판</a></p>
+				<p><a href="/board/tripshare">여행계획게시판</a></p>
+				<p><a href="/board/free">잡담게시판</a></p>
+			</section>
+			<!-- 관리자여부 userInfo에 값이 있으면 isAdmin값을 체크하여 1이면 관리자 -->
+			<section class="admin" th:if="${userInfo != null and userInfo.isAdmin == 1}">
+				<h4>관리자 페이지</h4>
+				<p><a href="/admin/memberDetail">회원관리</a></p>
+				<p><a href="admin.html">게시글관리</a></p>
+				<p><a href="admin.html">신고처리</a></p>
+				<p><a href="admin.html">통계/분석</a></p>
+				<p><a href="admin.html">관리자계정관리</a></p>
+			</section>
+			<section class="userInfo" th:if="${userInfo != null and userInfo.userId != null and userInfo.isAdmin != 1}">
+				<h4>마이 페이지</h4>
+				<p><a href="/member/profile">정보수정</a></p>
+				<p><a href="/admin/memberDetail">회원탈퇴</a></p>
+			</section>
+		</aside>
+		<script>
+			const button = document.querySelector(".mobileSide");
+			const sidebar = document.querySelector(".sidebar");
+			const closeSidebar = document.querySelector(".sideClose");
+			button.addEventListener("click", () => {
+				sidebar.classList.toggle("show");
+			});
+		</script>
+	</div>
 </body>
+
 </html>
