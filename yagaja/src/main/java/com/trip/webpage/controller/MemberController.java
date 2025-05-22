@@ -143,8 +143,14 @@ public class MemberController {
     @ResponseBody // json 리턴시사용
     public HashMap<String, Object> checkId(@RequestParam("userId") String userId){
     	HashMap<String, Object> resultMap = new HashMap<>();
+    	// 05-22 이 밑에부분 로그인시 중복값 체크 [기복]
+    	MemberVO result = memberService.findById(userId);
     	log.info(userId);
-    	resultMap.put("isDuplicate", true);
+    	if ( result == null ) {
+    		resultMap.put("isDuplicate", false);
+    	} else {
+    	 	resultMap.put("isDuplicate", true);
+    	}
     	return resultMap;
     }
     // 회원가입 데이터 저장
@@ -176,5 +182,8 @@ public class MemberController {
 		mav.setViewName("redirect:/member/login");
 		return mav;
 	}
+	
+	
+	
     
 }
