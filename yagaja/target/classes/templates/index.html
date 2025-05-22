@@ -6,38 +6,107 @@
 <body>
   <div layout:fragment="content" class="main-content">
     <h2>전국 축제 검색</h2>
-    <form class="searchForm">
-      <input type="text" id="search" placeholder="찾고 싶은 축제를 입력하세요 예)지역명,축제명" />
+    
+    <!-- ✅ 검색 폼 -->
+    <form id="searchForm" class="searchForm">
+      <select id="areaSelect" class="areaSelect">
+        <option value="">지역 선택</option>
+        <option value="1">서울</option>
+        <option value="2">인천</option>
+        <option value="3">대전</option>
+        <option value="4">대구</option>
+        <option value="5">광주</option>
+        <option value="6">부산</option>
+        <option value="7">울산</option>
+        <option value="8">세종특별자치시</option>
+        <option value="31">경기도</option>
+        <option value="32">강원특별자치도</option>
+        <option value="33">충청북도</option>
+        <option value="34">충청남도</option>
+        <option value="35">전라북도</option>
+        <option value="36">전라남도</option>
+        <option value="37">경상북도</option>
+        <option value="38">경상남도</option>
+        <option value="39">제주특별자치도</option>
+      </select>
+      <input type="text" id="keywordInput" placeholder="검색어 입력 (예: 시장)" />
       <button type="submit" class="ico">
-        <img src="/img/search.png" alt="" />
+        <img src="/img/search.png" alt="검색" />
       </button>
     </form>
+
+    <!-- ✅ 결과 출력 영역 -->
+    <div id="resultArea" class="result-area"></div>
+
+    <!-- ✅ 배너 이미지 영역 -->
     <div class="bannerGrid">
-      <div class="grid-item item1"><img src="img1.jpg" alt="" /></div>
-      <div class="grid-item item2"><img src="img2.jpg" alt="" /></div>
-      <div class="grid-item item3"><img src="img3.jpg" alt="" /></div>
-      <div class="grid-item item4"><img src="img4.jpg" alt="" /></div>
-      <div class="grid-item item5"><img src="img5.jpg" alt="" /></div>
-      <div class="grid-item item6"><img src="img6.jpg" alt="" /></div>
-      <div class="grid-item item7"><img src="img7.jpg" alt="" /></div>
+      <div class="grid-item item1"><img src="/img/img1.jpg" alt="" /></div>
+      <div class="grid-item item2"><img src="/img/img2.jpg" alt="" /></div>
+      <div class="grid-item item3"><img src="/img/img3.jpg" alt="" /></div>
+      <div class="grid-item item4"><img src="/img/img4.jpg" alt="" /></div>
+      <div class="grid-item item5"><img src="/img/img5.jpg" alt="" /></div>
+      <div class="grid-item item6"><img src="/img/img6.jpg" alt="" /></div>
+      <div class="grid-item item7"><img src="/img/img7.jpg" alt="" /></div>
     </div>
+
+    <!-- ✅ JavaScript -->
     <script>
-      const search = document.querySelector(".searchForm");
-      search.addEventListener("submit", function (e) {
+      document.getElementById("searchForm").addEventListener("submit", function(e) {
         e.preventDefault();
-        const searchInput = document.querySelector("#search");
-        console.log(searchInput.value);
+
+        const areaCode = document.getElementById("areaSelect").value;
+        const keyword = document.getElementById("keywordInput").value.trim();
+        const resultArea = document.getElementById("resultArea");
+
+        if (!areaCode) {
+          alert("지역을 선택하세요.");
+          return;
+        }
+
+        let apiUrl = "";
+        const baseUrl = "https://apis.data.go.kr/B551011/KorService2/";
+        const serviceKey = "dfkqgFHSVFefp3CpeXZ5psT9s6iWXzaWacsy9b%2FgDvuEJpzyy9Vpah1z2ktIKXO85kIcRQAGZwdqUjUDbD6dkg%3D%3D";
+
+        if (keyword) {
+          const encodedKeyword = encodeURIComponent(keyword);
+          apiUrl = `${baseUrl}searchKeyword2?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&areaCode=${areaCode}&keyword=${encodedKeyword}`;
+        } else {
+          apiUrl = `${baseUrl}areaBasedList2?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&areaCode=${areaCode}`;
+        }
+
+        fetch(apiUrl)
+          .then(res => res.json())
+          .then(data => {
+            const items = data.response.body.items.item;
+            resultArea.innerHTML = "";
+
+            if (!items || items.length === 0) {
+              resultArea.innerHTML = "<p>검색 결과가 없습니다.</p>";
+              return;
+            }
+
+            items.forEach(item => {
+              const div = document.createElement("div");
+              div.className = "item-box";
+
+              let imageTag = "";
+              if (item.firstimage) {
+                imageTag = `<img src="${item.firstimage}" alt="${item.title}" style="width:200px;" />`;
+              }
+
+              div.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>${item.addr1 || item.addr2}</p>
+                ${imageTag}
+              `;
+              resultArea.appendChild(div);
+            });
+          })
+          .catch(err => {
+            console.error("API 호출 오류:", err);
+            resultArea.innerHTML = "<p>API 호출 실패</p>";
+          });
       });
-	  <!-- 관광데이터 가져오기 -->
-	  fetch("https://apis.data.go.kr/B551011/KorService2/searchFestival2?serviceKey=dfkqgFHSVFefp3CpeXZ5psT9s6iWXzaWacsy9b%2FgDvuEJpzyy9Vpah1z2ktIKXO85kIcRQAGZwdqUjUDbD6dkg%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&eventStartDate=20240501&eventEndDate=20240531")
-	    .then(response => response.json())
-	    .then(data => {
-	      console.log("축제 목록:", data.response.body.items.item);
-	      // 여기에 DOM 출력 처리 등 추가
-	    })
-	    .catch(error => {
-	      console.error("API 호출 실패:", error);
-	    });
     </script>
   </div>
 </body>
