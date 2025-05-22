@@ -79,6 +79,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO findById(String id) {
 		// TODO Auto-generated method stub
+		log.info(id);
 		return memberMapper.findById(id);
 	}
 	// 회원 조회
