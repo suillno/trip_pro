@@ -54,7 +54,6 @@ body {
 /* 본문 전체 레이아웃 (사이드바 + 메인) */
 .container {
   display: flex;
-  margin-top: 60px; /* 상단바 높이만큼 여백 */
 }
 
 /* 사이드바 */
@@ -92,7 +91,6 @@ body {
 .main-content {
   flex: 1;
   padding: 30px;
-  background-color: #eee;
 }
 
 /* 축제검색바 */
@@ -109,7 +107,7 @@ body {
 .main-content > .searchForm {
   position: relative;
   padding-left: 114px;
-  width: 60%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -223,9 +221,13 @@ body {
     border-radius: 6px;
     object-fit: cover;
   }
-
-
-
+/* 배너 이미지 */
+  .banner img {
+	margin-top: 60px;
+	height: 250px;
+	width: 100%;
+  }
+  
 /* 반응형 모바일 대응 */
 @media screen and (max-width: 768px) {
   .container {
@@ -290,4 +292,16 @@ body {
   .wrapper .container .mobileSide {
     display: block;
   }
+  
+  .banner img {
+  	height: 200px;
+  	width: 100%;
+    }
+  
+ /* 검색박스 반응형 동작 */
+ .main-content > .searchForm {
+	padding-left: 81px;
+ }
+	
+	
 }
