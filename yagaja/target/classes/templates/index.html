@@ -5,7 +5,7 @@
       layout:decorate="~{layout/layout}">
 <body>
   <div layout:fragment="content" class="main-content">
-    <h2>전국 축제 검색</h2>
+    <h2>지역별 축제 & 숙소 찾기</h2>
     
     <!-- ✅ 검색 폼 -->
     <form id="searchForm" class="searchForm">
@@ -29,85 +29,94 @@
         <option value="38">경상남도</option>
         <option value="39">제주특별자치도</option>
       </select>
-      <input type="text" id="keywordInput" placeholder="검색어 입력 (예: 시장)" />
+      <input type="text" id="keywordInput" placeholder="검색어 입력 (예: 축제명, 호텔명)" />
       <button type="submit" class="ico">
         <img src="/img/search.png" alt="검색" />
       </button>
     </form>
 
-    <!-- ✅ 결과 출력 영역 -->
+    <!-- 결과 출력 영역 -->
     <div id="resultArea" class="result-area"></div>
 
-    <!-- ✅ 배너 이미지 영역 -->
-    <div class="bannerGrid">
-      <div class="grid-item item1"><img src="/img/img1.jpg" alt="" /></div>
-      <div class="grid-item item2"><img src="/img/img2.jpg" alt="" /></div>
-      <div class="grid-item item3"><img src="/img/img3.jpg" alt="" /></div>
-      <div class="grid-item item4"><img src="/img/img4.jpg" alt="" /></div>
-      <div class="grid-item item5"><img src="/img/img5.jpg" alt="" /></div>
-      <div class="grid-item item6"><img src="/img/img6.jpg" alt="" /></div>
-      <div class="grid-item item7"><img src="/img/img7.jpg" alt="" /></div>
+    <!-- 배너 이미지 영역 -->
+    <div id="bannerGrid" class="bannerGrid">
+      <div class="grid-item item1"><img src="http://tong.visitkorea.or.kr/cms/resource/85/3362985_image2_1.JPG" alt="관악강감찬축제" title="관악강감찬축제" /></div>
+      <div class="grid-item item2"><img src="http://tong.visitkorea.or.kr/cms/resource/63/3489263_image2_1.JPG" alt="서대문 봄빛축제" title="서대문 봄빛축제" /></div>
+      <div class="grid-item item3"><img src="http://tong.visitkorea.or.kr/cms/resource/42/2989942_image2_1.png" alt="공주 유구 색동수국정원 꽃 축제" title="공주 유구 색동수국정원 꽃 축제" /></div>
+      <div class="grid-item item4"><img src="http://tong.visitkorea.or.kr/cms/resource/48/3486248_image2_1.jpg" alt="서천 자연산 광어 도미 축제" title="서천 자연산 광어 도미 축제" /></div>
+      <div class="grid-item item5"><img src="http://tong.visitkorea.or.kr/cms/resource/40/3486740_image2_1.jpg" alt="보롬왓 메밀축제" title="보롬왓 메밀축제" /></div>
+      <div class="grid-item item6"><img src="http://tong.visitkorea.or.kr/cms/resource/21/3484921_image2_1.JPG" alt="가파도청보리축제" title="가파도청보리축제" /></div>
+      <div class="grid-item item7"><img src="http://tong.visitkorea.or.kr/cms/resource/11/3483111_image2_1.jpg" alt="울산쇠부리축제" title="울산쇠부리축제" /></div>
     </div>
 
-    <!-- ✅ JavaScript -->
-    <script>
-      document.getElementById("searchForm").addEventListener("submit", function(e) {
-        e.preventDefault();
+    <!-- 축제 검색 -->
+	<script>
+	  document.getElementById("searchForm").addEventListener("submit", function(e) {
+	    e.preventDefault();
 
-        const areaCode = document.getElementById("areaSelect").value;
-        const keyword = document.getElementById("keywordInput").value.trim();
-        const resultArea = document.getElementById("resultArea");
+	    const areaCode = document.getElementById("areaSelect").value;
+	    const keyword = document.getElementById("keywordInput").value.trim();
+	    const resultArea = document.getElementById("resultArea");
+	    const bannerGrid = document.querySelector("#bannerGrid");
 
-        if (!areaCode) {
-          alert("지역을 선택하세요.");
-          return;
-        }
+	    if (!areaCode) {
+	      alert("지역을 선택하세요.");
+	      return;
+	    }
 
-        let apiUrl = "";
-        const baseUrl = "https://apis.data.go.kr/B551011/KorService2/";
-        const serviceKey = "dfkqgFHSVFefp3CpeXZ5psT9s6iWXzaWacsy9b%2FgDvuEJpzyy9Vpah1z2ktIKXO85kIcRQAGZwdqUjUDbD6dkg%3D%3D";
+	    // 배너 숨기기
+	    if (bannerGrid) {
+	      bannerGrid.style.display = "none";
+	    }
 
-        if (keyword) {
-          const encodedKeyword = encodeURIComponent(keyword);
-          apiUrl = `${baseUrl}searchKeyword2?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&areaCode=${areaCode}&keyword=${encodedKeyword}`;
-        } else {
-          apiUrl = `${baseUrl}areaBasedList2?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&areaCode=${areaCode}`;
-        }
+	    let apiUrl = "";
+	    const baseUrl = "https://apis.data.go.kr/B551011/KorService2/";
+	    const serviceKey = "dfkqgFHSVFefp3CpeXZ5psT9s6iWXzaWacsy9b%2FgDvuEJpzyy9Vpah1z2ktIKXO85kIcRQAGZwdqUjUDbD6dkg%3D%3D";
 
-        fetch(apiUrl)
-          .then(res => res.json())
-          .then(data => {
-            const items = data.response.body.items.item;
-            resultArea.innerHTML = "";
+	    if (keyword) {
+	      const encodedKeyword = encodeURIComponent(keyword);
+	      apiUrl = `${baseUrl}searchKeyword2?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&areaCode=${areaCode}&keyword=${encodedKeyword}`;
+	    } else {
+	      apiUrl = `${baseUrl}areaBasedList2?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=C&areaCode=${areaCode}`;
+	    }
 
-            if (!items || items.length === 0) {
-              resultArea.innerHTML = "<p>검색 결과가 없습니다.</p>";
-              return;
-            }
+	    fetch(apiUrl)
+	      .then(res => res.json())
+	      .then(data => {
+	        const items = data.response.body.items.item;
+	        resultArea.innerHTML = "";
 
-            items.forEach(item => {
-              const div = document.createElement("div");
-              div.className = "item-box";
+	        if (!items || items.length === 0) {
+	          resultArea.innerHTML = "<p>검색 결과가 없습니다.</p>";
+	          return;
+	        }
 
-              let imageTag = "";
-              if (item.firstimage) {
-                imageTag = `<img src="${item.firstimage}" alt="${item.title}" style="width:200px;" />`;
-              }
+	        items.forEach(item => {
+	          const div = document.createElement("div");
+	          div.className = "item-box";
 
-              div.innerHTML = `
-                <h3>${item.title}</h3>
-                <p>${item.addr1 || item.addr2}</p>
-                ${imageTag}
-              `;
-              resultArea.appendChild(div);
-            });
-          })
-          .catch(err => {
-            console.error("API 호출 오류:", err);
-            resultArea.innerHTML = "<p>API 호출 실패</p>";
-          });
-      });
-    </script>
+	          let imageTag = "";
+	          if (item.firstimage && item.contentid) {
+	            imageTag = `
+	              <a href="/festival/detail/${item.contentid}">
+	                <img src="${item.firstimage}" alt="${item.title}" title="${item.title}" />
+	              </a>`;
+	          }
+
+	          div.innerHTML = `
+	            <h3>${item.title}</h3>
+	            <p>${item.addr1 || item.addr2}</p>
+	            ${imageTag}
+	          `;
+	          resultArea.appendChild(div);
+	        });
+	      })
+	      .catch(err => {
+	        console.error("API 호출 오류:", err);
+	        resultArea.innerHTML = "<p>API 호출 실패</p>";
+	      });
+	  });
+	</script>
   </div>
 </body>
 </html>
