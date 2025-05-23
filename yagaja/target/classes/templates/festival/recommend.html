@@ -4,15 +4,17 @@
       layout:decorate="~{layout/layout}">
 <body>
   <div layout:fragment="content" class="main-content">
-    <h2>이런축제어때?</h2>
-
+    <h2 style="text-align: center;margin-bottom: 20px;">이런축제어때?</h2>
+	
     <div class="recommend-grid">
       <div class="recommend-item" th:each="festival : ${recommendedList}">
         <a th:href="@{/festival/detail/{id}(id=${festival.contentid})}">
-          <img th:src="${festival.firstimage}" th:alt="${festival.title}" />
-          <h4 th:text="${festival.title}">축제명</h4>
+          <img style="width: 80%; margin-top: 20px; margin-left: auto;margin-right: auto;" th:src="${festival.firstimage}" th:alt="${festival.title}" />
+          <div style="margin-top:20px; margin-left:100px">
+		  <h4 th:text="${festival.title}">축제명</h4>
           <p th:text="${festival.addr1}">주소</p>
-        </a>
+        </div>
+		  </a>
       </div>
     </div>
   </div>

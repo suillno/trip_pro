@@ -54,8 +54,8 @@
 					<input type="hidden" name="pageSize" th:value="10" />
 					<div class="search-wrapper">
 						<select name="searchType" th:value="${searchType}">
-							<option value="userId" th:selected="${searchType == 'userId'}">아이디</option>
-							<option value="userName" th:selected="${searchType == 'userName'}">등록자</option>
+							<option value="userId" th:selected="${searchType == 'userId'}">작성자</option>
+							<option value="bodTitle" th:selected="${searchType == 'bodTitle'}">제목</option>
 						</select>
 						<div class="input-with-button">
 							<input type="text" id="searchMember" name="searchKeyword" th:value="${searchKeyword}" />
