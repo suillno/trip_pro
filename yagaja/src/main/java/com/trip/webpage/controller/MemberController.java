@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.trip.webpage.vo.SearchHelper;
 import com.trip.webpage.service.MemberService;
+import com.trip.webpage.vo.BoardDefaultVO;
 import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
 
@@ -171,14 +172,6 @@ public class MemberController {
 
 	}
 
-	// 축제 상세정보 페이지
-	@GetMapping("/detail/{id}")
-	public String memberDetail(@PathVariable String id, Model model) {
-		MemberVO member = memberService.findById(id); // 서비스에서 member를 가져온다고 가정
-		model.addAttribute("member", member);
-		return "member/detail"; // detail.html 템플릿으로 이동
-	}
-
 	// 로그인 동작
 	@PostMapping("/signupProc")
 	public ModelAndView signupProc(@ModelAttribute MemberVO memberVO) {
@@ -214,5 +207,25 @@ public class MemberController {
 		mav.setViewName("redirect:/");
 		return mav;
 	}
+	
+	//2025-05-22 조윤호 작성자 작성일 작업 진행 및 수정 
+    @GetMapping("/detail/{id}")
+    public String memberDetail(@PathVariable String id, Model model) {
+        // 1. 회원 정보 조회 (이미 있음)
+        MemberVO member = memberService.findById(id);
+        model.addAttribute("member", member);
+
+        // 2. 게시글 1건 조회 (해당 유저가 작성한 최근 글 등)
+        BoardDefaultVO board = memberService.selectLatestByUserId(id); // 또는 selectOneByUserId 등
+        if(board != null){
+        // 3. 아래 코드 추가 (📌 여기!)
+        model.addAttribute("author", board.getRegId());
+        model.addAttribute("date", board.getReg2Date());
+        }else {
+        	model.addAttribute("author", "");
+        }
+        // 4. 뷰 이동
+        return "member/detail";
+    }
 
 }

@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trip.webpage.service.BoardService;
 import com.trip.webpage.service.MemberService;
 import com.trip.webpage.util.StringUtil;
 import com.trip.webpage.vo.BoardDefaultVO;
-import com.trip.webpage.vo.BoardVO;
+
 import com.trip.webpage.vo.MemberVO;
 import com.trip.webpage.vo.SearchHelper;
 
@@ -33,6 +34,18 @@ public class BoardController {
 	private final BoardService boardService;
 	private final MemberService memberService;
 
+	
+	
+	
+		//@@@@@@수정본@@@@@@@@@@
+		//2025-05-22 조윤호 BOARD VO 삭제 - BOARD_DEFAULT VO 로 변경
+		//private final MemberService memberService; 추가
+	
+	
+	
+	
+	
+	
 	    @GetMapping("/list")
 	    public ModelAndView noticePage(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
 	    	ModelAndView mav = new ModelAndView();
@@ -40,8 +53,7 @@ public class BoardController {
 
 	        if (searchHelper.getPageNumber() < 0) searchHelper.setPageNumber(0);
 
-	      
-	        log.info(searchHelper.toString());
+	        System.out.println(searchHelper.toString());
 
 	        HttpSession session = request.getSession();
 	        MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
@@ -60,8 +72,8 @@ public class BoardController {
 	        searchHelper.setOffset(offset);
 
 	        // 게시글 리스트 조회 및 페이징 정보 세팅
-	        List<MemberVO> list = memberService.selectList(searchHelper);
-	        int totalRecords = memberService.selectListCount(searchHelper);
+	        List<BoardDefaultVO> list = boardService.selectList(searchHelper);
+	        int totalRecords = boardService.selectListCount(searchHelper);
 	        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
 	        mav.addObject("list", list);
@@ -69,6 +81,7 @@ public class BoardController {
 	        mav.addObject("pageSize", pageSize);
 	        mav.addObject("totalPages", totalPages);
 	        mav.addObject("currentPage", currentPage);
+	        mav.addObject("cate", searchHelper.getCate());
 
 	        return mav;
 	    }
@@ -94,25 +107,29 @@ public class BoardController {
 	            HttpServletRequest request) {
 
 	        ModelAndView mav = new ModelAndView();
-	        log.info(searchHelper.toString());
-
+	        
+	        //확인용 인포
+	        log.info("서치 : {}",searchHelper.toString());
+	        log.info("보드 : {}",boardDefaultVO.toString());
+	        
 	        HttpSession session = request.getSession();
 	        MemberVO vo = (MemberVO) session.getAttribute("userInfo");
-
+	        
 	        // 작성자 정보 설정
-	        boardDefaultVO.setRegId(vo.getUserId());
-	        boardDefaultVO.setUpdateId(vo.getUserId());
 	        boardDefaultVO.setUserId(vo.getUserId());
+	        log.info("vo 테스트 : {}", vo.toString());
 	        
 	        // 날짜 설정 (현재 시각)
 	        boardDefaultVO.setReg2Date(LocalDateTime.now());
 	        boardDefaultVO.setUpdateDate(LocalDateTime.now());
 
-	        // 게시글 저장 or 수정
+	        log.info("vo 입력값 테스트 : {}",boardDefaultVO.toString());
+	        
+	        // 게시글 저장 or 수정 
 	        if (boardDefaultVO.getBodIdx() == null) {
-	            boardService.insertBoard(boardDefaultVO);
+	        	boardService.insertBoard(boardDefaultVO);
 	        } else {
-	            boardService.updateBoard(boardDefaultVO);
+	             boardService.updateBoard(boardDefaultVO);
 	        }
 
 	        // redirect URL 설정
@@ -136,7 +153,8 @@ public class BoardController {
 				mav.addObject("userInfo", new MemberVO());
 			}
 			
-			mav.addObject("info", new BoardVO());
+			mav.addObject("searchHelper", searchHelper);
+			mav.addObject("info", boardService.selectOne(searchHelper.getBodIdx()));
 			
 	    	mav.setViewName("board/view");
 	    	return mav;
@@ -169,7 +187,7 @@ public class BoardController {
 	        searchHelper.setOffset(offset);
 
 	        // 게시글 리스트 조회 및 페이징 정보 세팅
-	        List<BoardVO> list = boardService.selectList(searchHelper);
+	        List<BoardDefaultVO> list = boardService.selectList(searchHelper);
 	        int totalRecords = boardService.selectListCount(searchHelper);
 	        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
@@ -210,7 +228,7 @@ public class BoardController {
 	        searchHelper.setOffset(offset);
 
 	        // 게시글 리스트 조회 및 페이징 정보 세팅
-	        List<BoardVO> list = boardService.selectList(searchHelper);
+	        List<BoardDefaultVO> list = boardService.selectList(searchHelper);
 	        int totalRecords = boardService.selectListCount(searchHelper);
 	        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
@@ -249,7 +267,7 @@ public class BoardController {
 	        searchHelper.setOffset(offset);
 
 	        // 게시글 리스트 조회 및 페이징 정보 세팅
-	        List<BoardVO> list = boardService.selectList(searchHelper);
+	        List<BoardDefaultVO> list = boardService.selectList(searchHelper);
 	        int totalRecords = boardService.selectListCount(searchHelper);
 	        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 

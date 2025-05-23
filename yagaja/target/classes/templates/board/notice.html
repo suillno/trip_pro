@@ -6,40 +6,69 @@
   <link rel="stylesheet" href="/css/memberDetail.css" />
 </head>
 <body>
+  <!-- 조건문 설정 1000,2000,3000,4000번 2025-05-22 조윤호 -->
   <div layout:fragment="content" class="tableCenter">
-    <h2>공지사항</h2>
+    <h2 th:if="${cate == 1000}">공지사항</h2>
+    <h2 th:if="${cate == 2000}">후기게시판</h2>
+    <h2 th:if="${cate == 3000}">여행계획게시판</h2>
+    <h2 th:if="${cate == 4000}">잡담게시판</h2>
 
     <!-- ✅ 저장용 form -->
     <form id="blockForm" method="post" action="/admin/blockMemberBulk">
       <table class="memberTable">
         <colgroup>
-          <col style="width: 30px" />
+		<col style="width: 150px" />
+		<col style="width: 600px" />
           <col style="width: 100px" />
-          <col style="width: 100px" />
-          <col style="width: 120px" />
+		  <col style="width: 150px" />
+		  <col style="width: 150px" />
         </colgroup>
         <thead>
           <tr>
-            <th>번호</th>
-            <th>이름</th>
-            <th>글 제목</th>
-            <th>조회수</th>
+			<th style="text-align: center;">번호</th>
+            <th style="text-align: center;">제목</th>
+           <th>작성자</th>
+            <th style="text-align: center;">작성일</th>
+			<th style="text-align: center;">조회수</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="item, stat : ${list}">
-            <td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
-
-            <!-- ✅ 클릭 가능한 유저 이름 -->
-            <td>
-              <a th:href="@{/member/detail/{id}(id=${item.userId})}" th:text="${item.userName}"></a>
+			<td style="text-align: center;" th:text="${item.bodIdx}"></td>
+            <td style="text-align: left;">
+              <a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}|}" th:text="${item.bodTitle}"></a>
             </td>
-
-            <td> <a th:href="@{/member/detail/{id}(id=${item.userId})}" th:text="${item.userName}"></a>제목</a></td>
-            <td>조회수</td>
+            <td th:text="${item.RegId}"></td>
+            <td style="text-align: center;" th:text="${item.reg2Date}"></td>
+			<td style="text-align: center;" th:text="${item.userCnt}"></td>
           </tr>
         </tbody>
       </table>
+
+      <!-- 검색 기능 추가 -->
+      <div class="bottom-controls">
+        <!-- 좌측 여백 -->
+        <div class="left-placeholder"></div>
+
+        <!-- 중앙 검색 -->
+        <form id="serchUser" method="get" action="/admin/memberDetail" class="search-group">
+          <div class="search-wrapper">
+            <select name="searchType">
+              <option value="userId">아이디</option>
+              <option value="userName">등록자</option>
+            </select>
+            <div class="input-with-button">
+              <input type="text" id="searchMember" name="searchMember" />
+              <button class="searchBtn" type="submit">
+                <img src="/img/search.png" alt="검색" />
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- 우측 저장용 폼 (현재 내용 없음) -->
+        <form id="blockForm" method="post" action="/admin/blockMemberBulk"></form>
+      </div>
 
       <!-- ✅ 글쓰기 버튼 -->
       <div style="text-align: right; margin-top: 20px;">

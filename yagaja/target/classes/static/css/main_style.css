@@ -60,7 +60,6 @@ body {
   width: 120px;
   background-color: #f8f9fa;
   padding: 0px;
-  border-right: 1px solid #ddd;
   min-height: calc(100vh - 60px);
 }
 
@@ -69,7 +68,8 @@ body {
   margin-top: 30px;
   font-size: 16px;
   color: #333;
-}
+  border-top: 2px solid lightcoral;
+ }
 
 /* 사이드바 목록 */
 .sidebar p {
@@ -223,7 +223,6 @@ body {
   }
 /* 배너 이미지 */
   .banner img {
-	margin-top: 60px;
 	height: 250px;
 	width: 100%;
   }

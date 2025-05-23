@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Getter
 @Setter
 @ToString
@@ -23,8 +22,11 @@ public class SearchHelper {
 	private String searchType;
 	// 게시판 PK
 	private String userId;
-	
+	// 사용자 유저네임
 	private String userName;
-	
+	// 게시판 카테고리 코드
+	private Long cate;
+	// 게시판 pk 코드 호출용
+	private Long bodIdx;
 
 }

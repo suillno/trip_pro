@@ -1,16 +1,147 @@
 <!DOCTYPE html>
-<html lang="ko" 
-	xmlns:th="http://www.thymeleaf.org"
-	layout:decorate="~{layout/layout}">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
 <body>
-	<div layout:fragment="content">
-		<div th:object="${info}">
-			<h2 th:text="*{boardTitle}"></h2>
-			<div th:utext="*{boardContent}"></div>
+<div layout:fragment="content">
+    <!-- 스타일 추가함 진행중 2025-05-22 조윤호 -->
+    <style>
+        .flower-board-container {
+            background-color: rgba(255, 255, 255, 0.96);
+            background-image: url('https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=1050&q=80');
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 16px;
+            box-shadow: 0 16px 16px rgba(0, 0, 0, 0.15);
+            font-family: 'Nanum Myeongjo', serif;
+            color: #333;
+			padding: 20px;
+			border : 1px solid #ccc;
+			height: 750px;
+			display:flex;
+			flex-direction: column;
+			justify-content: space-between;
+
+        }
+
+        .flower-board-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: rgb(64, 0, 0);
+			border-bottom: 1px solid rgb(192, 192, 192);
+        }
+
+        .flower-board-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .flower-board-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .flower-board-buttons a {
+            text-decoration: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            background-color: rgb(255, 128, 128);
+            color: rgb(128, 0, 0);
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        .flower-board-buttons a:hover {
+            background-color: #f8bbd0;
+        }
+
+		.flower-container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: 600px;
+		}
+        /* 반응형 스타일 */
+        @media (max-width: 1200px) {
+        }
+
+        @media (max-width: 768px) {
+			.flower-container {
+				position: relative;
+				left: auto;
+				top: auto;
+				transform: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 50px;
+				margin-bottom: 100px;
+			}
+            .flower-board-title {
+                font-size: 1.5rem;
+            }
+
+            .flower-board-content {
+                font-size: 1rem;
+            }
+
+            .flower-board-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .flower-board-buttons a {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .flower-board-title {
+                font-size: 1.3rem;
+            }
+
+            .flower-board-content {
+                font-size: 0.95rem;
+            }
+
+            .flower-board-buttons a {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+    </style>
+	<!--스타일-->
+	<link
+	    rel="stylesheet"
+	    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+	  />
+	
+	  <div class="flower-container">
+		<div class="animate__animated animate__backInRight">
+	    <div class="flower-board-container" th:object="${info}">
+			<div>
+				
+			
+	        <h2 class="flower-board-title" th:text="*{bodTitle}">게시글 제목</h2>
+	        <div class="flower-board-content" th:utext="*{bodConstent}">게시글 내용</div>
+			</div>
+	        <!--2025-05-22 조윤호 목록으로 돌아가기 생성 -->
+	      
+			
+			
+			 <div class="flower-board-buttons">
+	            <a th:href="@{|/board/list?cate=1000&pageNumber=${searchHelper.pageNumber}|}">목록</a>
+				 <a th:href="@{|/board/modify/${info.bodIdx}|}">수정</a>
+	            <a th:href="@{|/board/delete/${info.bodIdx}|}">삭제</a>
+	        </div>
+				
+		 </div>
 		</div>
-		<a th:href="${link}">목록</a>
-		<a th:href="|/board/modify/${info.boardNo}|">수정</a>
-		<a th:href="|/board/delete/${info.boardNo}|">삭제</a>
 	</div>
+</div>
 </body>
 </html>

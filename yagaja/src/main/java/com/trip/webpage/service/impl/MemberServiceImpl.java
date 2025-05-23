@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trip.webpage.vo.SearchHelper;
+import com.trip.webpage.mapper.BoardMapper;
 import com.trip.webpage.mapper.MemberMapper;
 import com.trip.webpage.service.MemberService;
+import com.trip.webpage.vo.BoardDefaultVO;
 import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
 
@@ -24,6 +26,8 @@ public class MemberServiceImpl implements MemberService {
 	// MemberMapper(DAO)를 주입 받아 DB와 연결된 기능을 사용
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+	private BoardMapper boardMapper;
 
 	// 인터페이스에서 정의한 selectMember() 메서드 구현
 	// → DAO를 통해 DB에서 회원 목록을 가져와 반환
@@ -109,5 +113,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		memberMapper.updatePassword(memberVO);
 
+	}
+
+	@Override
+	public BoardDefaultVO selectLatestByUserId(String id) {
+		// TODO Auto-generated method stub
+		return boardMapper.selectLatestByUserId(id);
 	}
 }
