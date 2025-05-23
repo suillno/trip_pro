@@ -16,7 +16,7 @@
         <option value="4">대구</option>
         <option value="5">광주</option>
         <option value="6">부산</option>
-        <option value="7">울산</option>
+<!--        <option value="7">울산</option>-->
         <option value="8">세종특별자치시</option>
         <option value="31">경기도</option>
         <option value="32">강원특별자치도</option>
@@ -39,13 +39,13 @@
 
     <!-- 배너 이미지 영역 -->
     <div id="bannerGrid" class="bannerGrid">
-      <div class="grid-item item1"><img src="http://tong.visitkorea.or.kr/cms/resource/85/3362985_image2_1.JPG" alt="관악강감찬축제" title="관악강감찬축제" /></div>
-      <div class="grid-item item2"><img src="http://tong.visitkorea.or.kr/cms/resource/63/3489263_image2_1.JPG" alt="서대문 봄빛축제" title="서대문 봄빛축제" /></div>
-      <div class="grid-item item3"><img src="http://tong.visitkorea.or.kr/cms/resource/42/2989942_image2_1.png" alt="공주 유구 색동수국정원 꽃 축제" title="공주 유구 색동수국정원 꽃 축제" /></div>
-      <div class="grid-item item4"><img src="http://tong.visitkorea.or.kr/cms/resource/48/3486248_image2_1.jpg" alt="서천 자연산 광어 도미 축제" title="서천 자연산 광어 도미 축제" /></div>
-      <div class="grid-item item5"><img src="http://tong.visitkorea.or.kr/cms/resource/40/3486740_image2_1.jpg" alt="보롬왓 메밀축제" title="보롬왓 메밀축제" /></div>
-      <div class="grid-item item6"><img src="http://tong.visitkorea.or.kr/cms/resource/21/3484921_image2_1.JPG" alt="가파도청보리축제" title="가파도청보리축제" /></div>
-      <div class="grid-item item7"><img src="http://tong.visitkorea.or.kr/cms/resource/11/3483111_image2_1.jpg" alt="울산쇠부리축제" title="울산쇠부리축제" /></div>
+      <div class="grid-item item1"><img src="/img/main1.png" alt="관악강감찬축제" title="관악강감찬축제" /></div>
+      <div class="grid-item item2"><img src="/img/main2.png" alt="서대문 봄빛축제" title="서대문 봄빛축제" /></div>
+      <div class="grid-item item3"><img src="/img/main3.png" alt="공주 유구 색동수국정원 꽃 축제" title="공주 유구 색동수국정원 꽃 축제" /></div>
+      <div class="grid-item item4"><img src="/img/main4.png" alt="서천 자연산 광어 도미 축제" title="서천 자연산 광어 도미 축제" /></div>
+      <div class="grid-item item5"><img src="/img/main5.png" alt="보롬왓 메밀축제" title="보롬왓 메밀축제" /></div>
+      <div class="grid-item item6"><img src="/img/main6.png" alt="가파도청보리축제" title="가파도청보리축제" /></div>
+      <div class="grid-item item7"><img src="/img/main7.png" alt="울산쇠부리축제" title="울산쇠부리축제" /></div>
     </div>
 
     <!-- 축제 검색 -->
@@ -54,7 +54,11 @@
 	    e.preventDefault();
 
 	    const areaCode = document.getElementById("areaSelect").value;
-	    const keyword = document.getElementById("keywordInput").value.trim();
+	    let keyword = document.getElementById("keywordInput").value.trim();
+		// 검색조건 없을시 축제키워드 기본 입력
+		if (keyword === "") {
+			keyword = "축제";
+		}
 	    const resultArea = document.getElementById("resultArea");
 	    const bannerGrid = document.querySelector("#bannerGrid");
 
@@ -98,7 +102,7 @@
 	          if (item.firstimage && item.contentid) {
 	            imageTag = `
 	              <a href="/festival/detail/${item.contentid}">
-	                <img src="${item.firstimage}" alt="${item.title}" title="${item.title}" />
+	                <img src="${item.firstimage}" alt="${item.title}" title="${item.title}"  />
 	              </a>`;
 	          }
 

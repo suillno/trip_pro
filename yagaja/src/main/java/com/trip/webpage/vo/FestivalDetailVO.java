@@ -6,38 +6,50 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 public class FestivalDetailVO {
 
-		private String contentid;
+    @JsonProperty("contentid")
+    private String contentid;
 
-		private String title;
+    @JsonProperty("title")
+    private String title;
 
-		private String createdTime;
+    @JsonProperty("createdtime")
+    private String createdtime;
 
-		private String modifiedTime;
+    @JsonProperty("modifiedtime")
+    private String modifiedtime;
 
-		private String tel;
+    @JsonProperty("tel")
+    private String tel;
 
-		private String telName;
+    @JsonProperty("telname")
+    private String telname;
 
-		private String homepage;
+    @JsonProperty("homepage")
+    private String homepage;
 
-		private String firstImage;
+    @JsonProperty("firstimage")
+    private String firstimage;
 
-		private String firstImage2;
+    @JsonProperty("addr1")
+    private String addr1;
 
-		private String addr1;
+    @JsonProperty("addr2")
+    private String addr2;
 
-		private String addr2;
+    @JsonProperty("mapx")
+    private String mapx;
 
-		private String mapx;
+    @JsonProperty("mapy")
+    private String mapy;
 
-		private String mapy;
-
-		private String overview;
-
+    @JsonProperty("overview")
+    private String overview;
 }

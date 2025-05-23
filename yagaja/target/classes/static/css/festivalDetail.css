@@ -1,0 +1,30 @@
+   img {
+     width: 300px;
+     height: auto;
+     border-radius: 8px;
+   }
+
+   .info {
+     width: 50%; /* 10%는 너무 작아요 */
+   }
+
+   .images {
+     display: flex;
+     gap: 20px;
+     margin-bottom: 20px;
+   }
+   .MAP {
+     display: flex;
+     align-items: flex-start;
+   }
+   .MAP ul {
+     margin: 0;
+   }
+   .ui {
+     text-align: left;
+     padding-left: 20px;
+   }
+   .center-img {
+     display: inline-block; /* img 기본은 inline이니까 block으로 바꿈 */
+     margin: 0 auto; /* 좌우 마진 자동으로, 가로 가운데 정렬 */
+   }

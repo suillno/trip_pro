@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title th:text="*{title}">상세 주소</title>
+	<link rel="stylesheet" href="/css/festivalDetail.css" />
+</head>
+<body>
+	<div layout:fragment="content" class="main-content" th:object="${festival}">
+		<h2 th:text="*{title}">축제 제목</h2>
+		<img class="center-img" th:src="*{firstimage}" alt="축제 이미지" />
+
+		<ul class="ui">
+			<!--  전화번호 + telname 함께 표시 -->
+			<li th:if="*{tel}">
+				문의:
+				<span th:text="*{tel}">전화번호</span>
+				<span th:if="*{telname}">(<span th:text="*{telname}">담당자명</span>)</span>
+			</li>
+
+			<li>상세 설명</li>
+		</ul>
+
+		<!--  상세 설명 -->
+		<div>
+		<p th:text="*{overview}">
+			축제 설명 텍스트가 여기에 들어갑니다.
+		</p>
+		</div>
+		<div class="MAP">
+			<!-- ✅ 좌표 기반 지도 삽입 -->
+			<iframe
+				th:src="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.1234567890!2d' + *{mapx} + '!3d' + *{mapy} + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca123456789ab%3A0x1234567890abcdef!2z7J247Iuc7J6Q64yA64qM7ZWc!5e0!3m2!1sko!2skr!4v1234567890123'"
+				width="300" height="350" style="border: 0" allowfullscreen="" loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade">
+			</iframe>
+
+			<!-- ✅ 주소 및 지역명 표시 -->
+			<ul>
+				<li th:text="'축제지 주소: ' + *{addr1}">주소</li>
+				<li th:text="'지역명: ' + *{addr2}">지역명</li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+</html>
