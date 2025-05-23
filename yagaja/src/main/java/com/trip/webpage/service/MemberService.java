@@ -19,8 +19,11 @@ public interface MemberService {
 	List<MemberVO> selectList(SearchHelper searchHelper);
 	int selectListCount(SearchHelper searchHelper);
 	MemberVO findById(String id);
-	List<MemberVO> selectMember();
 	// 회원 조회
-	List<MemberVO> selectMemberList(SearchHelper searchHelper);
+	List<MemberVO> selectMember();
 	// 회원 가입
+	List<MemberVO> selectMemberList(SearchHelper searchHelper);
+	// 비밀번호 변경 05-22
+	void  updatePassword(MemberVO memberVO);
+	
 }

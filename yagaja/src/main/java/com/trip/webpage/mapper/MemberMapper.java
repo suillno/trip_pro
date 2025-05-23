@@ -36,4 +36,6 @@ public interface MemberMapper {
 	int selectListCount(SearchHelper searchHelper);
 	
 	List<MemberVO> selectMemberList(SearchHelper searchHelper);
+	// 비밀번호 변경
+	void updatePassword(MemberVO memberVO);
 }

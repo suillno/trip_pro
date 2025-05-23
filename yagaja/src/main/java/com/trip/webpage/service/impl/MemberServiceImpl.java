@@ -38,12 +38,12 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO userLogin(LoginRequest loginRequest) {
 		MemberVO result = memberMapper.userLogin(loginRequest);
 		if (result != null) {
-            log.info("로그인 성공: {}", result.getUserId());
-        } else {
-            log.warn("로그인 실패: {}", loginRequest.getUserId());
-        }
-        return result;
-    }
+			log.info("로그인 성공: {}", result.getUserId());
+		} else {
+			log.warn("로그인 실패: {}", loginRequest.getUserId());
+		}
+		return result;
+	}
 
 	@Override
 	public int selectMemberCount(SearchHelper searchHelper) {
@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO findUserId(MemberVO memberVO) {
 		MemberVO result = memberMapper.findUserId(memberVO);
-	
+
 		return result;
 	}
 
@@ -82,6 +82,7 @@ public class MemberServiceImpl implements MemberService {
 		log.info(id);
 		return memberMapper.findById(id);
 	}
+
 	// 회원 조회
 	@Override
 	public List<MemberVO> selectMemberList(SearchHelper searchHelper) {
@@ -93,13 +94,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int insertUser(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		
+
 		// 이메일 인증코드 작성
 		String emailAuthCode = UUID.randomUUID().toString();
 		log.info(emailAuthCode);
 		memberVO.setEmailAuthCode(emailAuthCode);
-		
+
 		return memberMapper.insertUser(memberVO);
 	}
-	
+
+	// 비밀번호 변경 05-22
+	@Override
+	public void updatePassword(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		memberMapper.updatePassword(memberVO);
+
+	}
 }
