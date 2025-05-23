@@ -15,7 +15,6 @@ body {
 
 /* 상단 고정바 스타일 */
 .top-bar {
-  position: fixed;
   top: 0;
   left: 0%;
   right: 0%;
@@ -164,7 +163,8 @@ body {
 /* 레이아웃 배치 커스터마이징 */
 .item4 {
   grid-column: span 3; /* 가로로 전체 차지 */
-  height: 200px;
+  grid-row: span 2;
+  height: auto;
 }
 
 .user-area {

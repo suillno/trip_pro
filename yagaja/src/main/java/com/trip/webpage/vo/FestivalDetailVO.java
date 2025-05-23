@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FestivalDetailVO {
 
     @JsonProperty("contentid")
@@ -52,4 +54,5 @@ public class FestivalDetailVO {
 
     @JsonProperty("overview")
     private String overview;
+    
 }

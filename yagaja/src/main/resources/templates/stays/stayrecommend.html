@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<body>
+  <div layout:fragment="content" class="main-content">
+	
+    <h2>랜덤으로 꿀잠장소 추천해드려요~!</h2>
+
+    <div class="recommend-grid">
+      <div class="recommend-item" th:each="stays : ${recommendedList}">
+        <a th:href="@{/festival/detail/{id}(id=${stays.contentid})}">
+          <img th:src="${stays.firstimage}" th:alt="${stays.title}" />
+          <h4 th:text="${stays.title}">숙박업소</h4>
+          <p th:text="${stays.addr1}">주소</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
