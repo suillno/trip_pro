@@ -7,7 +7,13 @@
 <mapper namespace="com.trip.webpage.mapper.MemberMapper">
 
 	<select id="selectMemberCount" resultType="int" parameterType="SearchHelper">
-		SELECT COUNT(*) AS cnt FROM MEMBER
+		SELECT COUNT(*) AS cnt FROM MEMBER WHERE 1 = 1 
+	<if test="userId != null and userId != ''">
+		AND USER_ID LIKE '%' || #{userId} || '%'
+	</if>
+  	<if test="userName != null and userName != ''">
+		AND USER_NAME LIKE '%' || #{userName} || '%'
+	</if> 
 	</select>
 
 	<!-- 
@@ -22,16 +28,16 @@
 
 
 	<!-- 멤버 조회 파라미터 있을때 -->
-	<select id="selectMemberList" parameterType="SearchHelper"
-		resultType="MemberVO"> SELECT * FROM MEMBER WHERE 1 = 1 <if
-			test="userId != null and userId != ''">
-			AND USER_ID LIKE '%' || #{userId} || '%'
-		</if>
-  	<if
-			test="userName != null and userName != ''">
-			AND USER_NAME LIKE '%' || #{userName} || '%'
-		</if> ORDER BY
-		USER_ID OFFSET #{offset} ROWS FETCH NEXT 10 ROWS ONLY </select>
+	<select id="selectMemberList" parameterType="SearchHelper" resultType="MemberVO"> 
+	SELECT * FROM MEMBER WHERE 1 = 1 
+	<if test="userId != null and userId != ''">
+		AND USER_ID LIKE '%' || #{userId} || '%'
+	</if>
+  	<if test="userName != null and userName != ''">
+		AND USER_NAME LIKE '%' || #{userName} || '%'
+	</if> ORDER BY
+		USER_ID OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY 
+	</select>
 
 	<!-- 
     로그인 시 아이디/비밀번호를 비교하여 해당 회원 정보를 조회하는 쿼리

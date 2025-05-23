@@ -3,19 +3,15 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>회원 목록</title>
+	<title>공지사항</title>
 	<link rel="stylesheet" href="/css/memberDetail.css" />
 </head>
 
 <body>
-	<!-- 조건문 설정 1000,2000,3000,4000번 2025-05-22 조윤호 -->
 	<div layout:fragment="content" class="tableCenter">
-		<h2 th:if="${cate == 1000}">공지사항</h2>
-		<h2 th:if="${cate == 2000}">후기게시판</h2>
-		<h2 th:if="${cate == 3000}">여행계획게시판</h2>
-		<h2 th:if="${cate == 4000}">잡담게시판</h2>
+		<h2>공지사항</h2>
 
-		<!-- ✅ 저장용 form -->
+		<!-- ✅ 게시글 목록 테이블 -->
 		<form>
 			<table class="memberTable">
 				<colgroup>
@@ -41,28 +37,28 @@
 							<a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}|}"
 								th:text="${item.bodTitle}"></a>
 						</td>
-						<td th:text="${item.RegId}"></td>
+						<td th:text="${item.regId}"></td>
 						<td style="text-align: center;" th:text="${item.reg2Date}"></td>
 						<td style="text-align: center;" th:text="${item.userCnt}"></td>
 					</tr>
 				</tbody>
 			</table>
 
-			<!-- 검색 기능 추가 -->
+			<!-- ✅ 검색 영역 -->
 			<div class="bottom-controls">
-				<!-- 좌측 여백 -->
 				<div class="left-placeholder"></div>
 
-				<!-- 중앙 검색 -->
-				<form id="serchUser" method="get" action="/board/list" class="search-group">
+				<form id="searchForm" method="get" action="/board/list" class="search-group">
 					<input type="hidden" name="cate" th:value="${cate}" />
+					<input type="hidden" name="pageNumber" value="1" />
+					<input type="hidden" name="pageSize" th:value="10" />
 					<div class="search-wrapper">
-						<select name="searchType">
-							<option value="userId">아이디</option>
-							<option value="userName">등록자</option>
+						<select name="searchType" th:value="${searchType}">
+							<option value="userId" th:selected="${searchType == 'userId'}">아이디</option>
+							<option value="userName" th:selected="${searchType == 'userName'}">등록자</option>
 						</select>
 						<div class="input-with-button">
-							<input type="text" id="searchMember" name="searchMember" />
+							<input type="text" id="searchMember" name="searchKeyword" th:value="${searchKeyword}" />
 							<button class="searchBtn" type="submit">
 								<img src="/img/search.png" alt="검색" />
 							</button>
@@ -70,7 +66,6 @@
 					</div>
 				</form>
 
-				<!-- 우측 저장용 폼 (현재 내용 없음) -->
 				<form id="blockForm" method="post" action="/admin/blockMemberBulk"></form>
 			</div>
 
@@ -84,13 +79,18 @@
 		<div class="pagination">
 			<ul>
 				<li th:if="${currentPage > 1}">
-					<a th:href="@{|?pageNumber=${currentPage - 1}&pageSize=${pageSize}|}">« 이전</a>
+					<a
+						th:href="@{|/board/list?cate=${cate}&pageNumber=${currentPage - 1}&pageSize=${pageSize}&searchType=${searchType}&searchKeyword=${searchKeyword}|}">«
+						이전</a>
 				</li>
 				<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
-					<a th:href="@{|?pageNumber=${i}&pageSize=${pageSize}|}" th:text="${i}">1</a>
+					<a th:href="@{|/board/list?cate=${cate}&pageNumber=${i}&pageSize=${pageSize}&searchType=${searchType}&searchKeyword=${searchKeyword}|}"
+						th:text="${i}">1</a>
 				</li>
 				<li th:if="${currentPage < totalPages}">
-					<a th:href="@{|?pageNumber=${currentPage + 1}&pageSize=${pageSize}|}">다음 »</a>
+					<a
+						th:href="@{|/board/list?cate=${cate}&pageNumber=${currentPage + 1}&pageSize=${pageSize}&searchType=${searchType}&searchKeyword=${searchKeyword}|}">다음
+						»</a>
 				</li>
 			</ul>
 		</div>

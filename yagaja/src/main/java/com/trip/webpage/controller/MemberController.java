@@ -100,51 +100,6 @@ public class MemberController {
 		return mav;
 	}
 
-	/**
-	 * 게시글 목록 페이지 - 검색 조건, 페이징 처리, 사용자 정보 전달
-	 */
-	@GetMapping("/memberDetail")
-	public ModelAndView boardList(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member/memberDetail");
-
-		if (searchHelper.getPageNumber() < 0)
-			searchHelper.setPageNumber(0);
-
-		log.info(searchHelper.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
-
-		// 사용자 정보가 있을 경우 전달, 없으면 빈 객체 전달
-		mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
-
-		// 페이징 계산
-		int currentPage = searchHelper.getPageNumber();
-		if (currentPage < 1)
-			currentPage = 1;
-
-		int pageSize = searchHelper.getPageSize();
-		if (pageSize < 1)
-			pageSize = 10;
-
-		int offset = (currentPage - 1) * pageSize;
-		searchHelper.setOffset(offset);
-
-		// 게시글 리스트 조회 및 페이징 정보 세팅
-		List<MemberVO> list = memberService.selectList(searchHelper);
-		int totalRecords = memberService.selectListCount(searchHelper);
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-
-		mav.addObject("list", list);
-		mav.addObject("totalRecords", totalRecords);
-		mav.addObject("pageSize", pageSize);
-		mav.addObject("totalPages", totalPages);
-		mav.addObject("currentPage", currentPage);
-
-		return mav;
-	}
-
 	@GetMapping("/checkId")
 	@ResponseBody // json 리턴시사용
 	public HashMap<String, Object> checkId(@RequestParam("userId") String userId) {

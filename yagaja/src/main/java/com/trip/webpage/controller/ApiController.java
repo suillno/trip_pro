@@ -24,4 +24,5 @@ public class ApiController {
 			@RequestParam("userId") String userId){
 		return ResponseEntity.ok(memberService.selectMember());	
 	}
+	
 }

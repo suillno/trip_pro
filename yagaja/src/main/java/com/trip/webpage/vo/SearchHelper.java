@@ -28,5 +28,6 @@ public class SearchHelper {
 	private Long cate;
 	// 게시판 pk 코드 호출용
 	private Long bodIdx;
-
+	// 보드타이틀
+	private String bodTitle;
 }

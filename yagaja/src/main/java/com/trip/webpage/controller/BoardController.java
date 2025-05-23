@@ -8,18 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trip.webpage.service.BoardService;
 import com.trip.webpage.service.MemberService;
 import com.trip.webpage.util.StringUtil;
 import com.trip.webpage.vo.BoardDefaultVO;
-
 import com.trip.webpage.vo.MemberVO;
 import com.trip.webpage.vo.SearchHelper;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -31,260 +28,110 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/board")
 public class BoardController {
 
-	private final BoardService boardService;
-	private final MemberService memberService;
-
-	// @@@@@@수정본@@@@@@@@@@
-	// 2025-05-22 조윤호 BOARD VO 삭제 - BOARD_DEFAULT VO 로 변경
-	// private final MemberService memberService; 추가
-
-	/**
-	 * 게시글 목록, 조회시 페이지 재진입 조회리스트 출력
-	 * @param searchHelper
-	 * @param request
-	 * @return
-	 */
-	@GetMapping("/list")
-	public ModelAndView noticePage(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/notice");
-
-		if (searchHelper.getPageNumber() < 0)
-			searchHelper.setPageNumber(0);
-
-		log.info(searchHelper.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
-
-		// 사용자 정보가 있을 경우 전달, 없으면 빈 객체 전달
-		mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
-
-		// 페이징 계산
-		int currentPage = searchHelper.getPageNumber();
-		if (currentPage < 1)
-			currentPage = 1;
-
-		int pageSize = searchHelper.getPageSize();
-		if (pageSize < 1)
-			pageSize = 10;
-
-		int offset = (currentPage - 1) * pageSize;
-		searchHelper.setOffset(offset);
-
-		// 게시글 리스트 조회 및 페이징 정보 세팅
-		List<BoardDefaultVO> list = boardService.selectList(searchHelper);
-		int totalRecords = boardService.selectListCount(searchHelper);
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-		
-		log.info("vo 내용확인 : {}",searchHelper.toString());
-
-		mav.addObject("list", list);
-		mav.addObject("totalRecords", totalRecords);
-		mav.addObject("pageSize", pageSize);
-		mav.addObject("totalPages", totalPages);
-		mav.addObject("currentPage", currentPage);
-
-		return mav;
-	}
-
-	@RequestMapping("/write")
-	public ModelAndView boardWrite(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		log.info(searchHelper.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO empVO = (MemberVO) session.getAttribute("userInfo");
-		mav.addObject("userInfo", empVO != null ? empVO : new MemberVO());
-		mav.addObject("searchHelper", searchHelper);
-		mav.addObject("result", new BoardDefaultVO());
-		mav.setViewName("board/write");
-		return mav;
-	}
-
-	@PostMapping("/save")
-	public ModelAndView boardSave(@ModelAttribute SearchHelper searchHelper,
-			@ModelAttribute BoardDefaultVO boardDefaultVO, HttpServletRequest request) {
-
-		ModelAndView mav = new ModelAndView();
-
-		// 확인용 인포
-		log.info("서치 : {}", searchHelper.toString());
-		log.info("보드 : {}", boardDefaultVO.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO) session.getAttribute("userInfo");
-
-		// 작성자 정보 설정
-		boardDefaultVO.setUserId(vo.getUserId());
-		log.info("vo 테스트 : {}", vo.toString());
-
-		// 날짜 설정 (현재 시각)
-		boardDefaultVO.setReg2Date(LocalDateTime.now());
-		boardDefaultVO.setUpdateDate(LocalDateTime.now());
-
-		log.info("vo 입력값 테스트 : {}", boardDefaultVO.toString());
-
-		// 게시글 저장 or 수정
-		if (boardDefaultVO.getBodIdx() == null) {
-			boardService.insertBoard(boardDefaultVO);
-		} else {
-			boardService.updateBoard(boardDefaultVO);
-		}
-
-		// redirect URL 설정
-		String url = StringUtil.searchString("/board/view", searchHelper);
-		mav.setViewName("redirect:" + url + "&boardNo=" + boardDefaultVO.getBodIdx());
-		return mav;
-	}
-
-	@GetMapping("/view")
-	public ModelAndView boardView(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		log.info(searchHelper.toString());
-		ModelAndView mav = new ModelAndView();
-
-		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO) session.getAttribute("userInfo");
-
-		if (vo != null) {
-			mav.addObject("userInfo", vo);
-		} else {
-			mav.addObject("userInfo", new MemberVO());
-		}
-
-		mav.addObject("searchHelper", searchHelper);
-		mav.addObject("info", boardService.selectOne(searchHelper.getBodIdx()));
-
-		mav.setViewName("board/view");
-		return mav;
-	}
-
-	@GetMapping("/review")
-	public ModelAndView reviewPage(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/review");
-
-		if (searchHelper.getPageNumber() < 0)
-			searchHelper.setPageNumber(0);
-
-		log.info(searchHelper.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
-
-		// 사용자 정보가 있을 경우 전달, 없으면 빈 객체 전달
-		mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
-
-		// 페이징 계산
-		int currentPage = searchHelper.getPageNumber();
-		if (currentPage < 1)
-			currentPage = 1;
-
-		int pageSize = searchHelper.getPageSize();
-		if (pageSize < 1)
-			pageSize = 10;
-
-		int offset = (currentPage - 1) * pageSize;
-		searchHelper.setOffset(offset);
-
-		// 게시글 리스트 조회 및 페이징 정보 세팅
-		List<BoardDefaultVO> list = boardService.selectList(searchHelper);
-		int totalRecords = boardService.selectListCount(searchHelper);
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-
-		mav.addObject("list", list);
-		mav.addObject("totalRecords", totalRecords);
-		mav.addObject("pageSize", pageSize);
-		mav.addObject("totalPages", totalPages);
-		mav.addObject("currentPage", currentPage);
-
-		return mav;
-	}
-
-	@GetMapping("/tripshare")
-	public ModelAndView tripsharePage(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/tripshare");
-
-		if (searchHelper.getPageNumber() < 0)
-			searchHelper.setPageNumber(0);
-
-		log.info(searchHelper.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
-
-		// 사용자 정보가 있을 경우 전달, 없으면 빈 객체 전달
-		mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
-
-		// 페이징 계산
-		int currentPage = searchHelper.getPageNumber();
-		if (currentPage < 1)
-			currentPage = 1;
-
-		int pageSize = searchHelper.getPageSize();
-		if (pageSize < 1)
-			pageSize = 10;
-
-		int offset = (currentPage - 1) * pageSize;
-		searchHelper.setOffset(offset);
-
-		// 게시글 리스트 조회 및 페이징 정보 세팅
-		List<BoardDefaultVO> list = boardService.selectList(searchHelper);
-		int totalRecords = boardService.selectListCount(searchHelper);
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-
-		mav.addObject("list", list);
-		mav.addObject("totalRecords", totalRecords);
-		mav.addObject("pageSize", pageSize);
-		mav.addObject("totalPages", totalPages);
-		mav.addObject("currentPage", currentPage);
-
-		return mav;
-	}
-
-	@GetMapping("/free")
-	public ModelAndView freePage(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/free");
-
-		if (searchHelper.getPageNumber() < 0)
-			searchHelper.setPageNumber(0);
-
-		log.info(searchHelper.toString());
-
-		HttpSession session = request.getSession();
-		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
-
-		// 사용자 정보가 있을 경우 전달, 없으면 빈 객체 전달
-		mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
-
-		// 페이징 계산
-		int currentPage = searchHelper.getPageNumber();
-		if (currentPage < 1)
-			currentPage = 1;
-
-		int pageSize = searchHelper.getPageSize();
-		if (pageSize < 1)
-			pageSize = 10;
-
-		int offset = (currentPage - 1) * pageSize;
-		searchHelper.setOffset(offset);
-
-		// 게시글 리스트 조회 및 페이징 정보 세팅
-		List<BoardDefaultVO> list = boardService.selectList(searchHelper);
-		int totalRecords = boardService.selectListCount(searchHelper);
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-
-		mav.addObject("list", list);
-		mav.addObject("totalRecords", totalRecords);
-		mav.addObject("pageSize", pageSize);
-		mav.addObject("totalPages", totalPages);
-		mav.addObject("currentPage", currentPage);
-
-		return mav;
-	}
-
-
-
+    private final BoardService boardService;
+    private final MemberService memberService;
+
+    @GetMapping("/list")
+    public ModelAndView listPage(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+
+        // 카테고리에 따라 동적 View 설정
+        String viewName = switch (searchHelper.getCate() != null ? searchHelper.getCate().intValue() : 1000) {
+            case 1000 -> "board/notice";
+            case 2000 -> "board/review";
+            case 3000 -> "board/tripshare";
+            case 4000 -> "board/free";
+            default -> "board/notice";
+        };
+        mav.setViewName(viewName);
+
+        // 검색 조건 설정
+        if (searchHelper.getSearchType() != null && !searchHelper.getSearchType().trim().isEmpty()) {
+            if ("userId".equals(searchHelper.getSearchType())) {
+                searchHelper.setUserId(searchHelper.getSearchKeyword());
+            } else if ("userName".equals(searchHelper.getSearchType())) {
+                searchHelper.setUserName(searchHelper.getSearchKeyword());
+            }
+            log.info("검색 조건 있음: searchType={}, searchKeyword={}",
+                    searchHelper.getSearchType(), searchHelper.getSearchKeyword());
+        } else {
+            log.info("검색 조건 없음, 전체 조회");
+        }
+
+        // 페이징 계산
+        setPagingData(searchHelper, mav);
+        
+        log.info(searchHelper.toString());
+
+        // 세션 사용자 정보 유지
+        HttpSession session = request.getSession();
+        MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
+        mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
+
+        mav.addObject("cate", searchHelper.getCate());
+        return mav;
+    }
+
+    @RequestMapping("/write")
+    public ModelAndView boardWrite(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("board/write");
+        HttpSession session = request.getSession();
+        MemberVO empVO = (MemberVO) session.getAttribute("userInfo");
+        mav.addObject("userInfo", empVO != null ? empVO : new MemberVO());
+        mav.addObject("searchHelper", searchHelper);
+        mav.addObject("result", new BoardDefaultVO());
+        return mav;
+    }
+
+    @PostMapping("/save")
+    public ModelAndView boardSave(@ModelAttribute SearchHelper searchHelper,
+                                  @ModelAttribute BoardDefaultVO boardDefaultVO,
+                                  HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        MemberVO vo = (MemberVO) session.getAttribute("userInfo");
+        boardDefaultVO.setUserId(vo.getUserId());
+        boardDefaultVO.setReg2Date(LocalDateTime.now());
+        boardDefaultVO.setUpdateDate(LocalDateTime.now());
+
+        if (boardDefaultVO.getBodIdx() == null) {
+            boardService.insertBoard(boardDefaultVO);
+        } else {
+            boardService.updateBoard(boardDefaultVO);
+        }
+
+        String url = StringUtil.searchString("/board/view", searchHelper);
+        return new ModelAndView("redirect:" + url + "&boardNo=" + boardDefaultVO.getBodIdx());
+    }
+
+    @GetMapping("/view")
+    public ModelAndView boardView(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("board/view");
+        HttpSession session = request.getSession();
+        MemberVO vo = (MemberVO) session.getAttribute("userInfo");
+        mav.addObject("userInfo", vo != null ? vo : new MemberVO());
+        mav.addObject("searchHelper", searchHelper);
+        mav.addObject("info", boardService.selectOne(searchHelper.getBodIdx()));
+        return mav;
+    }
+
+    private void setPagingData(SearchHelper searchHelper, ModelAndView mav) {
+        int currentPage = Math.max(searchHelper.getPageNumber(), 1);
+        int pageSize = Math.max(searchHelper.getPageSize(), 10);
+        int offset = (currentPage - 1) * pageSize;
+
+        searchHelper.setOffset(offset);
+
+        List<BoardDefaultVO> list = boardService.selectList(searchHelper);
+        int totalRecords = boardService.selectListCount(searchHelper);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+
+        mav.addObject("list", list);
+        mav.addObject("totalRecords", totalRecords);
+        mav.addObject("pageSize", pageSize);
+        mav.addObject("totalPages", totalPages == 0 ? 1 : totalPages);
+        mav.addObject("currentPage", currentPage);
+        
+        log.info(mav.toString());
+    }
 }

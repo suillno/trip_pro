@@ -12,19 +12,18 @@
 	</select>
 
 	<!-- 목록 조회 쿼리 -->
-	<select id="selectList" parameterType="SearchHelper"
-		resultType="BoardDefaultVO"> SELECT * FROM BOARD_DEFAULT <where>
-			<if test="cate != null">
+	<select id="selectList" parameterType="SearchHelper" resultType="BoardDefaultVO"> 
+		SELECT * FROM BOARD_DEFAULT WHERE 1 = 1 
+			<if test="cate != null and cate != ''">
 				AND cate = #{cate}
 			</if>
-			<if test="bodIdx != null">
+			<if test="bodIdx != null and bodIdx != ''">
 				AND BOD_IDX = #{bodIdx}
 			</if>
 			<if test="userId != null and userId != ''">
-				AND USER_ID = #{userId}
-			</if>
-		</where> ORDER BY
-		BOD_IDX DESC </select>
+				AND USER_ID LIKE '%' || #{userId} || '%'
+			</if> ORDER BY USER_ID
+	</select>
 
 	<!-- 목록 카운트 쿼리   2025-05-22 조윤호  -->
 	<select id="selectListCount" parameterType="SearchHelper" resultType="int">

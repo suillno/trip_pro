@@ -32,6 +32,7 @@ public class BoardDefaultVO {
     private String fesTitle;
     private String accTitle;
     private String report; 
+    private String userName;
 	
 	
 }

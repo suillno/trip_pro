@@ -57,6 +57,9 @@ public class AdminController {
 	    MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
 	    mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
 
+	    log.info(searchHelper.toString());
+	    
+	    
 	    // 페이징 처리
 	    int currentPage = searchHelper.getPageNumber();
 	    if (currentPage < 1) currentPage = 1;
@@ -92,6 +95,8 @@ public class AdminController {
 	    mav.addObject("searchType", searchType);
 	    mav.addObject("searchMember", searchMember);
 
+	    log.info(mav.toString());
+	    
 	    return mav;
 	}
 

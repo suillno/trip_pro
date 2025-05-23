@@ -1,127 +1,100 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+
 <head>
-  <link rel="stylesheet" href="/css/memberDetail.css" />
+	<meta charset="UTF-8" />
+	<title>회원 목록</title>
+	<link rel="stylesheet" href="/css/memberDetail.css" />
 </head>
+
 <body>
-<div layout:fragment="content" class="tableCenter">
-  <h2>자유게시판</h2>
+	<!-- 조건문 설정 1000,2000,3000,4000번 2025-05-22 조윤호 -->
+	<div layout:fragment="content" class="tableCenter">
+		<h2 th:if="${cate == 1000}">공지사항</h2>
+		<h2 th:if="${cate == 2000}">후기게시판</h2>
+		<h2 th:if="${cate == 3000}">여행계획게시판</h2>
+		<h2 th:if="${cate == 4000}">잡담게시판</h2>
 
-  <!-- ✅ 저장용 form -->
-  <form id="blockForm" method="post" action="/admin/blockMemberBulk">
-    <table class="memberTable">
-      <colgroup>
-        <col style="width: 30px" />
-        <col style="width: 100px" />
-        <col style="width: 100px" />
-        <col style="width: 120px" />
-        <col style="width: 200px;" />
-        <col style="width: 100px" />
-        <col style="width: 70px" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>번호</th>
-          <th>아이디</th>
-          <th>이름</th>
-          <th>가입일</th>
-          <th>이메일주소</th>
-          <th>차단</th>
-          <th>회원관리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="item, stat : ${list}">
-          <td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
-          <td th:text="${item.userId}"></td>
-          <td th:text="${item.userName}"></td>
-          <td th:text="${item.regDate}"></td>
-          <td th:text="${item.email}"></td>
-          <td th:text="${item.blockCode}" th:id="'blockCode_' + ${item.userId}"></td>
-          <td>
-            <button type="button"
-                    th:id="'blockBtn_' + ${item.userId}"
-                    th:data-userid="${item.userId}"
-                    th:data-blockcode="${item.blockCode}"
-                    th:class="'btn ' + (${item.blockCode} == 'Y' ? 'btn-danger' : 'btn-secondary')"
-                    th:text="${item.blockCode == 'Y'} ? '해제' : '변경'"
-                    onclick="toggleBlockState(this)">
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+		<!-- ✅ 저장용 form -->
+		<form>
+			<table class="memberTable">
+				<colgroup>
+					<col style="width: 150px" />
+					<col style="width: 600px" />
+					<col style="width: 100px" />
+					<col style="width: 150px" />
+					<col style="width: 150px" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th style="text-align: center;">번호</th>
+						<th style="text-align: center;">제목</th>
+						<th>작성자</th>
+						<th style="text-align: center;">작성일</th>
+						<th style="text-align: center;">조회수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item, stat : ${list}">
+						<td style="text-align: center;" th:text="${item.bodIdx}"></td>
+						<td style="text-align: left;">
+							<a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}|}"
+								th:text="${item.bodTitle}"></a>
+						</td>
+						<td th:text="${item.RegId}"></td>
+						<td style="text-align: center;" th:text="${item.reg2Date}"></td>
+						<td style="text-align: center;" th:text="${item.userCnt}"></td>
+					</tr>
+				</tbody>
+			</table>
 
-    <!-- ✅ 저장 버튼 -->
-    <div style="text-align: right; margin-top: 20px;">
-      <button type="button" class="btn btn-primary" onclick="saveBlockChanges()">저장</button>
-    </div>
-  </form>
+			<!-- 검색 기능 추가 -->
+			<div class="bottom-controls">
+				<!-- 좌측 여백 -->
+				<div class="left-placeholder"></div>
 
-  <!-- ✅ 페이징 처리 -->
-  <div class="pagination">
-    <ul>
-      <li th:if="${currentPage > 1}">
-        <a th:href="@{|?pageNumber=${currentPage - 1}&pageSize=${pageSize}|}">« 이전</a>
-      </li>
-      <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-          th:classappend="${i == currentPage} ? 'active'">
-        <a th:href="@{|?pageNumber=${i}&pageSize=${pageSize}|}" th:text="${i}">1</a>
-      </li>
-      <li th:if="${currentPage < totalPages}">
-        <a th:href="@{|?pageNumber=${currentPage + 1}&pageSize=${pageSize}|}">다음 »</a>
-      </li>
-    </ul>
-  </div>
-<!-- ✅ JavaScript -->
-<script>
-  const changedUsers = new Map();
+				<!-- 중앙 검색 -->
+				<form id="serchUser" method="get" action="/board/list" class="search-group">
+					<input type="hidden" name="cate" th:value="${cate}" />
+					<div class="search-wrapper">
+						<select name="searchType">
+							<option value="userId">아이디</option>
+							<option value="userName">등록자</option>
+						</select>
+						<div class="input-with-button">
+							<input type="text" id="searchMember" name="searchKeyword" />
+							<button class="searchBtn" type="submit">
+								<img src="/img/search.png" alt="검색" />
+							</button>
+						</div>
+					</div>
+				</form>
 
-  function toggleBlockState(button) {
-    const userId = button.dataset.userid;
-    const current = button.dataset.blockcode;
-    const next = current === 'Y' ? 'N' : 'Y';
+				<!-- 우측 저장용 폼 (현재 내용 없음) -->
+				<form id="blockForm" method="post" action="/admin/blockMemberBulk"></form>
+			</div>
 
-    // UI 반영
-    button.dataset.blockcode = next;
-    button.textContent = next === 'Y' ? '해제' : '변경';
-    button.className = next === 'Y' ? 'btn btn-danger' : 'btn btn-secondary';
+			<!-- ✅ 글쓰기 버튼 -->
+			<div style="text-align: right; margin-top: 20px;">
+				<button type="button" class="btn btn-primary" onclick="location.href='/board/write'">글쓰기</button>
+			</div>
+		</form>
 
-    document.getElementById("blockCode_" + userId).textContent = next;
-
-    // 변경 목록에 추가
-    changedUsers.set(userId, next);
-  }
-
-  function saveBlockChanges() {
-    if (changedUsers.size === 0) {
-      alert("변경된 항목이 없습니다.");
-      return;
-    }
-
-    const form = document.getElementById("blockForm");
-
-    // 기존 hidden input 제거 (중복 방지)
-    form.querySelectorAll('input[name="userId"], input[name="blockCode"]').forEach(el => el.remove());
-
-    // 변경된 항목만 추가
-    changedUsers.forEach((code, id) => {
-      const inputId = document.createElement("input");
-      inputId.type = "hidden";
-      inputId.name = "userId";
-      inputId.value = id;
-      form.appendChild(inputId);
-
-      const inputCode = document.createElement("input");
-      inputCode.type = "hidden";
-      inputCode.name = "blockCode";
-      inputCode.value = code;
-      form.appendChild(inputCode);
-    });
-
-    form.submit();
-  }
-</script>
-</div>
+		<!-- ✅ 페이징 처리 -->
+		<div class="pagination">
+			<ul>
+				<li th:if="${currentPage > 1}">
+					<a th:href="@{|?pageNumber=${currentPage - 1}&pageSize=${pageSize}|}">« 이전</a>
+				</li>
+				<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+					<a th:href="@{|?pageNumber=${i}&pageSize=${pageSize}|}" th:text="${i}">1</a>
+				</li>
+				<li th:if="${currentPage < totalPages}">
+					<a th:href="@{|?pageNumber=${currentPage + 1}&pageSize=${pageSize}|}">다음 »</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </body>
+
 </html>

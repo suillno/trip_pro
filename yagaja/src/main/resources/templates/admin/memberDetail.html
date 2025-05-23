@@ -57,6 +57,8 @@
 			<!-- 중앙 정렬 검색 -->
 			<form id="serchUser" method="get" action="/admin/memberDetail" class="search-group">
 				<div class="search-wrapper">
+					<input type="hidden" name="pageNumber" value="1" />
+					<input type="hidden" name="pageSize" th:value="10" />
 					<select name="searchType">
 						<option value="userId">아이디</option>
 						<option value="userName">이름</option>
@@ -80,17 +82,22 @@
 
 		<!-- ✅ 페이징 처리 -->
 		<div class="pagination">
-		  <ul>
-		    <li th:if="${currentPage > 1}">
-		      <a th:href="@{|/admin/memberDetail?pageNumber=${currentPage - 1}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}">« 이전</a>
-		    </li>
-		    <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
-		      <a th:href="@{|/admin/memberDetail?pageNumber=${i}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}" th:text="${i}">1</a>
-		    </li>
-		    <li th:if="${currentPage < totalPages}">
-		      <a th:href="@{|/admin/memberDetail?pageNumber=${currentPage + 1}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}">다음 »</a>
-		    </li>
-		  </ul>
+			<ul>
+				<li th:if="${currentPage > 1}">
+					<a
+						th:href="@{|/admin/memberDetail?pageNumber=${currentPage - 1}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}">«
+						이전</a>
+				</li>
+				<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+					<a th:href="@{|/admin/memberDetail?pageNumber=${i}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}"
+						th:text="${i}">1</a>
+				</li>
+				<li th:if="${currentPage < totalPages}">
+					<a
+						th:href="@{|/admin/memberDetail?pageNumber=${currentPage + 1}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}">다음
+						»</a>
+				</li>
+			</ul>
 		</div>
 		<!-- ✅ JavaScript -->
 		<script>
