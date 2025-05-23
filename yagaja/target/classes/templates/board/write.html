@@ -16,15 +16,15 @@
   <style>
     .write-form-container {
       padding: 30px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
+     
+      
       background-color: #fff;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
       font-family: 'Noto Sans KR', sans-serif;
     }
 
     .write-form-container h2 {
-      text-align: center;
+      text-align: left;
       margin-bottom: 30px;
 	  width: 200px;
     }
@@ -43,7 +43,7 @@
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      
       font-size: 1rem;
     }
 
@@ -72,7 +72,7 @@
     }
 
     .form-actions button {
-      background-color: #007bff;
+      background-color: #ff2e63;
       color: white;
     }
 
@@ -110,8 +110,20 @@
 
         <div class="form-group">
           <label for="bodTitle">제목</label>
-          <input type="text" name="bodTitle" id="bodTitle" th:value="*{bodTitle}" />
+          <input type="text" name="bodTitle" id="bodTitle" th:value="*{bodTitle}" placeholder="제목을 입력하세요."/>
         </div>
+		<!-- ✅ Summernote 초기화 -->
+		 <script th:inline="javascript">
+		   $(document).ready(function () {
+		     $('#summernote').summernote({
+		       height: 200,
+		       placeholder: '내용을 입력하세요.'
+		     });
+
+		     const boardContent = /*[[${result != null && result.bodConstent != null ? '"' + result.bodConstent + '"' : ''}]]*/ "";
+		     $('#summernote').summernote('code', boardContent);
+		   });
+		 </script>
 
         <div class="form-group">
           <label for="bodConstent">내용</label>
@@ -126,17 +138,6 @@
     </div>
   </div>
 
-  <!-- ✅ Summernote 초기화 -->
-  <script th:inline="javascript">
-    $(document).ready(function () {
-      $('#summernote').summernote({
-        height: 200,
-        placeholder: '내용을 입력하세요.'
-      });
-
-      const boardContent = /*[[${result != null && result.bodConstent != null ? '"' + result.bodConstent + '"' : '""'}]]*/ "";
-      $('#summernote').summernote('code', boardContent);
-    });
-  </script>
+ 
 </body>
 </html>
