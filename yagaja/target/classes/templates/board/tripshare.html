@@ -38,7 +38,7 @@
 								th:text="${item.bodTitle}"></a>
 						</td>
 						<td th:text="${item.regId}"></td>
-						<td style="text-align: center;" th:text="${item.reg2Date}"></td>
+						<td style="text-align: center;" th:text="${#temporals.format(item.reg2Date, 'yyyy-MM-dd')}"></td>
 						<td style="text-align: center;" th:text="${item.userCnt}"></td>
 					</tr>
 				</tbody>

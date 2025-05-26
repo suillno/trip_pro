@@ -75,12 +75,6 @@ public class BoardController {
     @RequestMapping("/write")
     public ModelAndView boardWrite(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("board/write");
-        
-        // 글쓰기창 이동시 bodIdx 값이 null이 아닐경우
-        if(searchHelper.getBodIdx() != null) {
-        	
-        }
-        
         HttpSession session = request.getSession();
         MemberVO empVO = (MemberVO) session.getAttribute("userInfo");
         mav.addObject("userInfo", empVO != null ? empVO : new MemberVO());
@@ -96,18 +90,37 @@ public class BoardController {
 
         HttpSession session = request.getSession();
         MemberVO vo = (MemberVO) session.getAttribute("userInfo");
+        
+        
+        
+        //2025-05-26 조윤호 널 관련 오류 수정중
+        if (vo == null) {
+            // 로그인 안 된 사용자일 경우 처리
+            //게시판 리디렉션
+            return new ModelAndView("redirect:/board/list?cate=1000&pageNumber=1");
+        } else {
+        	log.info(vo.toString());
+        }
+       
+     // 2025-02-26 조윤호  boardDefaultVO.setRegId(vo.getUserId()); 추가	
         boardDefaultVO.setUserId(vo.getUserId());
+        boardDefaultVO.setRegId(vo.getUserId());
         boardDefaultVO.setReg2Date(LocalDateTime.now());
         boardDefaultVO.setUpdateDate(LocalDateTime.now());
+        
 
         if (boardDefaultVO.getBodIdx() == null) {
             boardService.insertBoard(boardDefaultVO);
+            log.info("글 저장 성공: {}", boardDefaultVO);
         } else {
             boardService.updateBoard(boardDefaultVO);
+            log.info("글 수정 성공: {}", boardDefaultVO);
         }
 
+        
+        // 2025-02-26 조윤호 Bodno -> bodIDX 로 바꿈	
         String url = StringUtil.searchString("/board/view", searchHelper);
-        return new ModelAndView("redirect:" + url + "&boardNo=" + boardDefaultVO.getBodIdx());
+        return new ModelAndView("redirect:" + url + "&bodIdx=" + boardDefaultVO.getBodIdx());
     }
 
     @GetMapping("/view")
@@ -121,7 +134,6 @@ public class BoardController {
         return mav;
     }
 
-    // 페이지 계산 매서드
     private void setPagingData(SearchHelper searchHelper, ModelAndView mav) {
         int currentPage = Math.max(searchHelper.getPageNumber(), 1);
         int pageSize = Math.max(searchHelper.getPageSize(), 10);
