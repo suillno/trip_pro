@@ -22,7 +22,7 @@
 
     <!-- ✅ 사용자 입력 폼 -->
     <form id="findForm" action="/member/findId" method="post">
-      <label for="userId">이름</label>
+      <label for="userName">이름</label>
       <!-- Spring에 전달될 VO 필드명과 맞춰야 함 (userName, email) -->
       <input type="text" id="userName" name="userName" placeholder="이름 입력" value="테스트유저" required />
 
@@ -42,8 +42,11 @@
   
    <!-- SweetAlert2 호출 -->
   <script th:inline="javascript">
-  /*<![CDATA[*/
-  let foundId = [[${userId}]];
+	
+	// 아이디 찿기 폼제출시 동작
+	let foundId = [[${userId}]];
+	if (foundId !== null) {
+	 /*<![CDATA[*/
   if (foundId !== null && foundId !== '') {
     Swal.fire({
       icon: 'success',
@@ -61,8 +64,8 @@
 		confirmButtonColor: '#7a5cf4'
   });
   }
+  }
   /*]]>*/
   </script>
-
 </body>
 </html>

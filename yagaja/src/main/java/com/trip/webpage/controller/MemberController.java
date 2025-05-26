@@ -216,4 +216,23 @@ public class MemberController {
 
 	}
 
+	@PostMapping("/findId")
+	public ModelAndView findID (@ModelAttribute MemberVO memberVO) {
+		ModelAndView mav = new ModelAndView("/member/idsearch");
+		
+		MemberVO vo = memberService.findUserId(memberVO);
+		log.info("조회 결과: {}", vo);
+		
+		if (vo != null && vo.getUserId() != null) {
+		    mav.addObject("userId", vo.getUserId());  // JS에서 쓸 변수명과 맞춤
+		} else {
+		    mav.addObject("userId", "");  // 찾지 못한 경우
+		}
+		
+		mav.addObject("isFirst", true);
+		
+		return mav;
+		
+	}
+	
 }
