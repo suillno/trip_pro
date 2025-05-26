@@ -84,6 +84,11 @@
 
   <!-- 스크립트 -->
   <script>
+
+	// 이메일 인증 상태 변수
+	let isCodeSent = false;
+	let isIdChecked = false;
+	
     $.validator.addMethod("regex", function (value, element, regexp) {
       // 정규식이 문자열이 아니라 RegExp 객체일 경우만 처리
       if (regexp instanceof RegExp) {
@@ -174,6 +179,11 @@
         $(`#${id}Error`).html(error);
       },
       submitHandler: function () {
+		if (!isIdChecked) {
+	      Swal.fire("⚠️ 중복확인 필요", "아이디 중복확인을 먼저 해주세요.", "warning");
+	      return;
+	    }
+			
         const request = {
           userId: $("#userId").val(),
           userPw: $("#userPw").val(),
@@ -196,9 +206,12 @@
             Swal.fire("🎉 가입 완료", "회원가입이 성공적으로 완료되었습니다!", "success")
 			.then(() => location.href = "/");
 			
-          } else {
+          } 
+		  
+		  else {
             Swal.fire("🚫 가입 실패", "서버에서 오류가 발생했습니다.", "error");
           }
+		  
         });
 
         return false;
@@ -206,25 +219,32 @@
     });
 
     $(document).ready(function () {
-      // 이메일 인증 상태 변수
-      let isCodeSent = false;
-
+	
       // 아이디 중복 확인
       $("#btnCheckId").on("click", function () {
         const userId = $("#userId").val().trim();
+		const idRegex = /^[a-z0-9]+$/;
         if (!userId) {
+			isIdChecked = false;
           return Swal.fire("⚠️ 입력 오류", "아이디를 입력하세요.", "warning");
         }
+		if (!idRegex.test(userId)) {
+			isIdChecked = false;
+		  return Swal.fire("❌ 형식 오류", "아이디는 영문 소문자와 숫자만 입력해주세요.", "error");
+		}
         fetch(`/member/checkId?userId=${userId}`)
           .then(res => res.json())
           .then(data => {
 			console.log(data.isDuplicate)
 			if (userId.length < 5 || userId.length > 20) {
+				isIdChecked = false;
 	             return Swal.fire("❌ 길이 오류", "아이디는 5자 이상 20자 이하로 입력해주세요.", "error");
 		           }
             if (data.isDuplicate) {
+				isIdChecked = false;
             return  Swal.fire("중복된 아이디", "이미 사용 중인 아이디입니다.", "error");
             } else {
+				isIdChecked = true;
               Swal.fire("사용 가능", "이 아이디는 사용할 수 있습니다.", "success");
             }
           });

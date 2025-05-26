@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.trip.webpage.vo.SearchHelper;
 import com.trip.webpage.service.MemberService;
@@ -162,25 +163,57 @@ public class MemberController {
 		mav.setViewName("redirect:/");
 		return mav;
 	}
-	
-	//2025-05-22 조윤호 작성자 작성일 작업 진행 및 수정 
-    @GetMapping("/detail/{id}")
-    public String memberDetail(@PathVariable String id, Model model) {
-        // 1. 회원 정보 조회 (이미 있음)
-        MemberVO member = memberService.findById(id);
-        model.addAttribute("member", member);
 
-        // 2. 게시글 1건 조회 (해당 유저가 작성한 최근 글 등)
-        BoardDefaultVO board = memberService.selectLatestByUserId(id); // 또는 selectOneByUserId 등
-        if(board != null){
-        // 3. 아래 코드 추가 (📌 여기!)
-        model.addAttribute("author", board.getRegId());
-        model.addAttribute("date", board.getReg2Date());
-        }else {
-        	model.addAttribute("author", "");
-        }
-        // 4. 뷰 이동
-        return "member/detail";
-    }
+	// 2025-05-22 조윤호 작성자 작성일 작업 진행 및 수정
+	@GetMapping("/detail/{id}")
+	public String memberDetail(@PathVariable String id, Model model) {
+		// 1. 회원 정보 조회 (이미 있음)
+		MemberVO member = memberService.findById(id);
+		model.addAttribute("member", member);
+
+		// 2. 게시글 1건 조회 (해당 유저가 작성한 최근 글 등)
+		BoardDefaultVO board = memberService.selectLatestByUserId(id); // 또는 selectOneByUserId 등
+		if (board != null) {
+			// 3. 아래 코드 추가 (📌 여기!)
+			model.addAttribute("author", board.getRegId());
+			model.addAttribute("date", board.getReg2Date());
+		} else {
+			model.addAttribute("author", "");
+		}
+		// 4. 뷰 이동
+		return "member/detail";
+	}
+
+	// 회원탈퇴 연결
+	@RequestMapping("memberShip")
+	public ModelAndView memberShip(HttpServletRequest request, @ModelAttribute("error") String error) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
+
+		mav.addObject("userInfo", memberVO);
+		mav.addObject("error", error);
+		return mav;
+	}
+
+	// 회원 탈퇴
+	@PostMapping("/shipSave")
+	public String memberSave(@RequestParam String userPassword, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
+		ModelAndView mav = new ModelAndView();
+
+		boolean pwMatch = memberService.checkPasswordForWithdraw(userPassword, request);
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
+
+		if (pwMatch) {
+			memberService.updateShip(memberVO);
+			return "redirect:/member/logout";
+		} else {
+			redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+			return "redirect:/member/memberShip";
+		}
+
+	}
 
 }

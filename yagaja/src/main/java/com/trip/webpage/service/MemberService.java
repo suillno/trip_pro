@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.trip.webpage.vo.SearchHelper;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import com.trip.webpage.vo.BoardDefaultVO;
 import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
@@ -40,4 +43,9 @@ public interface MemberService {
 	// 작성자,작성일 발현
 	BoardDefaultVO selectLatestByUserId(String id);
 
+	// 회원 탈퇴 05-23
+	void updateShip(MemberVO memberVO);
+
+	// 탈퇴 검증용 05-23
+	boolean checkPasswordForWithdraw(String userPw, HttpServletRequest request);
 }

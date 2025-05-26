@@ -13,7 +13,7 @@ import com.trip.webpage.vo.MemberVO;
 public interface MemberMapper {
 
 	List<MemberVO> selectMember(SearchHelper searchHelper);
-	
+
 	List<MemberVO> selectMember();
 
 	int selectMemberCount(SearchHelper searchHelper);
@@ -32,10 +32,14 @@ public interface MemberMapper {
 	List<MemberVO> selectList(SearchHelper searchHelper);
 
 	MemberVO findById(String id);
-	
+
 	int selectListCount(SearchHelper searchHelper);
-	
+
 	List<MemberVO> selectMemberList(SearchHelper searchHelper);
+
 	// 비밀번호 변경
 	void updatePassword(MemberVO memberVO);
+
+	// 회원탈퇴
+	void updateShip(MemberVO memberVO);
 }

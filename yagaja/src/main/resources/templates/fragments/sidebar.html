@@ -32,8 +32,8 @@
 			</section>
 			<section class="userInfo" th:if="${userInfo != null and userInfo.userId != null and userInfo.isAdmin != 1}">
 				<h4>마이 페이지</h4>
-				<p><a href="/member/profile">정보수정</a></p>
-				<p><a href="/admin/memberDetail">회원탈퇴</a></p>
+				<p><a href="/member/profile">비밀번호 변경</a></p>
+				<p><a href="/member/memberShip">회원탈퇴</a></p> <!--0523 수정-->
 			</section>
 		</aside>
 		<script>

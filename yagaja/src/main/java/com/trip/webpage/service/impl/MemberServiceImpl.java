@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trip.webpage.vo.SearchHelper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import com.trip.webpage.mapper.BoardMapper;
 import com.trip.webpage.mapper.MemberMapper;
 import com.trip.webpage.service.MemberService;
@@ -119,5 +123,30 @@ public class MemberServiceImpl implements MemberService {
 	public BoardDefaultVO selectLatestByUserId(String id) {
 		// TODO Auto-generated method stub
 		return boardMapper.selectLatestByUserId(id);
+	}
+
+	// 회원 탈퇴 05-23
+	@Override
+	public void updateShip(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		memberMapper.updateShip(memberVO);
+	}
+	
+	// 회원탈퇴 비밀번호 검증 05-23
+	@Override
+	public boolean checkPasswordForWithdraw(String userPw, HttpServletRequest request) {
+		LoginRequest loginRequest = new LoginRequest();
+		loginRequest.setUserPw(userPw);
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
+		loginRequest.setUserId(memberVO.getUserId());
+
+		MemberVO result = memberMapper.userLogin(loginRequest);
+
+		if (result != null) {
+			memberMapper.updateShip(memberVO);
+			return true;
+		}
+		return false;
 	}
 }

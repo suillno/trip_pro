@@ -32,7 +32,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="item, stat : ${list}">
-						<td style="text-align: center;" th:text="${item.bodIdx}"></td>
+						<td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
 						<td style="text-align: left;">
 							<a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}|}"
 								th:text="${item.bodTitle}"></a>

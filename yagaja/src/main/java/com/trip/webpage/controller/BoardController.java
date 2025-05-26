@@ -75,6 +75,12 @@ public class BoardController {
     @RequestMapping("/write")
     public ModelAndView boardWrite(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("board/write");
+        
+        // 글쓰기창 이동시 bodIdx 값이 null이 아닐경우
+        if(searchHelper.getBodIdx() != null) {
+        	
+        }
+        
         HttpSession session = request.getSession();
         MemberVO empVO = (MemberVO) session.getAttribute("userInfo");
         mav.addObject("userInfo", empVO != null ? empVO : new MemberVO());
@@ -115,6 +121,7 @@ public class BoardController {
         return mav;
     }
 
+    // 페이지 계산 매서드
     private void setPagingData(SearchHelper searchHelper, ModelAndView mav) {
         int currentPage = Math.max(searchHelper.getPageNumber(), 1);
         int pageSize = Math.max(searchHelper.getPageSize(), 10);
