@@ -39,10 +39,21 @@ ORDER BY BOD_IDX DESC
 	SELECT b.BOD_IDX, b.BOD_TITLE, b.REG2_DATE AS createdAt, m.USER_NAME FROM BOARD_DEFAULT b JOIN MEMBER m ON b.USER_ID = m.USER_ID WHERE b.USER_ID = #{userId} ORDER BY b.REG2_DATE DESC 
 </select>
 
-<update id="updateBoard" parameterType="BoardDefaultVO"> 
-	UPDATE board_default SET cate = #{cate}, bod_title = #{bodTitle}, bod_constent = #{bodConstent}, 
-	update_id = #{updateId}, update_date = NOW(), file_mst_id = #{fileMstId}, user_id = #{userId}, is_visible = #{isVisible} WHERE bod_idx = #{bodIdx} 
+<update id="updateBoard" parameterType="BoardDefaultVO">
+  UPDATE board_default
+  <set>
+    <if test="cate != null"> cate = #{cate}, </if>
+    <if test="bodTitle != null"> bod_title = #{bodTitle}, </if>
+    <if test="bodConstent != null"> bod_constent = #{bodConstent}, </if>
+    <if test="updateId != null"> update_id = #{updateId}, </if>
+    update_date = SYSDATE, 
+    <if test="fileMstId != null"> file_mst_id = #{fileMstId}, </if>
+    <if test="userId != null"> user_id = #{userId}, </if>
+    <if test="isVisible != null"> is_visible = #{isVisible} </if>
+  </set>
+  WHERE bod_idx = #{bodIdx}
 </update>
+
 
 <!-- 2025-05-26 조윤호  글 조회 시 조회수 1 증가 -->
 <update id="updateUserCnt" parameterType="long">

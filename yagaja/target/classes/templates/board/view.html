@@ -134,6 +134,7 @@
 					<div>
 						<div class="titleContent">
 							<h2 th:text="*{bodTitle}">게시글 제목</h2>
+							<input type="text" value="*{bodIdx}" hidden />
 							<p>작성자 : <p th:text="*{regId}"></p></p><br>
 							<p>작성일 : <p th:text="*{#temporals.format(reg2Date, 'yyyy-MM-dd')}"></p></p>
 						</div>
@@ -142,8 +143,8 @@
 					</div>
 					<!--2025-05-22 조윤호 목록으로 돌아가기 생성 -->
 					<div class="flower-board-buttons">
-						<a th:href="@{|/board/list?cate=1000&pageNumber=${searchHelper.pageNumber}|}">목록</a>
-						<a th:href="@{|/board/modify/${info.bodIdx}|}">수정</a>
+						<a th:href="@{|/board/list?cate=${info.cate}&pageNumber=${searchHelper.pageNumber}|}">목록</a>
+						<a th:href="@{/board/write(bodIdx=${info.bodIdx})}">수정</a>
 						<a th:href="@{|/board/delete/${info.bodIdx}|}">삭제</a>
 					</div>
 				</div>

@@ -20,7 +20,7 @@ import lombok.ToString;
 public class BoardDefaultVO {
 
 	private Long bodIdx;
-    private int cate;
+    private Integer cate;
     private String bodTitle;
     private String bodConstent;
     private String regId;

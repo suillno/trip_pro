@@ -75,11 +75,17 @@ public class BoardController {
     @RequestMapping("/write")
     public ModelAndView boardWrite(@ModelAttribute SearchHelper searchHelper, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("board/write");
+        
+        if (searchHelper.getBodIdx() != null) {
+        	mav.addObject("result", boardService.selectOne(searchHelper.getBodIdx()));
+        } else {
+        	mav.addObject("result", new BoardDefaultVO());
+        }
+        
         HttpSession session = request.getSession();
         MemberVO empVO = (MemberVO) session.getAttribute("userInfo");
         mav.addObject("userInfo", empVO != null ? empVO : new MemberVO());
         mav.addObject("searchHelper", searchHelper);
-        mav.addObject("result", new BoardDefaultVO());
         return mav;
     }
 
@@ -90,9 +96,7 @@ public class BoardController {
 
         HttpSession session = request.getSession();
         MemberVO vo = (MemberVO) session.getAttribute("userInfo");
-        
-        
-        
+        	
         //2025-05-26 조윤호 널 관련 오류 수정중
         if (vo == null) {
             // 로그인 안 된 사용자일 경우 처리
@@ -106,6 +110,7 @@ public class BoardController {
         boardDefaultVO.setReg2Date(LocalDateTime.now());
         boardDefaultVO.setUpdateDate(LocalDateTime.now());
         
+        log.info("save 테스트 : ",searchHelper.toString());
 
         if (boardDefaultVO.getBodIdx() == null) {
             boardService.insertBoard(boardDefaultVO);

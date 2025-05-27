@@ -25,7 +25,7 @@ public class SearchHelper {
 	// 사용자 유저네임
 	private String userName;
 	// 게시판 카테고리 코드
-	private Long cate;
+	private Integer cate;
 	// 게시판 pk 코드 호출용
 	private Long bodIdx;
 	// 보드타이틀
