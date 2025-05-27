@@ -49,8 +49,8 @@ public class BoardController {
         if (searchHelper.getSearchType() != null && !searchHelper.getSearchType().trim().isEmpty()) {
             if ("userId".equals(searchHelper.getSearchType())) {
                 searchHelper.setUserId(searchHelper.getSearchKeyword());
-            } else if ("userName".equals(searchHelper.getSearchType())) {
-                searchHelper.setUserName(searchHelper.getSearchKeyword());
+            } else if ("bodTitle".equals(searchHelper.getSearchType())) {
+                searchHelper.setBodTitle(searchHelper.getSearchKeyword());
             }
             log.info("검색 조건 있음: searchType={}, searchKeyword={}",
                     searchHelper.getSearchType(), searchHelper.getSearchKeyword());
@@ -98,8 +98,6 @@ public class BoardController {
             // 로그인 안 된 사용자일 경우 처리
             //게시판 리디렉션
             return new ModelAndView("redirect:/board/list?cate=1000&pageNumber=1");
-        } else {
-        	log.info(vo.toString());
         }
        
      // 2025-02-26 조윤호  boardDefaultVO.setRegId(vo.getUserId()); 추가	
@@ -151,6 +149,5 @@ public class BoardController {
         mav.addObject("totalPages", totalPages == 0 ? 1 : totalPages);
         mav.addObject("currentPage", currentPage);
         
-        log.info(mav.toString());
     }
 }

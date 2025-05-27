@@ -15,6 +15,7 @@ SELECT * FROM BOARD_DEFAULT WHERE 1 = 1
 <if test="cate != null and cate != ''"> AND cate = #{cate} </if>
 <if test="bodIdx != null and bodIdx != ''"> AND BOD_IDX = #{bodIdx} </if>
 <if test="userId != null and userId != ''"> AND USER_ID LIKE '%' || #{userId} || '%' </if>
+<if test="bodTitle != null and bodTitle != ''"> AND BOD_TITLE LIKE '%' || #{bodTitle} || '%' </if>
 ORDER BY REG2_DATE DESC
 </select>
 
@@ -43,6 +44,10 @@ ORDER BY BOD_IDX DESC
 	update_id = #{updateId}, update_date = NOW(), file_mst_id = #{fileMstId}, user_id = #{userId}, is_visible = #{isVisible} WHERE bod_idx = #{bodIdx} 
 </update>
 
-<!-- update    조회수 넣을거
-	board_default set user_cnt = user_cnt + 1 where bod_idx = 100 -->
+<!-- 2025-05-26 조윤호  글 조회 시 조회수 1 증가 -->
+<update id="updateUserCnt" parameterType="long">
+    UPDATE board_default 
+    SET user_cnt = user_cnt + 1 
+    WHERE BOD_IDX = #{bodIdx}
+</update>
 </mapper>

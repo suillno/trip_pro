@@ -25,4 +25,5 @@ public interface BoardService {
 
 	void deleteBoard(Long boardNo);
 	
+	public void updateUserCnt(Long bodIdx);
 }

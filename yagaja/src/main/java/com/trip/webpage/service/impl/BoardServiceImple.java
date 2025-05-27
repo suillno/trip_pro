@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @AllArgsConstructor
 public class BoardServiceImple implements BoardService {
-	
+
 	private BoardMapper boardMapper;
 
 	@Override
@@ -39,13 +39,14 @@ public class BoardServiceImple implements BoardService {
 		return boardMapper.selectLatestByUserId(id);
 	}
 
+	// 2025-05-26 조윤호 죄회수 조건문
 	@Override
 	public BoardDefaultVO selectOne(Long bodIdx) {
 		// TODO Auto-generated method stub
-		
-		
-		
-		return boardMapper.selectOne(bodIdx);
+		BoardDefaultVO vo = boardMapper.selectOne(bodIdx);
+		if (vo != null)
+			boardMapper.updateUserCnt(bodIdx);
+		return vo;
 	}
 
 	@Override
@@ -59,7 +60,9 @@ public class BoardServiceImple implements BoardService {
 		boardMapper.deleteBoard(boardNo);
 	}
 
-	
-	
-	
+	// 2025-05-26 조윤호 updateUserCnt 추가
+	public void updateUserCnt(Long bodIdx) {
+
+	}
+
 }

@@ -28,4 +28,7 @@ public interface BoardMapper {
 
 	void deleteBoard(Long boardNo);
 
+	// 2025-05-26 조윤호 카운트문 추가
+	void updateUserCnt(Long bodIdx);
+
 }
