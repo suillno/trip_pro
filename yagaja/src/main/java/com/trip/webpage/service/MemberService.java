@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.trip.webpage.vo.SearchHelper;
+import com.trip.webpage.vo.StatsVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -48,4 +49,13 @@ public interface MemberService {
 
 	// 탈퇴 검증용 05-23
 	boolean checkPasswordForWithdraw(String userPw, HttpServletRequest request);
+	
+	// 관리자 권한 변경
+    void updateAdminRole(MemberVO vo);
+
+    // 웹페이지 방문자 저장
+	void saveVisit(String userId);
+	
+	// 통계 추가
+	List<StatsVO> getDailyStats();
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.trip.webpage.vo.SearchHelper;
+import com.trip.webpage.vo.StatsVO;
 import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
 
@@ -42,4 +43,16 @@ public interface MemberMapper {
 
 	// 회원탈퇴
 	void updateShip(MemberVO memberVO);
+
+	// 관리자 계정관리
+	void updateAdminRole(MemberVO vo);
+	
+	// 웸페이지 방문자저장 (중복확인)
+	int checkVisitToday(String userId);
+
+	// 웹페이지 방문자저장
+	void insertVisit(String userId);
+	
+	// 통계용
+	List<StatsVO> selectVisitAndPostStats(); 
 }

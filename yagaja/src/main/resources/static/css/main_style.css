@@ -243,25 +243,11 @@ body {
   .sidebar {
     position: absolute;
     display: none;
-    width: 50%;
+    width: 30%;
     border-right: none;
     border-bottom: 1px solid #ddd;
     z-index: 1000;
     background-color: #eee;
-  }
-  .sideClose {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
-  }
-
-  .sideClose img {
-    width: 20px;
-    height: 20px;
   }
 
   /* 사이드바 폰트사이즈 조정 */
@@ -293,8 +279,7 @@ body {
   }
   
   .banner img {
-  	height: 200px;
-  	width: 100%;
+  	height: 70%;
     }
   
  /* 검색박스 반응형 동작 */

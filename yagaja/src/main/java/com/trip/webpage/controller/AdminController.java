@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trip.webpage.vo.SearchHelper;
+import com.trip.webpage.vo.StatsVO;
 import com.trip.webpage.service.MemberService;
 import com.trip.webpage.vo.MemberVO;
 
@@ -83,6 +84,7 @@ public class AdminController {
 	    
 	    int totalRecords = memberService.selectMemberCount(searchHelper);
 	    int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+	    if (totalPages < 1) totalPages = 1;
 
 	    // View 데이터 전달
 	    
@@ -125,5 +127,99 @@ public class AdminController {
 	     mav.setViewName("redirect:/admin/memberDetail");
 	     return mav;
 	 }
+	 
+	 // 관리자 계정 관리 페이지
+	    @GetMapping("/adminAccount")
+	    public ModelAndView adminAccountList(
+	            @RequestParam(value = "searchType", required = false) String searchType,
+	            @RequestParam(value = "searchMember", required = false) String searchMember,
+	            @ModelAttribute SearchHelper searchHelper,
+	            HttpServletRequest request
+	    ) {
+	        ModelAndView mav = new ModelAndView("admin/adminAccount");
 
+	        if (searchMember != null && !searchMember.trim().isEmpty()) {
+	            if ("userId".equals(searchType)) {
+	                searchHelper.setUserId(searchMember);
+	            } else if ("userName".equals(searchType)) {
+	                searchHelper.setUserName(searchMember);
+	            }
+	            log.info("검색 조건 있음: searchType={}, searchMember={}", searchType, searchMember);
+	        } else {
+	            log.info("검색 조건 없음, 전체 조회");
+	        }
+
+	        HttpSession session = request.getSession();
+	        MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
+	        mav.addObject("userInfo", memberVO != null ? memberVO : new MemberVO());
+
+	        int currentPage = searchHelper.getPageNumber();
+	        if (currentPage < 1) currentPage = 1;
+	        int pageSize = searchHelper.getPageSize();
+	        if (pageSize < 1) pageSize = 10;
+	        int offset = (currentPage - 1) * pageSize;
+	        searchHelper.setOffset(offset);
+
+	        List<MemberVO> list = (searchMember != null)
+	                ? memberService.selectMemberList(searchHelper)
+	                : memberService.selectMember();
+
+	        mav.addObject("list", list);
+
+	        int totalRecords = memberService.selectMemberCount(searchHelper);
+	        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+	        if (totalPages < 1) totalPages = 1;
+
+	        mav.addObject("totalRecords", totalRecords);
+	        mav.addObject("pageSize", pageSize);
+	        mav.addObject("totalPages", totalPages);
+	        mav.addObject("currentPage", currentPage);
+	        mav.addObject("searchType", searchType);
+	        mav.addObject("searchMember", searchMember);
+
+	        return mav;
+	    }
+
+	    // 관리자 권한 등록/해제 처리
+	    @PostMapping("/setAdminBulk")
+	    public ModelAndView setAdminBulk(@RequestParam MultiValueMap<String, String> paramMap) {
+	        List<String> userIds = paramMap.get("userId");
+	        List<String> adminFlags = paramMap.get("isAdmin");
+
+	        ModelAndView mav = new ModelAndView();
+
+	        if (userIds == null || adminFlags == null || userIds.size() != adminFlags.size()) {
+	            mav.setViewName("error");
+	            return mav;
+	        }
+
+	        for (int i = 0; i < userIds.size(); i++) {
+	            MemberVO vo = new MemberVO();
+	            vo.setUserId(userIds.get(i));
+	            vo.setIsAdmin((long) Integer.parseInt(adminFlags.get(i)));
+	            memberService.updateAdminRole(vo);
+	        }
+
+	        mav.setViewName("redirect:/admin/adminAccount");
+	        return mav;
+	    }
+	    
+	    // 통계 표시 페이지
+	    @GetMapping("/stats")
+	    public ModelAndView showStatsPage() {
+	        List<StatsVO> statsList = memberService.getDailyStats();
+
+	        List<String> days = statsList.stream().map(StatsVO::getDay).toList();
+	        List<Integer> visits = statsList.stream().map(StatsVO::getVisitCount).toList();
+	        List<Integer> posts = statsList.stream().map(StatsVO::getPostCount).toList();
+
+	        ModelAndView mav = new ModelAndView("admin/stats");
+	        mav.addObject("days", days);
+	        mav.addObject("visits", visits);
+	        mav.addObject("posts", posts);
+	        return mav;
+	    }
+
+
+	 
 }

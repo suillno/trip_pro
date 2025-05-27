@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+
+<head>
+	<link rel="stylesheet" href="/css/memberDetail.css" />
+</head>
+
+<body>
+	<div layout:fragment="content" class="tableCenter">
+		<h2>관리자 계정 관리</h2>
+
+		<table class="memberTable">
+			<colgroup>
+				<col style="width: 30px" />
+				<col style="width: 100px" />
+				<col style="width: 100px" />
+				<col style="width: 120px" />
+				<col style="width: 200px;" />
+				<col style="width: 100px" />
+				<col style="width: 70px" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th></th>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>가입일</th>
+					<th>이메일주소</th>
+					<th>관리자 여부</th>
+					<th>관리자 관리</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item, stat : ${list}">
+					<td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
+					<td th:text="${item.userId}"></td>
+					<td th:text="${item.userName}"></td>
+					<td th:text="${item.regDate}"></td>
+					<td th:text="${item.email}"></td>
+					<td th:text="${item.isAdmin == 1 ? 'Y' : 'N'}" th:id="'isAdmin_' + ${item.userId}"></td>
+					<td>
+						<button type="button" th:id="'adminBtn_' + ${item.userId}" th:data-userid="${item.userId}"
+							th:data-isadmin="${item.isAdmin}"
+							th:class="'btn ' + (${item.isAdmin == 1} ? 'btn-danger' : 'btn-secondary')"
+							th:text="${item.isAdmin == 1} ? '해제' : '등록'" onclick="toggleAdminState(this)">
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="bottom-controls">
+			<div class="left-placeholder"></div>
+			<form id="searchUser" method="get" action="/admin/adminAccount" class="search-group">
+				<div class="search-wrapper">
+					<input type="hidden" name="pageNumber" value="1" />
+					<input type="hidden" name="pageSize" th:value="10" />
+					<select name="searchType">
+						<option value="userId">아이디</option>
+						<option value="userName">이름</option>
+					</select>
+					<div class="input-with-button">
+						<input type="text" id="searchMember" name="searchMember" />
+						<button class="searchBtn" type="submit">
+							<img src="/img/search.png" alt="검색" />
+						</button>
+					</div>
+				</div>
+			</form>
+
+			<form id="adminForm" method="post" action="/admin/setAdminBulk">
+				<button type="button" class="btn btn-primary" onclick="saveAdminChanges()">저장</button>
+			</form>
+		</div>
+
+		<div class="pagination">
+			<ul>
+				<li th:if="${currentPage > 1}">
+					<a
+						th:href="@{|/admin/adminAccount?pageNumber=${currentPage - 1}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}">
+						« 이전</a>
+				</li>
+				<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+					<a th:href="@{|/admin/adminAccount?pageNumber=${i}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}"
+						th:text="${i}">1</a>
+				</li>
+				<li th:if="${currentPage < totalPages}">
+					<a
+						th:href="@{|/admin/adminAccount?pageNumber=${currentPage + 1}&pageSize=${pageSize}&searchType=${searchType}&searchMember=${searchMember}|}">
+						다음 »</a>
+				</li>
+			</ul>
+		</div>
+
+		<script>
+			const changedAdmins = new Map();
+
+			function toggleAdminState(button) {
+				const userId = button.dataset.userid;
+				const current = button.dataset.isadmin;
+				const next = current === '1' ? '0' : '1';
+
+				button.dataset.isadmin = next;
+				button.textContent = next === '1' ? '해제' : '등록';
+				button.className = next === '1' ? 'btn btn-danger' : 'btn btn-secondary';
+
+				document.getElementById("isAdmin_" + userId).textContent = next === '1' ? 'Y' : 'N';
+				changedAdmins.set(userId, next);
+			}
+
+			function saveAdminChanges() {
+				if (changedAdmins.size === 0) {
+					alert("변경된 항목이 없습니다.");
+					return;
+				}
+
+				const form = document.getElementById("adminForm");
+				form.querySelectorAll('input[name="userId"], input[name="isAdmin"]').forEach(el => el.remove());
+
+				changedAdmins.forEach((code, id) => {
+					const inputId = document.createElement("input");
+					inputId.type = "hidden";
+					inputId.name = "userId";
+					inputId.value = id;
+					form.appendChild(inputId);
+
+					const inputCode = document.createElement("input");
+					inputCode.type = "hidden";
+					inputCode.name = "isAdmin";
+					inputCode.value = code;
+					form.appendChild(inputCode);
+				});
+
+				form.submit();
+			}
+		</script>
+	</div>
+</body>
+
+</html>

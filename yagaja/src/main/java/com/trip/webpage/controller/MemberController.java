@@ -62,12 +62,16 @@ public class MemberController {
 
 		if (result != null) {
 			session.setAttribute("userInfo", result);
-			mav.setViewName("redirect:/"); // 로그인 성공 시 메인으로 리다이렉트
+			// 로그인 성공시 방문 기록 저장
+			memberService.saveVisit(result.getUserId());
+			// 로그인 성공 시 메인으로 리다이렉트
+			mav.setViewName("redirect:/"); 
 		} else {
 			mav.setViewName("member/login"); // 실패 시 다시 로그인 페이지로 이동
 			mav.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
 			mav.addObject("userInfo", loginRequest); // 입력값 유지
 		}
+		
 		return mav;
 	}
 

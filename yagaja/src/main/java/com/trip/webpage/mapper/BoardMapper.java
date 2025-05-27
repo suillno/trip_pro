@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.trip.webpage.vo.BoardDefaultVO;
+import com.trip.webpage.vo.CommentVO;
 import com.trip.webpage.vo.SearchHelper;
 
 @Mapper
@@ -26,9 +27,15 @@ public interface BoardMapper {
 
 	int updateBoard(BoardDefaultVO boardDefaultVO);
 
-	void deleteBoard(Long boardNo);
+	void deleteBoard(Long bodIdx);
 
 	// 2025-05-26 조윤호 카운트문 추가
 	void updateUserCnt(Long bodIdx);
+	
+	// 댓글 저장
+	void insertComment(CommentVO comment);
+
+	// 댓글 리스트
+	List<CommentVO> selectCommentList(Long bodIdx);
 
 }

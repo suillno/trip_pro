@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+
+<head>
+	<link rel="stylesheet" href="/css/memberDetail.css" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>방문 통계</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<style>
+		.chart-container {
+			width: 90%;
+			max-width: 800px;
+			height: 500px;
+			margin: 40px auto;
+			background: white;
+			/* 시각적으로 분리 원하면 */
+		}
+
+		.chart-container canvas {
+			width: 80% !important;
+			height: 80% !important;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<h2>일자별 방문자 및 게시글 통계</h2>
+		<div class="chart-container">
+			<canvas id="statsChart" class="statsChart"></canvas>
+		</div>
+
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			const labels = [[${days}]];
+			const visitData = [[${visits}]];
+			const postData = [[${posts}]];
+
+			const ctx = document.getElementById('statsChart').getContext('2d');
+			const statsChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [
+						{
+							label: '방문자 수',
+							data: visitData,
+							backgroundColor: 'rgba(54, 162, 235, 0.6)',
+							borderWidth: 1
+						},
+						{
+							label: '게시글 수',
+							data: postData,
+							backgroundColor: 'rgba(255, 99, 132, 0.6)',
+							borderWidth: 1
+						}
+					]
+				},
+				options: {
+					responsive: true,
+					plugins: {
+						legend: {
+							position: 'top'
+						},
+						title: {
+							display: true,
+							text: '일자별 통계 분석'
+						}
+					},
+					scales: {
+						y: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
+			/*]]>*/
+		</script>
+	</div>
+</body>
+
+</html>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trip.webpage.vo.SearchHelper;
+import com.trip.webpage.vo.StatsVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -149,4 +150,25 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return false;
 	}
+
+	@Override
+	public void updateAdminRole(MemberVO vo) {
+		memberMapper.updateAdminRole(vo);
+		
+	}
+
+	// 웹페이지 방문자 저장
+	@Override
+	public void saveVisit(String userId) {
+	    int alreadyVisited = memberMapper.checkVisitToday(userId);
+	    if (alreadyVisited == 0) {
+	    	memberMapper.insertVisit(userId);
+	    }
+	}
+
+	@Override
+    public List<StatsVO> getDailyStats() {
+        return memberMapper.selectVisitAndPostStats();
+    }
+
 }

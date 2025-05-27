@@ -34,11 +34,12 @@
 					<tr th:each="item, stat : ${list}">
 						<td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
 						<td style="text-align: left;">
-							<a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}|}"
+							<a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}&cate=${item.cate}|}"
 								th:text="${item.bodTitle}"></a>
 						</td>
 						<td th:text="${item.regId}"></td>
-						<td style="text-align: center;" th:text="${#temporals.format(item.reg2Date, 'yyyy-MM-dd')}"></td>
+						<td style="text-align: center;" th:text="${#temporals.format(item.reg2Date, 'yyyy-MM-dd')}">
+						</td>
 						<td style="text-align: center;" th:text="${item.userCnt}"></td>
 					</tr>
 				</tbody>
@@ -49,7 +50,7 @@
 				<div class="left-placeholder"></div>
 
 				<form id="searchForm" method="get" action="/board/list" class="search-group">
-					<input type="hidden" name="cate" th:value="${cate}" />
+					<input type="hidden" name="cate" th:value="3000" />
 					<input type="hidden" name="pageNumber" value="1" />
 					<input type="hidden" name="pageSize" th:value="10" />
 					<div class="search-wrapper">
@@ -71,7 +72,8 @@
 
 			<!-- ✅ 글쓰기 버튼 -->
 			<div style="text-align: right; margin-top: 20px;">
-				<button type="button" class="btn btn-primary" onclick="location.href='/board/write?cate=3000'">글쓰기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="location.href='/board/write?cate=3000'">글쓰기</button>
 			</div>
 		</form>
 
