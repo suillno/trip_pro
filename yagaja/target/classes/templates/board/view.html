@@ -144,7 +144,8 @@
 					<!--2025-05-22 조윤호 목록으로 돌아가기 생성 -->
 					<div class="flower-board-buttons">
 						<a th:href="@{|/board/list?cate=${info.cate}&pageNumber=${searchHelper.pageNumber}|}">목록</a>
-						<a th:href="@{/board/write(bodIdx=${info.bodIdx})}">수정</a>
+						<a th:if="${userInfo.userId == info.userId or userInfo.isAdmin == 1}"
+						     th:href="@{/board/write(bodIdx=${info.bodIdx})}">수정</a>
 						<a th:href="@{|/board/delete/${info.bodIdx}|}">삭제</a>
 					</div>
 				</div>

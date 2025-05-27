@@ -49,7 +49,7 @@
 				<div class="left-placeholder"></div>
 
 				<form id="searchForm" method="get" action="/board/list" class="search-group">
-					<input type="hidden" name="cate" th:value="${searchType.cate}" />
+					<input type="hidden" name="cate" value="1000" />
 					<input type="hidden" name="pageNumber" value="1" />
 					<input type="hidden" name="pageSize" th:value="10" />
 					<div class="search-wrapper">
@@ -69,8 +69,8 @@
 				<form id="blockForm" method="post" action="/admin/blockMemberBulk"></form>
 			</div>
 
-			<!-- ✅ 글쓰기 버튼 -->
-			<div style="text-align: right; margin-top: 20px;">
+			<!-- 글쓰기 버튼 공지사항글쓰기는 운영자만보이게-->
+			<div style="text-align: right; margin-top: 20px;" th:if="${userInfo != null and userInfo.isAdmin == 1}">
 				<button type="button" class="btn btn-primary" onclick="location.href='/board/write?cate=1000'">글쓰기</button>
 			</div>
 		</form>
