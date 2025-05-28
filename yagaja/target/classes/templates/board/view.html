@@ -46,7 +46,6 @@
 				margin-top: 1rem;
 				min-height: 450px;
 				max-height: 500px;
-				overflow-y: auto;   /* 스크롤 처리 추가 */
 			}
 
 			.flower-board-buttons {
@@ -57,12 +56,14 @@
 
 			.flower-board-buttons a {
 				text-decoration: none;
-				padding: 0.5rem 1.2rem;
+				padding: 0.2rem 0.5rem;
 				border-radius: 8px;
-				background-color: rgb(255, 128, 128);
-				color: rgb(128, 0, 0);
+				background-color: rgba(128, 128, 128, 0.3);
+				color: #333;
+				border: 1px solid rgba(128, 128, 128, 0.4);
 				font-weight: bold;
 				transition: background-color 0.2s ease;
+				font-size: 14px;
 			}
 
 			.flower-board-buttons a:hover {
@@ -71,28 +72,53 @@
 
 			.delete-button {
 				text-decoration: none;
-				padding: 0.5rem 1.2rem;
+				padding: 0.2rem 0.5rem;
 				border-radius: 8px;
-				background-color: rgb(255, 128, 128);
-				color: rgb(128, 0, 0);
+				background-color: rgba(128, 128, 128, 0.3);
+				color: #333;
+				border: 1px solid rgba(128, 128, 128, 0.4);
 				font-weight: bold;
 				transition: background-color 0.2s ease;
-				border: none;
-				cursor: pointer;
+				font-size: 14px;
 			}
 
 			.delete-button:hover {
 				background-color: #f8bbd0;
 			}
 
+			.delete-button2 {
+				text-decoration: none;
+				padding: 0.1 0.4rem;
+				border-radius: 2px;
+				border: 1px solid rgba(128, 128, 128, 0.4);
+				font-weight: bold;
+				transition: background-color 0.2s ease;
+				font-size: 12px;
+				color: rgba(128, 128, 128, 0.6);
+				;
+			}
+
+			.delete-button2:hover {
+				color: rgba(128, 128, 128);
+			}
 
 			.flower-container {
-				position: absolute; 
-				  top: auto;
-				  left: auto;
-				  transform: none;
-				  width: 800px;
-				  margin: 20px;			}
+				position: absolute;
+				width: 768px;
+				margin-top: 20px;
+				margin-left: auto;
+				margin-right: auto
+			}
+
+			/* 반응형 동작 */
+			@media screen and (max-width: 768px) {
+				.flower-container {
+					position: static;
+					/* 또는 relative */
+					width: 95%;
+					margin-top: 16px;
+				}
+			}
 		</style>
 		<!--스타일-->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -172,7 +198,7 @@
 									<input type="hidden" name="comIdx" th:value="${c.comIdx}" />
 									<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
 									<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
-									<button type="submit" style="margin-right: 5px;">삭제</button>
+									<button type="submit" class="delete-button2" style="margin-right: 5px;">삭제</button>
 								</form>
 								<hr />
 							</li>
