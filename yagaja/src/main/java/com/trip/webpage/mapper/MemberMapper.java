@@ -54,5 +54,7 @@ public interface MemberMapper {
 	void insertVisit(String userId);
 	
 	// 통계용
-	List<StatsVO> selectVisitAndPostStats(); 
+	List<StatsVO> selectVisitAndPostStats();
+
+	MemberVO selectByEmail(String email); 
 }

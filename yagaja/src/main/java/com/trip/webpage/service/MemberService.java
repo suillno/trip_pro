@@ -58,4 +58,12 @@ public interface MemberService {
 	
 	// 통계 추가
 	List<StatsVO> getDailyStats();
+	
+	// 임시 비밀번호 05-28
+     void sendTemporaryPassword(String email);
+
+	MemberVO findByEmail(String email);
+
+	 void sendTempPassword(String email, String tempPassword);
 }
+

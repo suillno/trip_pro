@@ -22,7 +22,11 @@ import com.trip.webpage.vo.LoginRequest;
 import com.trip.webpage.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
+
+import java.security.SecureRandom;
 // @Service 어노테이션을 통해 Spring이 이 클래스를 서비스 빈으로 등록함
 @Service
 @Slf4j
@@ -33,6 +37,13 @@ public class MemberServiceImpl implements MemberService {
 	private MemberMapper memberMapper;
 	@Autowired
 	private BoardMapper boardMapper;
+	
+	// 05-28 추가
+	@Autowired
+	private JavaMailSender mailSender;
+
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 
 	// 인터페이스에서 정의한 selectMember() 메서드 구현
 	// → DAO를 통해 DB에서 회원 목록을 가져와 반환
@@ -170,5 +181,61 @@ public class MemberServiceImpl implements MemberService {
     public List<StatsVO> getDailyStats() {
         return memberMapper.selectVisitAndPostStats();
     }
+	
+	//05-28 추가
+	@Override
+	public void sendTemporaryPassword(String email) {
+	    // 1) 이메일로 회원 조회
+	    MemberVO member = memberMapper.selectByEmail(email);
+	    if (member == null) {
+	        throw new IllegalArgumentException("등록된 사용자가 없습니다.");
+	    }
 
+	    // 2) 랜덤 비밀번호 생성
+	    String tempPassword = generateRandomPassword(10);
+
+	    // 3) 암호화 후 DB에 저장
+//	    String encryptedPw = passwordEncoder.encode(tempPassword);
+//	    member.setUserPw(encryptedPw);   // 필드명은 MemberVO에서 비밀번호 필드명 확인
+//	    memberMapper.updatePassword(member);
+
+	    // 4) 이메일 전송
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    message.setTo(email);
+	    message.setSubject("[Yagaja] 임시 비밀번호 안내");
+	    message.setText("임시 비밀번호는 아래와 같습니다:\n\n" + tempPassword +
+	            "\n\n로그인 후 비밀번호를 꼭 변경해주세요.");
+	    mailSender.send(message);
+	}
+
+	// 랜덤 비밀번호 생성 메서드
+	private String generateRandomPassword(int length) {
+	    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	    SecureRandom random = new SecureRandom();
+	    StringBuilder sb = new StringBuilder(length);
+	    for (int i = 0; i < length; i++) {
+	        sb.append(chars.charAt(random.nextInt(chars.length())));
+	    }
+	    return sb.toString();
+	}
+
+	@Override
+	public MemberVO findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return memberMapper.selectByEmail(email);
+	}
+
+	@Override
+	public void sendTempPassword(String email, String tempPassword) {
+		   SimpleMailMessage message = new SimpleMailMessage();
+		    message.setTo(email);
+		    message.setSubject("[Yagaja] 임시 비밀번호 안내");
+		    message.setText("임시 비밀번호는 다음과 같습니다: " + tempPassword + "\n로그인 후 반드시 비밀번호를 변경해 주세요.");
+		    
+		    mailSender.send(message);
+		}
+		
+	
+
+	
 }
