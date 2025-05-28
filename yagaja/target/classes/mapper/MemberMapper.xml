@@ -137,9 +137,9 @@
     ORDER BY day
 	</select>
 
-	<select id="selectByEmail" parameterType="String" resultType="MemberVO">
-    SELECT * FROM member WHERE email = #{email}
-</select>
+	<select id="selectByEmail" parameterType="MemberVO" resultType="MemberVO">
+    SELECT * FROM member WHERE email = #{email} AND USER_ID = #{userId}
+	</select>
 
 </mapper>
 

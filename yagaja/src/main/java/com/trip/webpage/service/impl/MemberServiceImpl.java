@@ -25,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-
 import java.security.SecureRandom;
+
 // @Service 어노테이션을 통해 Spring이 이 클래스를 서비스 빈으로 등록함
 @Service
 @Slf4j
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberMapper memberMapper;
 	@Autowired
 	private BoardMapper boardMapper;
-	
+
 	// 05-28 추가
 	@Autowired
 	private JavaMailSender mailSender;
@@ -143,7 +143,7 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		memberMapper.updateShip(memberVO);
 	}
-	
+
 	// 회원탈퇴 비밀번호 검증 05-23
 	@Override
 	public boolean checkPasswordForWithdraw(String userPw, HttpServletRequest request) {
@@ -165,77 +165,73 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateAdminRole(MemberVO vo) {
 		memberMapper.updateAdminRole(vo);
-		
+
 	}
 
 	// 웹페이지 방문자 저장
 	@Override
 	public void saveVisit(String userId) {
-	    int alreadyVisited = memberMapper.checkVisitToday(userId);
-	    if (alreadyVisited == 0) {
-	    	memberMapper.insertVisit(userId);
-	    }
+		int alreadyVisited = memberMapper.checkVisitToday(userId);
+		if (alreadyVisited == 0) {
+			memberMapper.insertVisit(userId);
+		}
 	}
 
 	@Override
-    public List<StatsVO> getDailyStats() {
-        return memberMapper.selectVisitAndPostStats();
-    }
-	
-	//05-28 추가
+	public List<StatsVO> getDailyStats() {
+		return memberMapper.selectVisitAndPostStats();
+	}
+
+	// 05-28 추가
 	@Override
-	public void sendTemporaryPassword(String email) {
-	    // 1) 이메일로 회원 조회
-	    MemberVO member = memberMapper.selectByEmail(email);
-	    if (member == null) {
-	        throw new IllegalArgumentException("등록된 사용자가 없습니다.");
-	    }
+	public void sendTemporaryPassword(MemberVO memberVO) {
+		// 1) 이메일로 회원 조회
+		MemberVO member = memberMapper.selectByEmail(memberVO);
+		if (member == null) {
+			throw new IllegalArgumentException("등록된 사용자가 없습니다.");
+		}
 
-	    // 2) 랜덤 비밀번호 생성
-	    String tempPassword = generateRandomPassword(10);
+		// 2) 랜덤 비밀번호 생성
+		String tempPassword = generateRandomPassword(10);
 
-	    // 3) 암호화 후 DB에 저장
-//	    String encryptedPw = passwordEncoder.encode(tempPassword);
-//	    member.setUserPw(encryptedPw);   // 필드명은 MemberVO에서 비밀번호 필드명 확인
-//	    memberMapper.updatePassword(member);
+		// 3) 암호화 후 DB에 저장
+//		    String encryptedPw = passwordEncoder.encode(tempPassword);
+//		    member.setUserPw(encryptedPw);   // 필드명은 MemberVO에서 비밀번호 필드명 확인
+//		    memberMapper.updatePassword(member);
 
-	    // 4) 이메일 전송
-	    SimpleMailMessage message = new SimpleMailMessage();
-	    message.setTo(email);
-	    message.setSubject("[Yagaja] 임시 비밀번호 안내");
-	    message.setText("임시 비밀번호는 아래와 같습니다:\n\n" + tempPassword +
-	            "\n\n로그인 후 비밀번호를 꼭 변경해주세요.");
-	    mailSender.send(message);
+		// 4) 이메일 전송
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(memberVO.getEmail()); // 0530분 수정
+		message.setSubject("[Yagaja] 임시 비밀번호 안내");
+		message.setText("임시 비밀번호는 아래와 같습니다:\n\n" + tempPassword + "\n\n로그인 후 비밀번호를 꼭 변경해주세요.");
+		mailSender.send(message);
 	}
 
 	// 랜덤 비밀번호 생성 메서드
 	private String generateRandomPassword(int length) {
-	    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	    SecureRandom random = new SecureRandom();
-	    StringBuilder sb = new StringBuilder(length);
-	    for (int i = 0; i < length; i++) {
-	        sb.append(chars.charAt(random.nextInt(chars.length())));
-	    }
-	    return sb.toString();
+		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(length);
+		for (int i = 0; i < length; i++) {
+			sb.append(chars.charAt(random.nextInt(chars.length())));
+		}
+		return sb.toString();
 	}
 
-	@Override
-	public MemberVO findByEmail(String email) {
+	@Override // 0530분 수정
+	public MemberVO findByEmail(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		return memberMapper.selectByEmail(email);
+		return memberMapper.selectByEmail(memberVO);
 	}
 
 	@Override
 	public void sendTempPassword(String email, String tempPassword) {
-		   SimpleMailMessage message = new SimpleMailMessage();
-		    message.setTo(email);
-		    message.setSubject("[Yagaja] 임시 비밀번호 안내");
-		    message.setText("임시 비밀번호는 다음과 같습니다: " + tempPassword + "\n로그인 후 반드시 비밀번호를 변경해 주세요.");
-		    
-		    mailSender.send(message);
-		}
-		
-	
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject("[Yagaja] 임시 비밀번호 안내");
+		message.setText("임시 비밀번호는 다음과 같습니다: " + tempPassword + "\n로그인 후 반드시 비밀번호를 변경해 주세요.");
 
-	
+		mailSender.send(message);
+	}
+
 }

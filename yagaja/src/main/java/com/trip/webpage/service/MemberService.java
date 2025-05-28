@@ -49,21 +49,20 @@ public interface MemberService {
 
 	// 탈퇴 검증용 05-23
 	boolean checkPasswordForWithdraw(String userPw, HttpServletRequest request);
-	
-	// 관리자 권한 변경
-    void updateAdminRole(MemberVO vo);
 
-    // 웹페이지 방문자 저장
+	// 관리자 권한 변경
+	void updateAdminRole(MemberVO vo);
+
+	// 웹페이지 방문자 저장
 	void saveVisit(String userId);
-	
+
 	// 통계 추가
 	List<StatsVO> getDailyStats();
-	
-	// 임시 비밀번호 05-28
-     void sendTemporaryPassword(String email);
 
-	MemberVO findByEmail(String email);
+	// 임시 비밀번호 // 0530분 수정
+	void sendTemporaryPassword(MemberVO memberVO);
 
-	 void sendTempPassword(String email, String tempPassword);
+	MemberVO findByEmail(MemberVO memberVO); // 여기까지
+
+	void sendTempPassword(String email, String tempPassword);
 }
-

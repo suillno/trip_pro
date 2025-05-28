@@ -79,12 +79,19 @@
 	                confirmButtonColor: '#d33',
 	                cancelButtonColor: '#3085d6',
 	                confirmButtonText: '탈퇴하기',
-	                cancelButtonText: '취소',
+					cancelButtonText: '취소',
 	                reverseButtons: true
 	            }).then((result) => {
 	                if (result.isConfirmed) {
+						Swal.fire({
+							icon: 'success',
+			          		title: '정상적으로 탈퇴 처리되었습니다.',
+			          		text: '그동안 이용해 주셔서 감사합니다.',
+			         		confirmButtonText: '확인'
+						}).then(() =>  {
 	                    form.submit(); // 진짜로 폼 제출
-	                }
+	                });
+					}
 	            });
 	        }, { once: true }); // ✅ 이벤트가 1번만 바인딩되도록 설정
 	    });

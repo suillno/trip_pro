@@ -50,7 +50,27 @@
         </fieldset>
     </form>
 
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    const passwordChanged = /*[[${passwordChanged}]]*/ false;
+
+	    if (passwordChanged) {
+	        Swal.fire({
+	            icon: 'success',
+	            title: '비밀번호 변경 완료',
+	            text: '비밀번호가 성공적으로 변경되었습니다.',
+	            confirmButtonText: '확인'
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	                window.location.href = '/';
+	            }
+	        });
+	    }
+	    /*]]>*/
+	</script>
     <script>
+		
+		
         // 정규식 추가 메서드 정의
         $.validator.addMethod("regex", function (value, element, regexp) {
             return this.optional(element) || regexp.test(value);

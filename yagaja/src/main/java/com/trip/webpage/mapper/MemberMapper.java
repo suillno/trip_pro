@@ -56,5 +56,5 @@ public interface MemberMapper {
 	// 통계용
 	List<StatsVO> selectVisitAndPostStats();
 
-	MemberVO selectByEmail(String email); 
+	MemberVO selectByEmail(MemberVO memberVO); 
 }
