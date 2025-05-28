@@ -1,163 +1,178 @@
 /* 전체 테이블 스타일 */
 table {
-  width: 100%;
-  border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 
 table tr th,
 table tr td {
-  padding: 10px;
-  border-top: 1px solid #777;
-  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+	padding: 10px;
+	border-top: 1px solid #777;
+	border-bottom: 1px solid rgba(200, 200, 200, 0.5);
 }
 
 table tr td:first-of-type {
-  text-align: center;
+	text-align: center;
 }
 
 /* 제목 */
 h2 {
-  margin: 30px 50px;
+	margin: 30px 50px;
 }
 
 /* 테이블 wrapper */
 .tableCenter {
-  width: 100%;
-  text-align: left;
+	width: 100%;
+	text-align: left;
 }
 
 /* member table 전용 */
 .memberTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: "맑은 고딕", sans-serif;
-  font-size: 12px;
+	width: 100%;
+	border-collapse: collapse;
+	font-family: "맑은 고딕", sans-serif;
+	font-size: 12px;
 }
 
 /* 페이지네이션 */
 .pagination {
-  text-align: center;
-  margin-top: 30px;
+	text-align: center;
+	margin-top: 30px;
 }
 
 .pagination ul {
-  display: inline-flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 5px;
+	display: inline-flex;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	gap: 5px;
 }
 
 .pagination li a {
-  display: block;
-  padding: 8px 12px;
-  background-color: #f0f0f0;
-  color: #333;
-  text-decoration: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+	display: block;
+	padding: 8px 12px;
+	background-color: #f0f0f0;
+	color: #333;
+	text-decoration: none;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
 }
 
 .pagination li.active a {
-  background-color: #ff2e63;
-  color: white;
-  font-weight: bold;
-  border-color: #ff2e63;
+	background-color: #ff2e63;
+	color: white;
+	font-weight: bold;
+	border-color: #ff2e63;
 }
 
 .pagination li a:hover {
-  background-color: #ddd;
+	background-color: #ddd;
 }
 
 /* 스위치 (예: 차단) */
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 28px;
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	height: 28px;
 }
 
 /* 버튼 공통 스타일 */
 .btn-danger {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+	background-color: #dc3545;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 4px;
 }
 
 .btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 4px;
 }
 
 .btn-primary {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  height: 36px;
+	background-color: #dc3545;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 4px;
+	height: 36px;
 }
 
 /* 저장 & 검색바 하단 컨트롤 전체 레이아웃 */
 .bottom-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	margin-top: 30px;
 }
 
 /* 검색 전체 wrapper */
 .search-group {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 /* 셀렉트 + input 정렬용 */
 .search-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 /* input + 버튼 조합 */
 .input-with-button {
-  position: relative;
+	position: relative;
 }
 
 .input-with-button input[type="text"] {
-  width: 200px;
-  height: 36px;
-  padding: 5px 10px;
-  box-sizing: border-box;
+	width: 200px;
+	height: 36px;
+	padding: 5px 10px;
+	box-sizing: border-box;
 }
 
 /* 검색 아이콘 버튼 */
 .searchBtn {
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: none;
-  cursor: pointer;
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	transform: translateY(-50%);
+	border: none;
+	background: none;
+	cursor: pointer;
 }
 
 .searchBtn img {
-  width: 16px;
-  height: 16px;
+	width: 16px;
+	height: 16px;
 }
 
 /* 셀렉트박스 */
 select {
-  width: 150px;
-  height: 36px;
-  padding: 5px 10px;
-  box-sizing: border-box;
+	width: 150px;
+	height: 36px;
+	padding: 5px 10px;
+	box-sizing: border-box;
+}
+
+/* 반응형 모바일 대응 */
+@media screen and (max-width: 768px) {
+
+	/* 테이블 wrapper */
+	.tableCenter {
+		overflow-x: auto;		
+	}
+
+	/* member table 전용 */
+	.memberTable {
+		min-width: 480px;
+	}
+
 }
