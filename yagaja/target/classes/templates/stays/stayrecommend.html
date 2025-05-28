@@ -10,7 +10,7 @@
     <div class="recommend-grid">
       <div class="recommend-item" th:each="stays : ${recommendedList}">
         <a th:href="@{/festival/detail/{id}(id=${stays.contentid})}">
-          <img style="width:80%;margin-top: 20px; margin-left: auto;margin-right: auto;" th:src="${stays.firstimage}" th:alt="${stays.title}" />
+          <img style="width:80%;margin-top: 20px; margin-left: auto;margin-right: auto;" th:src="${stays.firstimage + '?w=300&h=200&fit=crop'}" th:alt="${stays.title}" />
          <div style="margin-top:20px; margin-left:100px">
 		   <h4 th:text="${stays.title}">숙박업소</h4>
           <p th:text="${stays.addr1}">주소</p>

@@ -34,7 +34,7 @@
 					<tr th:each="item, stat : ${list}">
 						<td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
 						<td style="text-align: left;">
-							<a th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}&cate=${item.cate}|}"
+							<a style="color: red; font-weight: bolder;" th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}&cate=${item.cate}|}"
 								th:text="${item.bodTitle}"></a>
 						</td>
 						<td th:text="${item.regId}"></td>

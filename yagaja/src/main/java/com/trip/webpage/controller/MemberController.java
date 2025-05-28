@@ -56,24 +56,34 @@ public class MemberController {
 	 */
 	@PostMapping("/loginProc")
 	public ModelAndView userLoginProc(@ModelAttribute LoginRequest loginRequest, HttpSession session) {
-		log.info("로그인 요청 ID: {}, PW: {}", loginRequest.getUserId(), loginRequest.getUserPw());
-		ModelAndView mav = new ModelAndView();
-		MemberVO result = memberService.userLogin(loginRequest);
+	    log.info("로그인 요청 ID: {}, PW: {}", loginRequest.getUserId(), loginRequest.getUserPw());
+	    ModelAndView mav = new ModelAndView();
 
-		if (result != null) {
-			session.setAttribute("userInfo", result);
-			// 로그인 성공시 방문 기록 저장
-			memberService.saveVisit(result.getUserId());
-			// 로그인 성공 시 메인으로 리다이렉트
-			mav.setViewName("redirect:/"); 
-		} else {
-			mav.setViewName("member/login"); // 실패 시 다시 로그인 페이지로 이동
-			mav.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
-			mav.addObject("userInfo", loginRequest); // 입력값 유지
-		}
-		
-		return mav;
+	    MemberVO result = memberService.userLogin(loginRequest);
+
+	    // 로그인 실패
+	    if (result == null) {
+	        mav.setViewName("member/login");
+	        mav.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
+	        mav.addObject("userInfo", loginRequest); // 입력값 유지
+	        return mav;
+	    }
+
+	    // 차단된 계정
+	    if (result.getBlockCode() == 'Y') {
+	        mav.setViewName("member/login");
+	        mav.addObject("error", "차단된 계정입니다.");
+	        mav.addObject("userInfo", loginRequest); // 입력값 유지
+	        return mav;
+	    }
+
+	    // 로그인 성공
+	    session.setAttribute("userInfo", result);
+	    memberService.saveVisit(result.getUserId());
+	    mav.setViewName("redirect:/");
+	    return mav;
 	}
+
 
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -221,22 +231,22 @@ public class MemberController {
 	}
 
 	@PostMapping("/findId")
-	public ModelAndView findID (@ModelAttribute MemberVO memberVO) {
+	public ModelAndView findID(@ModelAttribute MemberVO memberVO) {
 		ModelAndView mav = new ModelAndView("/member/idsearch");
-		
+
 		MemberVO vo = memberService.findUserId(memberVO);
 		log.info("조회 결과: {}", vo);
-		
+
 		if (vo != null && vo.getUserId() != null) {
-		    mav.addObject("userId", vo.getUserId());  // JS에서 쓸 변수명과 맞춤
+			mav.addObject("userId", vo.getUserId()); // JS에서 쓸 변수명과 맞춤
 		} else {
-		    mav.addObject("userId", "");  // 찾지 못한 경우
+			mav.addObject("userId", ""); // 찾지 못한 경우
 		}
-		
+
 		mav.addObject("isFirst", true);
-		
+
 		return mav;
-		
+
 	}
-	
+
 }

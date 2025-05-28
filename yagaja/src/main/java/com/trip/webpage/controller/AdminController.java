@@ -124,7 +124,7 @@ public class AdminController {
 	     }
 	    
 	     // ✅ 변경 후 목록 페이지로 redirect
-	     mav.setViewName("redirect:/admin/memberDetail");
+	     mav.setViewName("redirect:/admin/memberDetail?pageNumber=1&pageSize=10&searchType=userId&searchMember=");
 	     return mav;
 	 }
 	 
@@ -200,7 +200,7 @@ public class AdminController {
 	            memberService.updateAdminRole(vo);
 	        }
 
-	        mav.setViewName("redirect:/admin/adminAccount");
+	        mav.setViewName("redirect:/admin/adminAccount?pageNumber=1&pageSize=10&searchType=userId&searchMember=");
 	        return mav;
 	    }
 	    
