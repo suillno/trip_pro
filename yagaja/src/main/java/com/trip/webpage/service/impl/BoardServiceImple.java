@@ -67,16 +67,28 @@ public class BoardServiceImple implements BoardService {
 
 	}
 	
-	// 뎃글 저장
+	// 댓글 저장
 	@Override
     public void writeComment(CommentVO comment) {
 		boardMapper.insertComment(comment);
     }
 
-	// 뎃글 리스트
+	// 댓글 리스트
     @Override
     public List<CommentVO> selectCommentList(Long bodIdx) {
         return boardMapper.selectCommentList(bodIdx);
     }
+
+    // 댓글 수정
+	@Override
+	public void updateComment(Long comIdx) {
+		boardMapper.updateComment(comIdx);
+	}
+
+	// 댓글 삭제
+	@Override
+	public void deleteComment(Long comIdx) {
+		boardMapper.deleteComment(comIdx);
+	}
 
 }

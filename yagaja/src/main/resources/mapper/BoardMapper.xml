@@ -100,6 +100,24 @@ ORDER BY BOD_IDX DESC
         )
 </insert>
 
+<!-- 댓글 업데이트 -->
+<update id="updateComment" parameterType="CommentVO">
+    UPDATE comments
+    SET
+        content = #{content},
+        upd_id = #{userId},
+        upd_date = SYSDATE
+    WHERE
+        COM_IDX = #{comIdx}
+</update>
+
+<!-- 댓글 삭제 -->
+<delete id="deleteComment" parameterType="Long">
+    DELETE FROM comments
+    WHERE COM_IDX = #{comIdx}
+</delete>
+
+
 <!-- 댓글 리스트 -->
 <select id="selectCommentList" parameterType="long" resultType="CommentVO">
         SELECT *

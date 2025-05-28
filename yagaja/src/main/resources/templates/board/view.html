@@ -154,17 +154,7 @@
 						<form th:action="@{/board/delete}" method="post" style="display:inline;">
 							<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
 							<input type="hidden" name="cate" th:value="${info.cate}" />
-							<button type="submit" style="text-decoration: none;
-							 							                  padding: 0.5rem 1.2rem;
-							 							                  border-radius: 8px;
-							 							                  background-color: rgb(255, 128, 128);
-							 							                  color: rgb(128, 0, 0);
-							 							                  font-weight: bold;
-							 							                  transition: background-color 0.2s ease;
-							 							                  border: none;
-							 							                  cursor: pointer;">
-								삭제
-							</button>
+							<button type="submit">삭제</button>
 						</form>
 					</div>
 					<!-- 댓글 영역 -->
@@ -172,6 +162,7 @@
 						<h3>댓글</h3>
 
 						<!-- 댓글 목록 -->
+
 						<div th:if="${#lists.isEmpty(commentList)}">등록된 댓글이 없습니다.</div>
 						<ul>
 							<li th:each="c : ${commentList}">
@@ -179,6 +170,13 @@
 									<span th:text="${#temporals.format(c.regDate, 'yyyy-MM-dd HH:mm')}"></span>
 								</p>
 								<p th:text="${c.content}"></p>
+								<!-- 댓글 삭제 관리자 및 작성자만 보이게 -->
+								<form method="post" th:action="@{/board/commentDelete}" th:if="${userInfo.userId == c.regId or userInfo.isAdmin == 1}">
+									<input type="hidden" name="comIdx" th:value="${c.comIdx}" />
+									<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
+									<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
+									<button type="submit" style="margin-right: 5px;">삭제</button>
+								</form>
 								<hr />
 							</li>
 						</ul>

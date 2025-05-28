@@ -35,4 +35,8 @@ public interface BoardService {
 	// 댓글 리스트
     List<CommentVO> selectCommentList(Long bodIdx);
 
+	void updateComment(Long comIdx);
+	
+	void deleteComment(Long comIdx);
+
 }

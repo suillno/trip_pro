@@ -137,7 +137,7 @@ public class BoardController {
 		// 댓글 불러오기
 		List<CommentVO> commentVO = boardService.selectCommentList(searchHelper.getBodIdx());
 		mav.addObject("commentList", commentVO != null ? commentVO : new CommentVO());
-		
+
 		mav.addObject("userInfo", vo != null ? vo : new MemberVO());
 		mav.addObject("searchHelper", searchHelper);
 		mav.addObject("info", boardService.selectOne(searchHelper.getBodIdx()));
@@ -177,23 +177,45 @@ public class BoardController {
 
 	// 뎃글 기능
 	@PostMapping("/commentWrite")
-	public ModelAndView writeComment(@ModelAttribute CommentVO comment, @RequestParam("cate") int cate, HttpServletRequest request) {
+	public ModelAndView writeComment(@ModelAttribute CommentVO comment, @RequestParam("cate") int cate,
+			HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
 		MemberVO vo = (MemberVO) session.getAttribute("userInfo");
-		
+
 		// 로그인 사용자의 아이디를 comment에 수동으로 설정
 		if (vo != null) {
-			comment.setUserId(vo.getUserId());  // 💡 이거 꼭 필요!
+			comment.setUserId(vo.getUserId()); // 💡 이거 꼭 필요!
 		}
-		
+
 		mav.addObject("userInfo", vo != null ? vo : new MemberVO());
 		mav.addObject("comment", comment);
-		
-	    boardService.writeComment(comment);
-	    mav.setViewName("redirect:/board/view?bodIdx=" + comment.getBodIdx() + "&pageNumber=1&cate=" + cate);
-	    
-	    return mav;
+
+		boardService.writeComment(comment);
+		mav.setViewName("redirect:/board/view?bodIdx=" + comment.getBodIdx() + "&pageNumber=1&cate=" + cate);
+
+		return mav;
 	}
 
+	@PostMapping("/commentDelete")
+	public ModelAndView commentDelete(@ModelAttribute CommentVO comment, @RequestParam("cate") int cate,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("userInfo");
+
+		// 로그인 사용자의 아이디를 comment에 수동으로 설정
+		if (vo != null) {
+			comment.setUserId(vo.getUserId()); // 💡 이거 꼭 필요!
+		}
+
+		mav.addObject("userInfo", vo != null ? vo : new MemberVO());
+		mav.addObject("comment", comment);
+
+		boardService.deleteComment(comment.getComIdx());
+		
+		mav.setViewName("redirect:/board/view?bodIdx=" + comment.getBodIdx() + "&pageNumber=1&cate=" + cate);
+		return mav;
+
+	}
 }
