@@ -91,4 +91,23 @@ public class BoardServiceImple implements BoardService {
 		boardMapper.deleteComment(comIdx);
 	}
 
+    //용도: 특정 사용자가 해당 게시글에 이미 좋아요를 눌렀는지 확인  2025-05-28 조윤호
+    @Override
+    public boolean existsLike(Long bodIdx, String userId) {
+        return boardMapper.existsLike(bodIdx, userId);
+    }
+   
+    /**
+     * 게시물의 좋아요 토글처리 (있으면 삭제, 없으면 삽입)
+     * 그 후 좋아요 갯수 리턴
+     */
+    public int toggleLike(Long bodIdx, String userId) {
+        boolean liked = boardMapper.existsLike(bodIdx, userId);
+        if (liked) {
+            boardMapper.removeLike(bodIdx, userId);
+        } else {
+            boardMapper.addLike(bodIdx, userId);
+        }
+        return boardMapper.getLikeCount(bodIdx);
+    }
 }

@@ -107,6 +107,8 @@
 			<version>4.2</version>
 		</dependency>
 
+	
+
 		<!-- ✅ trip 라이브러리 로컬 설치 안되어 있다면 주석처리 -->
 		<!--
         <dependency>

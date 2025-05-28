@@ -41,4 +41,22 @@ public interface BoardMapper {
 	void updateComment(Long comIdx);
 
 	void deleteComment(Long comIdx);
+	
+	// 좋아요 중복체크 확인
+	boolean existsLike(Long bodIdx, String userId);
+
+	// 좋아요
+	void addLike(Long bodIdx, String userId);
+
+	// 좋아요 취소
+	void removeLike(Long bodIdx, String userId);
+
+	// 좋아요 카운트
+	void updateLikeCount(Long bodIdx, int amount);
+
+	// 좋아요 카운트
+	int getLikeCount(Long bodIdx);
+	
 }
+
+

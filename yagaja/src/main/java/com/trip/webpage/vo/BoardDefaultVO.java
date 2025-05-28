@@ -35,6 +35,7 @@ public class BoardDefaultVO {
     private String accTitle;
     private String report; 
     private String userName;
+    private int likeCnt;
 	
 	
 }

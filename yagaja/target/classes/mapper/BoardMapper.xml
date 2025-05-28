@@ -65,11 +65,6 @@ ORDER BY BOD_IDX DESC
   WHERE BOD_IDX = #{bodIdx}
 </delete>
 
-<!-- 특정 게시글에 좋아요가 몇 개인지 조회 2025-05-27 조윤호 -->
-<select id="getLikeCount" resultType="int">
-    SELECT COUNT(*) FROM LIKE_CNT WHERE BOD_IDX = #{bodIdx}
-</select>
-
 <!-- 이미 좋아요 눌렀는지 확인 2025-05-27 조윤호 -->
 <select id="hasUserLiked" resultType="boolean">
     SELECT CASE WHEN count(*) > 0 THEN 1 ELSE 0 END AS result 
@@ -126,4 +121,34 @@ ORDER BY BOD_IDX DESC
           AND is_visible = 'N'
         ORDER BY REG_DATE DESC
 </select>
+
+<!--2025-05-28 조윤호-->
+	 <!-- ❤️ 좋아요 추가 (LIKE_CNT 테이블에 삽입) -->
+	<insert id="addLike">
+	    INSERT INTO LIKE_CNT (BOD_IDX, USER_ID) VALUES (#{bodIdx}, #{userId})
+	</insert>
+	
+	<!-- 💔 좋아요 취소 (LIKE_CNT 테이블에서 삭제) -->
+	<delete id="removeLike">
+	    DELETE FROM LIKE_CNT WHERE BOD_IDX = #{bodIdx} AND USER_ID = #{userId}
+	</delete>
+	
+	 <!-- 🔍 사용자가 해당 게시글에 좋아요를 눌렀는지 여부 확인 -->
+	<select id="existsLike" resultType="boolean">
+	    SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isExist FROM LIKE_CNT WHERE BOD_IDX = #{bodIdx} AND USER_ID = #{userId}
+	</select>
+	
+	<!-- 📊 BOARD_DEFAULT 테이블의 LIKE_CNT 컬럼 업데이트 -->
+	<update id="updateLikeCount" parameterType="map">
+	    UPDATE BOARD_DEFAULT SET LIKE_CNT = LIKE_CNT + #{amount} WHERE BOD_IDX = #{bodIdx}
+	</update>
+	
+	 <!-- 🔢 게시글의 누적 좋아요 수 가져오기 -->
+	<select id="getLikeCount" resultType="int">
+	    SELECT count(lc.BOD_IDX) AS likeCnt FROM BOARD_DEFAULT bd 
+	LEFT OUTER JOIN LIKE_CNT lc ON bd.BOD_IDX = lc.BOD_IDX
+	WHERE bd.BOD_IDX = #{bodIdx}
+	GROUP BY bd.BOD_IDX, bd.BOD_CONSTENT, bd.BOD_TITLE , bd.REG2_DATE ,bd.REG_ID
+	</select>
+
 </mapper>

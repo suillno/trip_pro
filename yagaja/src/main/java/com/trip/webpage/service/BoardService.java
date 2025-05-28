@@ -39,4 +39,10 @@ public interface BoardService {
 	
 	void deleteComment(Long comIdx);
 
+    //2025-05-28 조윤호
+    //좋아요가 눌러있는지 확인
+	boolean existsLike(Long bodIdx, String userId);
+    //
+	int toggleLike(Long bodIdx, String userId);
+   
 }

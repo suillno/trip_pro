@@ -1,14 +1,18 @@
 package com.trip.webpage.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.trip.webpage.service.BoardService;
@@ -213,9 +217,26 @@ public class BoardController {
 		mav.addObject("comment", comment);
 
 		boardService.deleteComment(comment.getComIdx());
-		
+
 		mav.setViewName("redirect:/board/view?bodIdx=" + comment.getBodIdx() + "&pageNumber=1&cate=" + cate);
 		return mav;
+	}
 
+	// ✅ Controller
+	@PostMapping("/like")
+	@ResponseBody
+	public ResponseEntity<?> like(@RequestBody HashMap<String, Object> requestMap) {
+		log.info(requestMap.toString());
+		Long bodIdx = Long.parseLong((String) requestMap.get("bodIdx"));
+		String userId = (String) requestMap.get("userId");
+
+		int result = boardService.toggleLike(bodIdx, userId);
+
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap.put("result", result);
+
+		log.info(resultMap.toString());
+
+		return ResponseEntity.ok(resultMap); // ✅ 현재 좋아요 수 반환
 	}
 }
