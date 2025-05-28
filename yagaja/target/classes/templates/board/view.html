@@ -67,7 +67,7 @@
 			}
 
 			.flower-board-buttons a:hover {
-				background-color: #f8bbd0;
+				color: rgba(128, 128, 128);
 			}
 
 			.delete-button {
@@ -83,7 +83,7 @@
 			}
 
 			.delete-button:hover {
-				background-color: #f8bbd0;
+				color: rgba(128, 128, 128);
 			}
 
 			.delete-button2 {
@@ -108,6 +108,15 @@
 				margin-top: 20px;
 				margin-left: auto;
 				margin-right: auto
+			}
+			.likeBtn {
+				display: inline-block;
+				margin-left: 85%;
+				margin-bottom: 6px;
+				bottom: 1px solid rgba(128, 128, 128, 0.4);
+			}
+			.likeBtn:hover {
+				color: rgba(128, 128, 128);
 			}
 
 			/* 반응형 동작 */
@@ -139,7 +148,7 @@
 							<!-- 좋아요 폼 -->
 							<form id="likeForm" th:data-bodidx="${info.bodIdx}" th:data-userid="${userInfo.userId}"
 								style="display:inline;">
-								<button type="button" id="likeBtn">
+								<button type="button" id="likeBtn" class="likeBtn">
 									좋아요 (<span id="likeCount" th:text="${info.likeCnt}">0</span>)
 								</button>
 							</form>
@@ -169,8 +178,12 @@
 					</div>
 					<!--2025-05-22 조윤호 목록으로 돌아가기 생성 -->
 					<div class="flower-board-buttons">
-						<a
-							th:href="@{|/board/list?cate=${searchHelper.cate}&pageNumber=${searchHelper.pageNumber}|}">목록</a>
+						<!-- cate 값이 존재할 경우 -->
+						<a th:if="${searchHelper.cate != null}" 
+						   th:href="@{|/board/list?cate=${searchHelper.cate}&pageNumber=${searchHelper.pageNumber}|}">목록</a>
+						<!-- cate 값이 null 또는 비어 있을 경우 -->
+						<a th:unless="${searchHelper.cate != null}" 
+						   th:href="@{/board/topLiked}">목록</a>
 						<a th:if="${userInfo.userId == info.userId or userInfo.isAdmin == 1}"
 							th:href="@{/board/write(bodIdx=${info.bodIdx})}">수정</a>
 						<form th:action="@{/board/delete}" method="post" style="display:inline;">

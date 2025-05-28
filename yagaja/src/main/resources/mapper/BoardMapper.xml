@@ -151,4 +151,21 @@ ORDER BY BOD_IDX DESC
 	GROUP BY bd.BOD_IDX, bd.BOD_CONSTENT, bd.BOD_TITLE , bd.REG2_DATE ,bd.REG_ID
 	</select>
 
+	<!-- 좋아요 많은 상위 5개 게시글 조회 -->
+<select id="selectTop5LikedBoards" resultType="BoardDefaultVO">
+    SELECT 
+        bd.BOD_IDX,
+        bd.BOD_TITLE,
+        bd.BOD_CONSTENT,
+        bd.REG2_DATE,
+        bd.REG_ID,
+        COUNT(lc.BOD_IDX) AS likeCnt
+    FROM BOARD_DEFAULT bd
+    LEFT JOIN LIKE_CNT lc ON bd.BOD_IDX = lc.BOD_IDX
+    GROUP BY bd.BOD_IDX, bd.BOD_TITLE, bd.BOD_CONSTENT, bd.REG2_DATE, bd.REG_ID
+    ORDER BY likeCnt DESC
+    FETCH FIRST 5 ROWS ONLY
+</select>
+
+
 </mapper>

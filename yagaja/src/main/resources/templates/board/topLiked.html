@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>공지사항</title>
+	<link rel="stylesheet" href="/css/memberDetail.css" />
+</head>
+
+<div>
+	<div layout:fragment="content" class="tableCenter">
+		<h2>🔥 인기 게시글 TOP 5</h2>
+		<table class="memberTable">
+			<colgroup>
+				<col style="width: 80px;" />
+				<col style="width: 400px;" />
+				<col style="width: 120px;" />
+				<col style="width: 120px;" />
+				<col style="width: 100px;" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th style="text-align: center;">번호</th>
+					<th style="text-align: center;">제목</th>
+					<th style="text-align: center;">작성자</th>
+					<th style="text-align: center;">작성일</th>
+					<th style="text-align: center;">좋아요</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item, stat : ${topList}">
+					<td style="text-align: center;" th:text="${stat.index + 1}">1</td>
+					<td style="text-align: left;">
+						<a th:href="@{|/board/view?bodIdx=${item.bodIdx}|}" th:text="${item.bodTitle}"
+							style="color: #d6336c; font-weight: bold;"></a>
+					</td>
+					<td style="text-align: center;" th:text="${item.regId}">작성자</td>
+					<td style="text-align: center;" th:text="${#temporals.format(item.reg2Date, 'yyyy-MM-dd')}">
+						2025-05-28</td>
+					<td style="text-align: center;" th:text="${item.likeCnt}">0</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</body>
+
+</html>

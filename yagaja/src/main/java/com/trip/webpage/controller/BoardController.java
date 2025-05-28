@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -239,4 +240,13 @@ public class BoardController {
 
 		return ResponseEntity.ok(resultMap); // ✅ 현재 좋아요 수 반환
 	}
+	
+	// 좋아요순 5개 개시글 출력
+	@GetMapping("/topLiked")
+	public String topLikedBoard(Model model) {
+	    List<BoardDefaultVO> topList = boardService.getTop5LikedBoards();
+	    model.addAttribute("topList", topList);
+	    return "board/topLiked"; // 보여줄 Thymeleaf 페이지
+	}
+
 }

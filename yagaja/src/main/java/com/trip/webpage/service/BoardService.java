@@ -10,7 +10,6 @@ import com.trip.webpage.vo.SearchHelper;
 public interface BoardService {
 	
 	
-	
 	BoardDefaultVO selectOne(Long bodIdx);
 	
 	List<BoardDefaultVO> selectList(SearchHelper searchHelper);
@@ -42,7 +41,10 @@ public interface BoardService {
     //2025-05-28 조윤호
     //좋아요가 눌러있는지 확인
 	boolean existsLike(Long bodIdx, String userId);
-    //
+    // 좋아요 토글
 	int toggleLike(Long bodIdx, String userId);
+	
+	// 좋아요순 상위 5개
+	public List<BoardDefaultVO> getTop5LikedBoards();
    
 }
