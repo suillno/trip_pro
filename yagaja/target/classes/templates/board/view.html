@@ -66,6 +66,23 @@
 			.flower-board-buttons a:hover {
 				background-color: #f8bbd0;
 			}
+			
+			.delete-button {
+				text-decoration: none;
+				padding: 0.5rem 1.2rem;
+				border-radius: 8px;
+				background-color: rgb(255, 128, 128);
+				color: rgb(128, 0, 0);
+				font-weight: bold;
+				transition: background-color 0.2s ease;
+				border: none;
+				cursor: pointer;
+			}
+
+			.delete-button:hover {
+				background-color: #f8bbd0;
+			}
+
 
 			.flower-container {
 				position: absolute;
@@ -154,7 +171,7 @@
 						<form th:action="@{/board/delete}" method="post" style="display:inline;">
 							<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
 							<input type="hidden" name="cate" th:value="${info.cate}" />
-							<button type="submit">삭제</button>
+							<button type="submit" class="delete-button">삭제</button>
 						</form>
 					</div>
 					<!-- 댓글 영역 -->
