@@ -6,7 +6,6 @@
 		<!-- 스타일 추가함 진행중 2025-05-22 조윤호 -->
 		<style>
 			.flower-board-container {
-				margin-top: 10%;
 				background-color: rgba(255, 255, 255, 0.96);
 				background-image: url('https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=1050&q=80');
 				background-size: cover;
@@ -17,7 +16,7 @@
 				color: #333;
 				padding: 20px;
 				border: 1px solid #ccc;
-				height: 750px;
+				height: auto;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
@@ -45,6 +44,9 @@
 				line-height: 1.7;
 				margin-bottom: 2rem;
 				margin-top: 1rem;
+				min-height: 450px;
+				max-height: 500px;
+				overflow-y: auto;   /* 스크롤 처리 추가 */
 			}
 
 			.flower-board-buttons {
@@ -85,62 +87,12 @@
 
 
 			.flower-container {
-				position: absolute;
-				top: 685px;
-				left: 50%;
-				transform: translateX(-50%) translateY(-50%);
-				width: 600px;
-			}
-
-			/* 반응형 스타일 */
-			@media (max-width: 1200px) {}
-
-			@media (max-width: 768px) {
-				.flower-container {
-					position: relative;
-					left: 0;
-					top: -90px;
-					width: 100%;
-					transform: none;
-					margin-left: auto;
-					margin-right: auto;
-					margin-top: 50px;
-					margin-bottom: 100px;
-				}
-
-				.flower-board-title {
-					font-size: 1.5rem;
-				}
-
-				.flower-board-content {
-					font-size: 1rem;
-				}
-
-				.flower-board-buttons {
-					flex-direction: column;
-					align-items: stretch;
-				}
-
-				.flower-board-buttons a {
-					text-align: center;
-				}
-			}
-
-			@media (max-width: 480px) {
-
-				.flower-board-title {
-					font-size: 1.3rem;
-				}
-
-				.flower-board-content {
-					font-size: 0.95rem;
-				}
-
-				.flower-board-buttons a {
-					font-size: 0.9rem;
-					padding: 0.4rem 1rem;
-				}
-			}
+				position: absolute; 
+				  top: auto;
+				  left: auto;
+				  transform: none;
+				  width: 800px;
+				  margin: 20px;			}
 		</style>
 		<!--스타일-->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
