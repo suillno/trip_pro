@@ -67,7 +67,7 @@
 			}
 
 			.flower-board-buttons a:hover {
-				background-color: #f8bbd0;
+				background-color: rgb(192, 192, 192);
 			}
 
 			.delete-button {
@@ -83,23 +83,23 @@
 			}
 
 			.delete-button:hover {
-				background-color: #f8bbd0;
+				background-color: rgb(192, 192, 192);
 			}
 
 			.delete-button2 {
 				text-decoration: none;
 				padding: 0.1 0.4rem;
 				border-radius: 2px;
-				border: 1px solid rgba(128, 128, 128, 0.4);
+				border: 1px solid rgb(192, 192, 192);
 				font-weight: bold;
 				transition: background-color 0.2s ease;
 				font-size: 12px;
-				color: rgba(128, 128, 128, 0.6);
+				color: rgb(128, 128, 128);
 				;
 			}
 
 			.delete-button2:hover {
-				color: rgba(128, 128, 128);
+				color: rgb(128, 128, 128);
 			}
 
 			.flower-container {
@@ -109,7 +109,17 @@
 				margin-left: auto;
 				margin-right: auto
 			}
-
+			.btn{
+					display:block;
+					margin-left: 70%;
+				}
+				
+				/* 맞는지 잘 모르겠지만 일단 넣음 -작동 안됨- */
+			.btnreport{ 
+				display:inline-block;
+				margin-left: 8%;
+				}
+				
 			/* 반응형 동작 */
 			@media screen and (max-width: 768px) {
 				.flower-container {
@@ -118,6 +128,7 @@
 					width: 95%;
 					margin-top: 16px;
 				}
+				
 			}
 		</style>
 		<!--스타일-->
@@ -139,9 +150,11 @@
 							<!-- 좋아요 폼 -->
 							<form id="likeForm" th:data-bodidx="${info.bodIdx}" th:data-userid="${userInfo.userId}"
 								style="display:inline;">
-								<button type="button" id="likeBtn">
+								<button type="button" id="likeBtn" class="btn">
 									좋아요 (<span id="likeCount" th:text="${info.likeCnt}">0</span>)
 								</button>
+								
+								<button type="button"class="btn report" id="reportBtn">신고</button>
 							</form>
 							<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 							<script>
@@ -181,7 +194,7 @@
 					</div>
 					<!-- 댓글 영역 -->
 					<section style="margin-top: 40px;">
-						<h3>댓글</h3>
+						<h4>댓글</h4>
 
 						<!-- 댓글 목록 -->
 
