@@ -110,4 +110,9 @@ public class BoardServiceImple implements BoardService {
         }
         return boardMapper.getLikeCount(bodIdx);
     }
+    
+    // 좋아요순 상위 5개
+    public List<BoardDefaultVO> getTop5LikedBoards() {
+        return boardMapper.selectTop5LikedBoards();
+    }
 }

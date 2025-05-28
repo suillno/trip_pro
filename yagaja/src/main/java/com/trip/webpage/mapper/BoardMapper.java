@@ -57,6 +57,9 @@ public interface BoardMapper {
 	// 좋아요 카운트
 	int getLikeCount(Long bodIdx);
 	
+	// 좋아요순 상위 5개
+	List<BoardDefaultVO> selectTop5LikedBoards();
+	
 }
 
 
