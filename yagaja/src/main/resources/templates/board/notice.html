@@ -23,7 +23,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th style="text-align: center;">번호</th>
+						<th style="text-align: center;">공지</th>
 						<th style="text-align: center;">제목</th>
 						<th>작성자</th>
 						<th style="text-align: center;">작성일</th>
@@ -32,9 +32,11 @@
 				</thead>
 				<tbody>
 					<tr th:each="item, stat : ${list}">
-						<td th:text="${(currentPage - 1) * pageSize + stat.index + 1}">1</td>
+						<td style="text-align: center;">
+							<img style="display: inline;" src="/img/notice.png" alt="공지 아이콘">
+						</td>
 						<td style="text-align: left;">
-							<a style="color: red; font-weight: bolder;" th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}&cate=${item.cate}|}"
+							<a style="color: rgb(255, 128, 128); font-weight: bolder;" th:href="@{|/board/view?bodIdx=${item.bodIdx}&pageNumber=${currentPage}&cate=${item.cate}|}"
 								th:text="${item.bodTitle}"></a>
 						</td>
 						<td th:text="${item.regId}"></td>

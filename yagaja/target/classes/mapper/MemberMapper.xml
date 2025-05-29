@@ -138,7 +138,7 @@
 	</select>
 
 	<select id="selectByEmail" parameterType="MemberVO" resultType="MemberVO">
-    SELECT * FROM member WHERE email = #{email} AND USER_ID = #{userId}
+    SELECT * FROM member WHERE email = #{email} AND USER_ID = #{userId} AND USER_NAME = #{userName}
 	</select>
 
 </mapper>

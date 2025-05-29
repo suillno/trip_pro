@@ -51,50 +51,45 @@
     </form>
 	
 	<script th:inline="javascript">
-	    const error = [[${error}]];
-	    console.log(error);
+		/*<![CDATA[*/
+		  const error   = /*[[${error}   ?: false]]*/ false;
+		  const success = /*[[${success} ?: false]]*/ false;
+		  /*]]>*/
 
-	    // 에러 메시지 출력
-	    if (error) {
-	        Swal.fire({
-	            icon: 'error',
-	            title: '비밀번호 오류',
-	            text: '비밀번호가 일치하지 않습니다.',
-	        });
-	    }
+		  document.addEventListener("DOMContentLoaded", () => {
+		      const form = document.getElementById("shipForm");
 
-	    // 확인창은 DOM이 로드된 후 바인딩 (무조건 1번만)
-	    document.addEventListener("DOMContentLoaded", function () {
-	        const form = document.querySelector("#shipForm");
+		      // 1) 탈퇴 확인 → 확인 누르면 실제 제출
+			  form.addEventListener("submit", e => {
+			      e.preventDefault();
 
-	        form.addEventListener("submit", function (e) {
-	            e.preventDefault(); // 기본 제출 막기
+			      Swal.fire({
+			          title: '정말 탈퇴하시겠습니까?',
+			          text: '탈퇴 후 복구가 불가능합니다.',
+			          icon: 'warning',
+			          showCancelButton: true,
+			          confirmButtonColor: '#d33',
+			          cancelButtonColor: '#3085d6',
+			          confirmButtonText: '탈퇴하기',
+			          cancelButtonText: '취소',
+			          reverseButtons: true
+			      }).then(result => {
+			          if (result.isConfirmed) {
+			              form.submit(); // 서버 응답 후 페이지 새로고침됨
+			          }
+			      });
+			  });
+	
 
-	            // 이미 확인된 상태면 다시 묻지 않기 위해 확인 창만 한번 띄우기
-	            Swal.fire({
-	                title: '정말 탈퇴하시겠습니까?',
-	                text: '탈퇴 후 복구가 불가능합니다.',
-	                icon: 'warning',
-	                showCancelButton: true,
-	                confirmButtonColor: '#d33',
-	                cancelButtonColor: '#3085d6',
-	                confirmButtonText: '탈퇴하기',
-					cancelButtonText: '취소',
-	                reverseButtons: true
-	            }).then((result) => {
-	                if (result.isConfirmed) {
-						Swal.fire({
-							icon: 'success',
-			          		title: '정상적으로 탈퇴 처리되었습니다.',
-			          		text: '그동안 이용해 주셔서 감사합니다.',
-			         		confirmButtonText: '확인'
-						}).then(() =>  {
-	                    form.submit(); // 진짜로 폼 제출
-	                });
-					}
-	            });
-	        }, { once: true }); // ✅ 이벤트가 1번만 바인딩되도록 설정
-	    });
+			  if (error) {
+			      Swal.fire({
+			          icon: 'error',
+			          title: '비밀번호 오류',
+			          text: '비밀번호가 일치하지 않습니다.',
+			      });
+			  }
+			  }); 
+		
 	</script>
 
     <script>
