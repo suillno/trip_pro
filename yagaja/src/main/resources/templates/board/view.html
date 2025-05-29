@@ -197,7 +197,7 @@
 					<div class="flower-board-buttons">
 						<!-- cate 값이 존재할 경우 -->
 						<a th:if="${searchHelper.cate != null}" 
-						   th:href="@{|/board/list?cate=${searchHelper.cate}&pageNumber=${searchHelper.pageNumber}|}">목록</a>
+						   th:href="@{|/board/list?cate=${searchHelper.cate}&pageNumber=${searchHelper.pageNumber}&pageSize=10|}">목록</a>
 						<!-- cate 값이 null 또는 비어 있을 경우 -->
 						<a th:unless="${searchHelper.cate != null}" 
 						   th:href="@{/board/topLiked}">목록</a>
@@ -205,7 +205,7 @@
 							th:href="@{/board/write(bodIdx=${info.bodIdx})}">수정</a>
 						<form th:action="@{/board/delete}" method="post" style="display:inline;">
 							<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
-							<input type="hidden" name="cate" th:value="${info.cate}" />
+							<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
 							<button type="submit" class="delete-button">삭제</button>
 						</form>
 					</div>

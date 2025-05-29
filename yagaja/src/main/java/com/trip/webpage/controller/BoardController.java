@@ -108,7 +108,7 @@ public class BoardController {
 		if (vo == null) {
 			// 로그인 안 된 사용자일 경우 처리
 			// 게시판 리디렉션
-			return new ModelAndView("redirect:/board/list?cate=1000&pageNumber=1");
+			return new ModelAndView("redirect:/board/list?cate=1000&pageNumber=1&pageSize=10");
 		}
 
 		// 2025-02-26 조윤호 boardDefaultVO.setRegId(vo.getUserId()); 추가
@@ -168,10 +168,9 @@ public class BoardController {
 	}
 
 	// 2025-05-27삭제 보드 추가
-	// Controller
 	@PostMapping("/delete")
 	public ModelAndView deleteBoard(@ModelAttribute SearchHelper searchHelper) {
-		ModelAndView mav = new ModelAndView("/board/list?cate=" + searchHelper.getCate() + "&pageNumber=1");
+		ModelAndView mav = new ModelAndView("redirect:/board/list?cate=" + searchHelper.getCate() + "&pageNumber=1&pageSize=10");
 
 		// 게시글 삭제 메서드 실행
 		boardService.deleteBoard(searchHelper.getBodIdx());
@@ -201,7 +200,8 @@ public class BoardController {
 
 		return mav;
 	}
-
+	
+	// 댓글삭제
 	@PostMapping("/commentDelete")
 	public ModelAndView commentDelete(@ModelAttribute CommentVO comment, @RequestParam("cate") int cate,
 			HttpServletRequest request) {
@@ -223,7 +223,7 @@ public class BoardController {
 		return mav;
 	}
 
-	// ✅ Controller
+	// 좋아요
 	@PostMapping("/like")
 	@ResponseBody
 	public ResponseEntity<?> like(@RequestBody HashMap<String, Object> requestMap) {
