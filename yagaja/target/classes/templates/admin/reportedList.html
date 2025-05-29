@@ -44,13 +44,12 @@
                         <!-- ✅ 차단 상태 표시 -->
                         <td th:id="'visibleDisplay_' + ${item.bodIdx}" th:text="${item.isVisible} ?: 'Y'">Y</td>
                         <td>
-                            <!-- ❌ 기존 input 제거: 여기선 미리 hidden input 만들지 않음 -->
                             <button type="button"
                                     th:id="'blockBtn_' + ${item.bodIdx}"
                                     th:data-bodidx="${item.bodIdx}"
                                     th:data-visible="${item.isVisible}"
-                                    th:class="'btn ' + (${item.isVisible} == 'N' ? 'btn-danger' : 'btn-secondary')"
-                                    th:text="${item.isVisible == 'N'} ? '해제' : '변경'"
+                                    th:class="'btn ' + (${item.isVisible} == 'N' ? 'btn-secondary' : 'btn-danger')"
+                                    th:text="${item.isVisible == 'N'} ? '변경' : '해제'"
                                     onclick="toggleVisibility(this)">
                             </button>
                         </td>
@@ -64,55 +63,55 @@
                 <button type="button" class="btn btn-primary" onclick="saveBlockChanges()">저장</button>
             </div>
         </form>
-    </div>
 
-    <!-- ✅ JavaScript -->
-    <script>
-        const changedBoards = new Map();
+        <!-- ✅ JavaScript -->
+        <script>
+            const changedBoards = new Map();
 
-        function toggleVisibility(button) {
-            const bodIdx = button.dataset.bodidx;
-            const current = button.dataset.visible;
-            const next = current === 'Y' ? 'N' : 'Y';
+            function toggleVisibility(button) {
+                const bodIdx = button.dataset.bodidx;
+                const current = button.dataset.visible;
+                const next = current === 'Y' ? 'N' : 'Y';
 
-            // UI 업데이트
-            button.dataset.visible = next;
-            button.textContent = next === 'Y' ? '변경' : '해제';
-            button.className = next === 'Y' ? 'btn btn-secondary' : 'btn btn-danger';
+                // UI 업데이트
+                button.dataset.visible = next;
+                button.textContent = next === 'Y' ? '해제' : '변경';
+                button.className = next === 'Y' ? 'btn btn-danger' : 'btn btn-secondary';
 
-            // 표시값 및 내부 상태 변경
-            document.getElementById("visibleDisplay_" + bodIdx).textContent = next;
-            changedBoards.set(bodIdx, next);
-        }
-
-        function saveBlockChanges() {
-            if (changedBoards.size === 0) {
-                alert("변경된 항목이 없습니다.");
-                return;
+                // 표시값 및 내부 상태 변경
+                document.getElementById("visibleDisplay_" + bodIdx).textContent = next;
+                changedBoards.set(bodIdx, next);
             }
 
-            const form = document.getElementById("blockForm");
+            function saveBlockChanges() {
+                if (changedBoards.size === 0) {
+                    alert("변경된 항목이 없습니다.");
+                    return;
+                }
 
-            // ✅ 기존 hidden input 제거
-            form.querySelectorAll('input[name="bodIdx"], input[name="isVisible"]').forEach(el => el.remove());
+                const form = document.getElementById("blockForm");
 
-            // ✅ 변경된 항목만 추가
-            changedBoards.forEach((visible, bodIdx) => {
-                const inputId = document.createElement("input");
-                inputId.type = "hidden";
-                inputId.name = "bodIdx";
-                inputId.value = bodIdx;
-                form.appendChild(inputId);
+                // 기존 hidden input 제거
+                form.querySelectorAll('input[name="bodIdx"], input[name="isVisible"]').forEach(el => el.remove());
 
-                const inputVisible = document.createElement("input");
-                inputVisible.type = "hidden";
-                inputVisible.name = "isVisible";
-                inputVisible.value = visible;
-                form.appendChild(inputVisible);
-            });
+                // 변경된 항목만 추가
+                changedBoards.forEach((visible, bodIdx) => {
+                    const inputId = document.createElement("input");
+                    inputId.type = "hidden";
+                    inputId.name = "bodIdx";
+                    inputId.value = bodIdx;
+                    form.appendChild(inputId);
 
-            form.submit();
-        }
-    </script>
+                    const inputVisible = document.createElement("input");
+                    inputVisible.type = "hidden";
+                    inputVisible.name = "isVisible";
+                    inputVisible.value = visible;
+                    form.appendChild(inputVisible);
+                });
+
+                form.submit();
+            }
+        </script>
+    </div>
 </body>
 </html>

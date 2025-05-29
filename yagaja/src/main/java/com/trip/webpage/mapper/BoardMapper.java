@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.trip.webpage.vo.BoardDefaultVO;
 import com.trip.webpage.vo.CommentVO;
+import com.trip.webpage.vo.MemberVO;
 import com.trip.webpage.vo.SearchHelper;
 
 @Mapper
@@ -79,5 +80,8 @@ public interface BoardMapper {
 	
 	//신고 3개이상 게시글 확인
 	List<BoardDefaultVO> selectReportedBoards();
+	
+	// 신고 게시글 블라인드 처리
+	int blockBoard(BoardDefaultVO defaultVO);
 
 }

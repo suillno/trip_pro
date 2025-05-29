@@ -15,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.trip.webpage.vo.SearchHelper;
 import com.trip.webpage.vo.StatsVO;
+import com.trip.webpage.service.BoardService;
 import com.trip.webpage.service.MemberService;
+import com.trip.webpage.vo.BoardDefaultVO;
 import com.trip.webpage.vo.MemberVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +31,9 @@ public class AdminController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private BoardService boardService;
 
 	// 회원관리 페이지
 	@GetMapping("/memberDetail")
@@ -220,6 +225,30 @@ public class AdminController {
 	        return mav;
 	    }
 
+	    // 게시글 블락 처리 
+		 @PostMapping("/updateVisibility")
+		 public ModelAndView updateVisibility(@RequestParam MultiValueMap<String, String> paramMap) {
+		     List<String> bodIdx = paramMap.get("bodIdx");
+		     List<String> isVisible = paramMap.get("isVisible");
+
+		     ModelAndView mav = new ModelAndView();
+
+		     if (bodIdx == null || isVisible == null || bodIdx.size() != isVisible.size()) {
+		         mav.setViewName("error"); // 필요 시 오류 페이지로 이동
+		         return mav;
+		     }
+
+		     for (int i = 0; i < bodIdx.size(); i++) {
+		         BoardDefaultVO vo = new BoardDefaultVO();
+		         vo.setBodIdx(Long.parseLong(bodIdx.get(i)));
+		         vo.setIsVisible(isVisible.get(i));
+		         boardService.blockBoard(vo);
+		     }
+		    
+		     // ✅ 변경 후 목록 페이지로 redirect
+		     mav.setViewName("redirect:/board/reported");
+		     return mav;
+		 }
 
 	 
 }

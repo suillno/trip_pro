@@ -246,4 +246,11 @@ ORDER BY BOD_IDX DESC
     ORDER BY reportCnt DESC
 </select>
 
+<!-- 게시글 블라인드처리 -->
+	<update id="blockBoard" parameterType="BoardDefaultVO">
+		UPDATE BOARD_DEFAULT
+		SET IS_VISIBLE = #{isVisible}
+		WHERE BOD_IDX = #{bodIdx}
+	</update>
+
 </mapper>

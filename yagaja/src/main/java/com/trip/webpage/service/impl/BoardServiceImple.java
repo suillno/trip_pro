@@ -133,4 +133,10 @@ public class BoardServiceImple implements BoardService {
 	public List<BoardDefaultVO> getReportedBoards() {
 	    return boardMapper.selectReportedBoards();
 	}
+
+	@Override
+	public int blockBoard(BoardDefaultVO defaultVO) {
+		// TODO Auto-generated method stub
+		return boardMapper.blockBoard(defaultVO);
+	}
 }

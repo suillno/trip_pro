@@ -53,4 +53,6 @@ public interface BoardService {
 	// 신고 3개이상 게시글
 	List<BoardDefaultVO> getReportedBoards();
 
+	// 신고 게시글 블락처리
+	int blockBoard(BoardDefaultVO defaultVO);
 }

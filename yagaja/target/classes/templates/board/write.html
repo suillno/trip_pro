@@ -130,11 +130,10 @@
 				</div>
 
 				<div class="form-actions">
-					<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
 					<input type="hidden" name="pageNumber" value="1" />
 					<input type="hidden" name="pageSize" th:value="10" />
 					<button type="submit">제출</button>
-					<a th:href="@{/board/list(cate=${searchHelper.cate}, pageNumber=1)}">취소</a>
+					<a th:href="@{/board/list(cate=${searchHelper.cate}, pageNumber=1, pageSize=10)}">취소</a>
 				</div>
 			</form>
 		</div>

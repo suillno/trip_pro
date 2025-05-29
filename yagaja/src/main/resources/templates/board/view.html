@@ -1,278 +1,309 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  layout:decorate="~{layout/layout}"
+>
+  <body>
+    <div layout:fragment="content">
+      <style>
+        .flower-board-container {
+          background-color: rgba(255, 255, 255, 0.96);
+          background-image: url("https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=1050&q=80");
+          background-size: cover;
+          background-repeat: no-repeat;
+          border-radius: 16px;
+          box-shadow: 0 16px 16px rgba(0, 0, 0, 0.15);
+          font-family: "Nanum Myeongjo", serif;
+          color: #333;
+          padding: 20px;
+          border: 1px solid #ccc;
+          margin-left: 15%;
+        }
 
-<body>
-	<div layout:fragment="content">
-		<!-- 스타일 추가함 진행중 2025-05-22 조윤호 -->
-		<style>
-			.flower-board-container {
-				background-color: rgba(255, 255, 255, 0.96);
-				background-image: url('https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=1050&q=80');
-				background-size: cover;
-				background-repeat: no-repeat;
-				border-radius: 16px;
-				box-shadow: 0 16px 16px rgba(0, 0, 0, 0.15);
-				font-family: 'Nanum Myeongjo', serif;
-				color: #333;
-				padding: 20px;
-				border: 1px solid #ccc;
-				height: auto;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				margin-left: 15%;
+        .flower-board-title {
+          font-size: 2rem;
+          margin-bottom: 1.5rem;
+          color: rgb(64, 0, 0);
+        }
 
-			}
+        .titleContent {
+          border-bottom: 1px solid rgb(192, 192, 192);
+        }
 
-			.flower-board-title {
-				font-size: 2rem;
-				margin-bottom: 1.5rem;
-				color: rgb(64, 0, 0);
+        .titleContent p {
+          display: inline-block;
+          font-size: 14px;
+        }
 
-			}
+        .flower-board-content {
+          font-size: 1.1rem;
+          line-height: 1.7;
+          margin-bottom: 2rem;
+          margin-top: 1rem;
+          min-height: 450px;
+          max-height: 500px;
+        }
 
-			.titleContent {
-				border-bottom: 1px solid rgb(192, 192, 192);
-			}
+        .flower-board-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: flex-end;
+        }
 
-			.titleContent p {
-				display: inline-block;
-				font-size: 14px;
-			}
+        .flower-board-buttons a,
+        .delete-button {
+          text-decoration: none;
+          padding: 0.2rem 0.5rem;
+          border-radius: 8px;
+          background-color: rgba(128, 128, 128, 0.3);
+          color: #333;
+          border: 1px solid rgba(128, 128, 128, 0.4);
+          font-weight: bold;
+          font-size: 14px;
+          transition: background-color 0.2s ease;
+        }
 
-			.flower-board-content {
-				font-size: 1.1rem;
-				line-height: 1.7;
-				margin-bottom: 2rem;
-				margin-top: 1rem;
-				min-height: 450px;
-				max-height: 500px;
-			}
+        .flower-board-buttons a:hover,
+        .delete-button:hover {
+          background-color: rgb(192, 192, 192);
+          color: rgba(128, 128, 128);
+        }
 
-			.flower-board-buttons {
-				display: flex;
-				gap: 1rem;
-				justify-content: flex-end;
-			}
+        .delete-button2 {
+          padding: 0.1rem 0.4rem;
+          border-radius: 2px;
+          border: 1px solid rgb(192, 192, 192);
+          font-weight: bold;
+          font-size: 12px;
+          color: rgb(128, 128, 128);
+        }
 
-			.flower-board-buttons a {
-				text-decoration: none;
-				padding: 0.2rem 0.5rem;
-				border-radius: 8px;
-				background-color: rgba(128, 128, 128, 0.3);
-				color: #333;
-				border: 1px solid rgba(128, 128, 128, 0.4);
-				font-weight: bold;
-				transition: background-color 0.2s ease;
-				font-size: 14px;
-			}
+        .delete-button2:hover {
+          color: rgb(128, 128, 128);
+        }
 
-			.flower-board-buttons a:hover {
-				background-color: rgb(192, 192, 192);
-				color: rgba(128, 128, 128);
-			}
+        .flower-container {
+          position: absolute;
+          width: 768px;
+          margin-top: 20px;
+          margin-left: auto;
+          margin-right: auto;
+        }
 
-			.delete-button {
-				text-decoration: none;
-				padding: 0.2rem 0.5rem;
-				border-radius: 8px;
-				background-color: rgba(128, 128, 128, 0.3);
-				color: #333;
-				border: 1px solid rgba(128, 128, 128, 0.4);
-				font-weight: bold;
-				transition: background-color 0.2s ease;
-				font-size: 14px;
-			}
+        /* 좋아요 & 신고 버튼 공통 스타일 */
+        .likeBtn,
+        .policeBtn {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          border: none;
+          background: none;
+          cursor: pointer;
+          font-size: 12px;
+          color: rgba(128, 128, 128, 1);
+        }
 
-			.delete-button:hover {
-				background-color: rgb(192, 192, 192);
-				color: rgba(128, 128, 128);
-			}
+        /* 작성자/작성일과 버튼을 양쪽 정렬 */
+        .info-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 8px;
+        }
 
-			.delete-button2 {
-				text-decoration: none;
-				padding: 0.1 0.4rem;
-				border-radius: 2px;
-				border: 1px solid rgb(192, 192, 192);
-				font-weight: bold;
-				transition: background-color 0.2s ease;
-				font-size: 12px;
-				color: rgb(128, 128, 128);
-				;
-			}
+        .info-left p {
+          margin: 0;
+        }
 
-			.delete-button2:hover {
-				color: rgb(128, 128, 128);
-			}
+        @media screen and (max-width: 768px) {
+          .flower-container {
+            position: static;
+            width: 95%;
+            margin-top: 16px;
+          }
+          .flower-board-container {
+            margin-left: 0;
+          }
+        }
+      </style>
 
-			.flower-container {
-				position: absolute;
-				width: 768px;
-				margin-top: 20px;
-				margin-left: auto;
-				margin-right: auto
-			}
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      />
 
-			.btn {
-				display: block;
-				margin-left: 70%;
-			}
+      <div class="flower-container">
+        <div class="animate__animated animate__backInRight">
+          <div class="flower-board-container" th:object="${info}">
+            <div class="titleContent">
+              <h2 th:text="*{bodTitle}">게시글 제목</h2>
 
-			/* 맞는지 잘 모르겠지만 일단 넣음 -작동 안됨- */
-			.btnreport {
-				display: inline-block;
-				margin-left: 8%;
-			}
+              <!-- 양쪽 정렬된 작성자/작성일 & 버튼 -->
+              <div class="info-bar">
+                <div class="info-left">
+                  <p>작성자: <span th:text="*{regId}">test002</span></p>
+                  <p>
+                    작성일:
+                    <span
+                      th:text="*{#temporals.format(reg2Date, 'yyyy-MM-dd')}"
+                    ></span>
+                  </p>
+                </div>
+                <div class="info-right" style="display: flex; gap: 12px">
+                  <form
+                    id="likeForm"
+                    th:data-bodidx="${info.bodIdx}"
+                    th:data-userid="${userInfo.userId}"
+                  >
+                    <button type="button" id="likeBtn" class="likeBtn">
+                      <img
+                        src="/img/good2.png"
+                        style="width: 20px; height: 20px"
+                      />
+                      <span id="likeCount" th:text="${info.likeCnt}">0</span>
+                    </button>
+                  </form>
+                  <form
+                    id="ReportForm"
+                    th:data-bodidx="${info.bodIdx}"
+                    th:data-userid="${userInfo.userId}"
+                  >
+                    <button type="button" id="reportBtn" class="policeBtn">
+                      <img
+                        src="/img/police.png"
+                        style="width: 20px; height: 20px"
+                      />
+                      <span id="reportCount" th:text="${info.reportCnt}"
+                        >0</span
+                      >
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
 
-			.likeBtn {
-				display: inline-block;
-				margin-left: 85%;
-				margin-bottom: 6px;
-				bottom: 1px solid rgba(128, 128, 128, 0.4);
-			}
+            <div class="flower-board-content" th:utext="*{bodConstent}">
+              게시글 내용
+            </div>
 
-			.likeBtn:hover {
-				color: rgba(128, 128, 128);
-			}
+            <div class="flower-board-buttons">
+              <a
+                th:if="${searchHelper.cate != null}"
+                th:href="@{|/board/list?cate=${searchHelper.cate}&pageNumber=${searchHelper.pageNumber}&pageSize=10|}"
+                >목록</a
+              >
+              <a
+                th:unless="${searchHelper.cate != null}"
+                th:href="@{/board/topLiked}"
+                >목록</a
+              >
+              <a
+                th:if="${userInfo.userId == info.userId or userInfo.isAdmin == 1}"
+                th:href="@{/board/write(bodIdx=${info.bodIdx}, cate=${searchHelper.cate})}"
+                >수정</a
+              >
+              <form
+                th:action="@{/board/delete}"
+                method="post"
+                style="display: inline"
+              >
+                <input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
+                <input
+                  type="hidden"
+                  name="cate"
+                  th:value="${searchHelper.cate}"
+                />
+                <button type="submit" class="delete-button">삭제</button>
+              </form>
+            </div>
 
-			/* 반응형 동작 */
-			@media screen and (max-width: 768px) {
-				.flower-container {
-					position: static;
-					/* 또는 relative */
-					width: 95%;
-					margin-top: 16px;
-				}
-				.flower-board-container {
-					margin-left: 0;
-				}
-			}
-		</style>
-		<!--스타일-->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+            <!-- 댓글 영역 -->
+            <section style="margin-top: 40px">
+              <h4>댓글</h4>
 
-		<div class="flower-container">
-			<div class="animate__animated animate__backInRight">
-				<div class="flower-board-container" th:object="${info}">
-					<div>
-						<div class="titleContent">
-							<h2 th:text="*{bodTitle}">게시글 제목</h2>
-							<input type="text" value="*{bodIdx}" hidden />
-							<p>작성자 :
-							<p th:text="*{regId}"></p>
-							</p><br>
-							<p>작성일 :
-							<p th:text="*{#temporals.format(reg2Date, 'yyyy-MM-dd')}"></p>
-							</p>
-							<!-- 좋아요 폼 -->
-						<div>
-							<form id="likeForm" th:data-bodidx="${info.bodIdx}" th:data-userid="${userInfo.userId}"
-								style="display:inline;">
-									<button type="button" id="likeBtn" class="likeBtn">
-										좋아요 (<span id="likeCount" th:text="${info.likeCnt}">0</span>)
-									</button>
-							</form>
-							</div>
+              <div th:if="${#lists.isEmpty(commentList)}">
+                등록된 댓글이 없습니다.
+              </div>
+              <ul>
+                <li th:each="c : ${commentList}">
+                  <p>
+                    <strong th:text="${c.regId}"></strong>
+                    <span
+                      th:text="${#temporals.format(c.regDate, 'yyyy-MM-dd HH:mm')}"
+                    ></span>
+                  </p>
+                  <p th:text="${c.content}"></p>
+                  <form
+                    method="post"
+                    th:action="@{/board/commentDelete}"
+                    th:if="${userInfo.userId == c.regId or userInfo.isAdmin == 1}"
+                  >
+                    <input type="hidden" name="comIdx" th:value="${c.comIdx}" />
+                    <input
+                      type="hidden"
+                      name="bodIdx"
+                      th:value="${info.bodIdx}"
+                    />
+                    <input
+                      type="hidden"
+                      name="cate"
+                      th:value="${searchHelper.cate}"
+                    />
+                    <button type="submit" class="delete-button2">삭제</button>
+                  </form>
+                  <hr />
+                </li>
+              </ul>
 
-							<!--신고버튼 추가-->
-							<div>
-							<form id="ReportForm" th:data-bodidx="${info.bodIdx}" th:data-userid="${userInfo.userId}"
-								style="display:inline;">
-								<button type="button" id="reportBtn">
-									신고 (<span id="reportCount" th:text="${info.reportCnt}">0</span>)
-								</button>
-							</form>
-							</div>
-							<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-							<script>
-								document.getElementById("likeBtn").addEventListener("click", function () {
-									const form = document.getElementById("likeForm");
-									const bodIdx = form.dataset.bodidx;
-									const userId = form.dataset.userid;
+              <form method="post" th:action="@{/board/commentWrite}">
+                <input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
+                <input
+                  type="hidden"
+                  name="cate"
+                  th:value="${searchHelper.cate}"
+                />
+                <textarea
+                  name="content"
+                  required
+                  placeholder="댓글을 입력하세요"
+                  style="width: 100%; height: 80px"
+                ></textarea>
+                <button type="submit" style="margin-top: 8px">댓글 등록</button>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
 
-									const request = {
-										bodIdx: bodIdx, userId: userId
-									}
+      <!-- 좋아요/신고 스크립트 -->
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script>
+        document
+          .getElementById("likeBtn")
+          .addEventListener("click", function () {
+            const form = document.getElementById("likeForm");
+            const bodIdx = form.dataset.bodidx;
+            const userId = form.dataset.userid;
 
-									console.log(request)
+            axios.post("/board/like", { bodIdx, userId }).then((res) => {
+              document.querySelector("#likeCount").innerHTML = res.data.result;
+            });
+          });
 
-									axios.post('/board/like', request).then(res => {
-										console.log(res.data)
-										console.log(res.data?.result);
-										document.querySelector('#likeCount').innerHTML = res.data.result;
-									});
-								});
+        document
+          .getElementById("reportBtn")
+          .addEventListener("click", function () {
+            const form = document.getElementById("ReportForm");
+            const bodIdx = form.dataset.bodidx;
+            const userId = form.dataset.userid;
 
-								document.getElementById("reportBtn").addEventListener("click", function () {
-									const form = document.getElementById("ReportForm");
-									const bodIdx = form.dataset.bodidx;
-									const userId = form.dataset.userid;
-
-									const request = {bodIdx, userId};
-
-									axios.post('/board/report', request).then(res => {
-										document.querySelector('#reportCount').innerHTML = res.data.result;
-										console.log(res);
-									});
-								});
-							</script>
-						</div>
-						<div class="flower-board-content" th:utext="*{bodConstent}">게시글 내용</div>
-
-					</div>
-					<!--2025-05-22 조윤호 목록으로 돌아가기 생성 -->
-					<div class="flower-board-buttons">
-						<!-- cate 값이 존재할 경우 -->
-						<a th:if="${searchHelper.cate != null}"
-							th:href="@{|/board/list?cate=${searchHelper.cate}&pageNumber=${searchHelper.pageNumber}&pageSize=10|}">목록</a>
-						<!-- cate 값이 null 또는 비어 있을 경우 -->
-						<a th:unless="${searchHelper.cate != null}" th:href="@{/board/topLiked}">목록</a>
-						<a th:if="${userInfo.userId == info.userId or userInfo.isAdmin == 1}"
-							th:href="@{/board/write(bodIdx=${info.bodIdx})}">수정</a>
-						<form th:action="@{/board/delete}" method="post" style="display:inline;">
-							<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
-							<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
-							<button type="submit" class="delete-button">삭제</button>
-						</form>
-					</div>
-					<!-- 댓글 영역 -->
-					<section style="margin-top: 40px;">
-						<h4>댓글</h4>
-
-						<!-- 댓글 목록 -->
-
-						<div th:if="${#lists.isEmpty(commentList)}">등록된 댓글이 없습니다.</div>
-						<ul>
-							<li th:each="c : ${commentList}">
-								<p><strong th:text="${c.regId}"></strong>
-									<span th:text="${#temporals.format(c.regDate, 'yyyy-MM-dd HH:mm')}"></span>
-								</p>
-								<p th:text="${c.content}"></p>
-								<!-- 댓글 삭제 관리자 및 작성자만 보이게 -->
-								<form method="post" th:action="@{/board/commentDelete}"
-									th:if="${userInfo.userId == c.regId or userInfo.isAdmin == 1}">
-									<input type="hidden" name="comIdx" th:value="${c.comIdx}" />
-									<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
-									<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
-									<button type="submit" class="delete-button2" style="margin-right: 5px;">삭제</button>
-								</form>
-								<hr />
-							</li>
-						</ul>
-
-						<!-- 댓글 입력 -->
-						<form method="post" th:action="@{/board/commentWrite}">
-							<input type="hidden" name="bodIdx" th:value="${info.bodIdx}" />
-							<input type="hidden" name="cate" th:value="${searchHelper.cate}" />
-							<textarea name="content" required placeholder="댓글을 입력하세요"
-								style="width: 100%; height: 80px;"></textarea>
-							<button type="submit" style="margin-top: 8px;">댓글 등록</button>
-						</form>
-					</section>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
-
+            axios.post("/board/report", { bodIdx, userId }).then((res) => {
+              document.querySelector("#reportCount").innerHTML =
+                res.data.result;
+            });
+          });
+      </script>
+    </div>
+  </body>
 </html>
