@@ -16,10 +16,10 @@
 			</section>
 			<section class="board">
 				<h4>게시판</h4>
-				<p><a href="/board/list?cate=1000&pageNumber=1">공지사항</a></p>
-				<p><a href="/board/list?cate=2000&pageNumber=1">후기게시판</a></p>
-				<p><a href="/board/list?cate=3000&pageNumber=1">여행계획게시판</a></p>
-				<p><a href="/board/list?cate=4000&pageNumber=1">잡담게시판</a></p>
+				<p><a href="/board/list?cate=1000&pageNumber=1&pageSize=10&searchType=null&searchKeyword=null">공지사항</a></p>
+				<p><a href="/board/list?cate=2000&pageNumber=1&pageSize=10&searchType=null&searchKeyword=null">후기게시판</a></p>
+				<p><a href="/board/list?cate=3000&pageNumber=1&pageSize=10&searchType=null&searchKeyword=null">여행계획게시판</a></p>
+				<p><a href="/board/list?cate=4000&pageNumber=1&pageSize=10&searchType=null&searchKeyword=null">잡담게시판</a></p>
 			</section>
 			<!-- 관리자여부 userInfo에 값이 있으면 isAdmin값을 체크하여 1이면 관리자 -->
 			<section class="admin" th:if="${userInfo != null and userInfo.isAdmin == 1}">

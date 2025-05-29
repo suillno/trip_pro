@@ -90,7 +90,7 @@ public class AdminController {
 	    
 	    mav.addObject("totalRecords", totalRecords);
 	    mav.addObject("pageSize", pageSize);
-	    mav.addObject("totalPages", totalPages);
+	    mav.addObject("totalPages", totalPages == 0 ? 1 : totalPages);
 	    mav.addObject("currentPage", currentPage);
 
 	    // 검색 조건 유지
