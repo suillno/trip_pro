@@ -69,16 +69,21 @@ public class MemberController {
 		MemberVO result = memberService.userLogin(loginRequest);
 
 		if (result != null) {
-			session.setAttribute("userInfo", result);
-			// 로그인 성공시 방문 기록 저장
-			memberService.saveVisit(result.getUserId());
-			// 로그인 성공 시 메인으로 리다이렉트
-			mav.setViewName("redirect:/");
-		} else {
-			mav.setViewName("member/login"); // 실패 시 다시 로그인 페이지로 이동
-			mav.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
-			mav.addObject("userInfo", loginRequest); // 입력값 유지
-		}
+	        if ('Y' == result.getBlockCode()) {
+	            // 차단된 사용자
+	            mav.setViewName("member/login");
+	            mav.addObject("error", "해당 계정은 관리자에 의해 차단되었습니다.");
+	            mav.addObject("userInfo", loginRequest);
+	        } else {
+	            session.setAttribute("userInfo", result);
+	            memberService.saveVisit(result.getUserId());
+	            mav.setViewName("redirect:/"); // 메인 페이지로 리다이렉트
+	        }
+	    } else {
+	        mav.setViewName("member/login"); // 로그인 실패
+	        mav.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
+	        mav.addObject("userInfo", loginRequest);
+	    }
 
 		return mav;
 	}

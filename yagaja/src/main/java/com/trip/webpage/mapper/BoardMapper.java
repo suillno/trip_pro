@@ -31,7 +31,7 @@ public interface BoardMapper {
 
 	// 2025-05-26 조윤호 카운트문 추가
 	void updateUserCnt(Long bodIdx);
-	
+
 	// 댓글 저장
 	void insertComment(CommentVO comment);
 
@@ -41,7 +41,7 @@ public interface BoardMapper {
 	void updateComment(Long comIdx);
 
 	void deleteComment(Long comIdx);
-	
+
 	// 좋아요 중복체크 확인
 	boolean existsLike(Long bodIdx, String userId);
 
@@ -56,10 +56,28 @@ public interface BoardMapper {
 
 	// 좋아요 카운트
 	int getLikeCount(Long bodIdx);
-	
+
 	// 좋아요순 상위 5개
 	List<BoardDefaultVO> selectTop5LikedBoards();
+
+	// 신고 여부 확인 05-29 조윤호
+	int checkReport(Long bodIdx, String userId);
+
+	// 신고 등록 05-29 조윤호
+	void insertReport(Long bodIdx, String userId);
+
+	// 신고 조회 05-29
+	int getReportCount(Long bodIdx);
+
+	// 신고 중복체크 확인
+	boolean existsReport(Long bodIdx, String userId);
+
+	// 신고 취소
+	void removeReport(Long bodIdx, String userId);
+
+	void addReport(Long bodIdx, String userId);
 	
+	//신고 3개이상 게시글 확인
+	List<BoardDefaultVO> selectReportedBoards();
+
 }
-
-

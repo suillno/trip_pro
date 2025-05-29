@@ -93,6 +93,7 @@ legend {
 
 .logo {
   font-family: "Jua", sans-serif;
+  
   font-size: 50px;
   color: #ff2e63;
   text-align: center;
@@ -198,4 +199,8 @@ input.valid {
   background-color: #ddd;
   color: #888;
   cursor: not-allowed;
+}
+.logo a {
+  text-decoration: none;
+  color: #ff2e63; /* 로고 색상 유지 */
 }

@@ -66,20 +66,20 @@ public class BoardServiceImple implements BoardService {
 	public void updateUserCnt(Long bodIdx) {
 
 	}
-	
+
 	// 댓글 저장
 	@Override
-    public void writeComment(CommentVO comment) {
+	public void writeComment(CommentVO comment) {
 		boardMapper.insertComment(comment);
-    }
+	}
 
 	// 댓글 리스트
-    @Override
-    public List<CommentVO> selectCommentList(Long bodIdx) {
-        return boardMapper.selectCommentList(bodIdx);
-    }
+	@Override
+	public List<CommentVO> selectCommentList(Long bodIdx) {
+		return boardMapper.selectCommentList(bodIdx);
+	}
 
-    // 댓글 수정
+	// 댓글 수정
 	@Override
 	public void updateComment(Long comIdx) {
 		boardMapper.updateComment(comIdx);
@@ -91,28 +91,46 @@ public class BoardServiceImple implements BoardService {
 		boardMapper.deleteComment(comIdx);
 	}
 
-    //용도: 특정 사용자가 해당 게시글에 이미 좋아요를 눌렀는지 확인  2025-05-28 조윤호
-    @Override
-    public boolean existsLike(Long bodIdx, String userId) {
-        return boardMapper.existsLike(bodIdx, userId);
-    }
-   
-    /**
-     * 게시물의 좋아요 토글처리 (있으면 삭제, 없으면 삽입)
-     * 그 후 좋아요 갯수 리턴
-     */
-    public int toggleLike(Long bodIdx, String userId) {
-        boolean liked = boardMapper.existsLike(bodIdx, userId);
-        if (liked) {
-            boardMapper.removeLike(bodIdx, userId);
-        } else {
-            boardMapper.addLike(bodIdx, userId);
-        }
-        return boardMapper.getLikeCount(bodIdx);
-    }
-    
-    // 좋아요순 상위 5개
-    public List<BoardDefaultVO> getTop5LikedBoards() {
-        return boardMapper.selectTop5LikedBoards();
-    }
+	// 용도: 특정 사용자가 해당 게시글에 이미 좋아요를 눌렀는지 확인 2025-05-28 조윤호
+	@Override
+	public boolean existsLike(Long bodIdx, String userId) {
+		return boardMapper.existsLike(bodIdx, userId);
+	}
+
+	/**
+	 * 게시물의 좋아요 토글처리 (있으면 삭제, 없으면 삽입) 그 후 좋아요 갯수 리턴
+	 */
+	public int toggleLike(Long bodIdx, String userId) {
+		boolean liked = boardMapper.existsLike(bodIdx, userId);
+		if (liked) {
+			boardMapper.removeLike(bodIdx, userId);
+		} else {
+			boardMapper.addLike(bodIdx, userId);
+		}
+		return boardMapper.getLikeCount(bodIdx);
+	}
+
+	// 좋아요순 상위 5개
+	public List<BoardDefaultVO> getTop5LikedBoards() {
+		return boardMapper.selectTop5LikedBoards();
+	}
+
+	/**
+	 * 05-29 조윤호 게시물의 신고 토글처리 (있으면 삭제, 없으면 삽입) 그 후 신고 갯수 리턴
+	 */
+	public int toggleReport(Long bodIdx, String userId) {
+		boolean reported = boardMapper.existsReport(bodIdx, userId);
+		if (reported) {
+			boardMapper.removeReport(bodIdx, userId);
+		} else {
+			boardMapper.addReport(bodIdx, userId);
+		}
+		return boardMapper.getReportCount(bodIdx);
+	}
+	
+	// 신고 3개이상 게시글
+	@Override
+	public List<BoardDefaultVO> getReportedBoards() {
+	    return boardMapper.selectReportedBoards();
+	}
 }

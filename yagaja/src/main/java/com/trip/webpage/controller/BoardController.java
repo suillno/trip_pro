@@ -170,7 +170,8 @@ public class BoardController {
 	// 2025-05-27삭제 보드 추가
 	@PostMapping("/delete")
 	public ModelAndView deleteBoard(@ModelAttribute SearchHelper searchHelper) {
-		ModelAndView mav = new ModelAndView("redirect:/board/list?cate=" + searchHelper.getCate() + "&pageNumber=1&pageSize=10");
+		ModelAndView mav = new ModelAndView(
+				"redirect:/board/list?cate=" + searchHelper.getCate() + "&pageNumber=1&pageSize=10");
 
 		// 게시글 삭제 메서드 실행
 		boardService.deleteBoard(searchHelper.getBodIdx());
@@ -200,7 +201,7 @@ public class BoardController {
 
 		return mav;
 	}
-	
+
 	// 댓글삭제
 	@PostMapping("/commentDelete")
 	public ModelAndView commentDelete(@ModelAttribute CommentVO comment, @RequestParam("cate") int cate,
@@ -240,13 +241,40 @@ public class BoardController {
 
 		return ResponseEntity.ok(resultMap); // ✅ 현재 좋아요 수 반환
 	}
-	
+
 	// 좋아요순 5개 개시글 출력
 	@GetMapping("/topLiked")
 	public String topLikedBoard(Model model) {
-	    List<BoardDefaultVO> topList = boardService.getTop5LikedBoards();
-	    model.addAttribute("topList", topList);
-	    return "board/topLiked"; // 보여줄 Thymeleaf 페이지
+		List<BoardDefaultVO> topList = boardService.getTop5LikedBoards();
+		model.addAttribute("topList", topList);
+		return "board/topLiked"; // 보여줄 Thymeleaf 페이지
+	}
+	
+	// 신고 3개 게시글 출력
+	@GetMapping("/reported")
+	public ModelAndView viewReportedBoards() {
+	    ModelAndView mav = new ModelAndView("admin/reportedList");
+	    List<BoardDefaultVO> reportedBoards = boardService.getReportedBoards();
+	    mav.addObject("reportedBoards", reportedBoards);
+	    log.info("a 테스트 : {}",reportedBoards.get(0).toString());
+	    return mav;
 	}
 
+
+	// 신고 버튼 2025-05-29
+	@PostMapping("/report")
+	@ResponseBody
+	public ResponseEntity<?> report(@RequestBody HashMap<String, Object> requestMap) {
+		Long bodIdx = Long.parseLong((String) requestMap.get("bodIdx"));
+		String userId = (String) requestMap.get("userId");
+
+		int result = boardService.toggleReport(bodIdx, userId);
+
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap.put("result", result);
+
+		log.info(resultMap.toString());
+
+		return ResponseEntity.ok(resultMap); // ✅ 신고 상태 반환 (1 = 신고 등록됨, 0 = 이미 신고되어 있음)
+	}
 }

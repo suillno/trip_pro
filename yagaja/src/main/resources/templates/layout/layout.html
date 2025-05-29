@@ -24,6 +24,26 @@
 		</div>
 	</div>
 	<footer th:replace="~{fragments/footer :: footer}"></footer>
+	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+	  function logoutConfirm(event) {
+	    event.preventDefault();
+	    Swal.fire({
+	      title: '정말 로그아웃하시겠습니까?',
+	      icon: 'warning',
+	      showCancelButton: true,
+	      confirmButtonColor: '#d33',
+	      cancelButtonColor: '#3085d6',
+	      confirmButtonText: '로그아웃',
+	      cancelButtonText: '취소'
+	    }).then((result) => {
+	      if (result.isConfirmed) {
+	        window.location.href = "/member/logout";
+	      }
+	    });
+	  }
+	</script>
 </body>
 
 </html>

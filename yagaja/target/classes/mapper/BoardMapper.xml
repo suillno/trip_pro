@@ -8,10 +8,22 @@
 
 <!--  1건 조회 쿼리  2025-05-22 조윤호   -->
 <select id="selectOne" parameterType="Long" resultType="BoardDefaultVO">
-SELECT bd.BOD_IDX, bd.BOD_CONSTENT, bd.BOD_TITLE, bd.REG2_DATE ,bd.REG_ID , count(lc.BOD_IDX) AS likeCnt FROM BOARD_DEFAULT bd 
+SELECT bd.BOD_IDX
+, bd.BOD_CONSTENT
+, bd.BOD_TITLE
+, bd.REG2_DATE
+, bd.REG_ID
+, count(lc.BOD_IDX) AS likeCnt
+, B.cnt AS reportCnt
+FROM BOARD_DEFAULT bd
 LEFT OUTER JOIN LIKE_CNT lc ON bd.BOD_IDX = lc.BOD_IDX
-WHERE bd.BOD_IDX = #{bodIdx}
-GROUP BY bd.BOD_IDX, bd.BOD_CONSTENT, bd.BOD_TITLE , bd.REG2_DATE ,bd.REG_ID
+LEFT OUTER JOIN (
+SELECT COUNT(*) AS cnt, BOD_IDX FROM REPORT_CNT WHERE BOD_IDX = #{bodIdx}
+GROUP BY BOD_IDX
+) B ON B.BOD_IDX = bd.BOD_IDX
+WHERE
+bd.BOD_IDX = #{bodIdx}
+GROUP BY bd.BOD_IDX, bd.BOD_CONSTENT, bd.BOD_TITLE , bd.REG2_DATE ,bd.REG_ID, B.cnt
 </select>
 
 <!--  목록 조회 쿼리  -->
@@ -188,5 +200,50 @@ ORDER BY BOD_IDX DESC
     FETCH FIRST 5 ROWS ONLY
 </select>
 
+<!-- 신고 여부 확인  (완료 : 2025-05-29)-->
+	<select id="checkReport" resultType="int">
+	  SELECT COUNT(*) FROM REPORT_CNT WHERE BOD_IDX = #{bodIdx} AND USER_ID = #{userId}
+	</select>
+	
+	<!-- 신고 등록 -->
+	<insert id="addReport">
+	  INSERT INTO REPORT_CNT (BOD_IDX, USER_ID) 
+	  VALUES (#{bodIdx}, #{userId})
+	</insert>
+	
+	 <!-- 🔢 게시글의 누적 신고 수 가져오기 -->
+	<select id="getReportCount" resultType="int">
+	    SELECT count(lc.BOD_IDX) AS reportCnt FROM BOARD_DEFAULT bd 
+	LEFT OUTER JOIN REPORT_CNT lc ON bd.BOD_IDX = lc.BOD_IDX
+	WHERE bd.BOD_IDX = #{bodIdx}
+	GROUP BY bd.BOD_IDX, bd.BOD_CONSTENT, bd.BOD_TITLE , bd.REG2_DATE ,bd.REG_ID
+	</select>
+	
+	 <!-- 🔍 사용자가 해당 게시글에 신고를 눌렀는지 여부 확인 -->
+	<select id="existsReport" resultType="boolean">
+	    SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isExist FROM REPORT_CNT WHERE BOD_IDX = #{bodIdx} AND USER_ID = #{userId}
+	</select>
+	
+	<!-- 💔 좋아요 취소 (REPORT_CNT 테이블에서 삭제) -->
+	<delete id="removeReport">
+	    DELETE FROM REPORT_CNT WHERE BOD_IDX = #{bodIdx} AND USER_ID = #{userId}
+	</delete>
+
+	<!-- 신고 3건 이상 게시글 조회 -->
+<select id="selectReportedBoards" resultType="BoardDefaultVO">
+    SELECT 
+        bd.BOD_IDX,
+        bd.BOD_TITLE,
+        bd.BOD_CONSTENT,
+        bd.REG2_DATE,
+        bd.REG_ID,
+        bd.IS_VISIBLE,
+        COUNT(rc.BOD_IDX) AS reportCnt
+    FROM BOARD_DEFAULT bd
+    JOIN REPORT_CNT rc ON bd.BOD_IDX = rc.BOD_IDX
+    GROUP BY bd.BOD_IDX, bd.BOD_TITLE, bd.BOD_CONSTENT, bd.REG2_DATE, bd.REG_ID, bd.IS_VISIBLE
+    HAVING COUNT(rc.BOD_IDX) >= 3
+    ORDER BY reportCnt DESC
+</select>
 
 </mapper>

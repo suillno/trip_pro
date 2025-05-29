@@ -14,7 +14,7 @@
   <form method="post" class="form" id="signupForm">
     <fieldset class="fieldset">
       <legend>회원가입</legend>
-      <h2 class="logo">Yagaja</h2>
+    <h2 class="logo"><a href="/"class="logo">yagaja</a></h2>
 
       <!-- 아이디 -->
       <div class="row">
@@ -184,6 +184,12 @@
 	      return;
 	    }
 			
+
+		if (!isCodeSent) {
+		  Swal.fire("⚠️ 이메일 인증 필요", "이메일 인증번호를 먼저 전송해주세요.", "warning");
+		  return;
+		}
+			
         const request = {
           userId: $("#userId").val(),
           userPw: $("#userPw").val(),
@@ -271,6 +277,8 @@
         }
 
         isCodeSent = true; // 인증번호 전송 상태 업데이트
+		
+		Swal.fire("📨 인증번호 전송", "입력하신 이메일로 인증번호가 전송되었습니다.", "success");
         clearInterval(countdown);
         timerSeconds = 180;
         $("#Verification").prop("disabled", false);

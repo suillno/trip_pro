@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8" />
+    <title>신고 게시글 차단 관리</title>
+    <link rel="stylesheet" href="/css/memberDetail.css" />
+</head>
+
+<body>
+    <div layout:fragment="content" class="tableCenter">
+        <h2>신고 게시글 차단 관리</h2>
+
+        <!-- ✅ 저장용 form -->
+        <form id="blockForm" method="post" action="/admin/updateVisibility">
+            <table class="memberTable">
+                <colgroup>
+                    <col style="width: 40px" />
+                    <col style="width: 300px" />
+                    <col style="width: 100px" />
+                    <col style="width: 120px" />
+                    <col style="width: 80px" />
+                    <col style="width: 80px" />
+                    <col style="width: 100px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>신고 수</th>
+                        <th>차단</th>
+                        <th>게시글관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item, stat : ${reportedBoards}">
+                        <td th:text="${((currentPage ?: 1) - 1) * (pageSize ?: 10) + stat.index + 1}">1</td>
+                        <td th:text="${item.bodTitle}">제목</td>
+                        <td th:text="${item.regId}">작성자</td>
+                        <td th:text="${#temporals.format(item.reg2Date, 'yyyy-MM-dd')}">날짜</td>
+                        <td th:text="${item.reportCnt}">3</td>
+
+                        <!-- ✅ 차단 상태 표시 -->
+                        <td th:id="'visibleDisplay_' + ${item.bodIdx}" th:text="${item.isVisible} ?: 'Y'">Y</td>
+                        <td>
+                            <!-- ❌ 기존 input 제거: 여기선 미리 hidden input 만들지 않음 -->
+                            <button type="button"
+                                    th:id="'blockBtn_' + ${item.bodIdx}"
+                                    th:data-bodidx="${item.bodIdx}"
+                                    th:data-visible="${item.isVisible}"
+                                    th:class="'btn ' + (${item.isVisible} == 'N' ? 'btn-danger' : 'btn-secondary')"
+                                    th:text="${item.isVisible == 'N'} ? '해제' : '변경'"
+                                    onclick="toggleVisibility(this)">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ✅ 저장 버튼 -->
+            <div class="bottom-controls">
+                <div class="left-placeholder"></div>
+                <button type="button" class="btn btn-primary" onclick="saveBlockChanges()">저장</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ✅ JavaScript -->
+    <script>
+        const changedBoards = new Map();
+
+        function toggleVisibility(button) {
+            const bodIdx = button.dataset.bodidx;
+            const current = button.dataset.visible;
+            const next = current === 'Y' ? 'N' : 'Y';
+
+            // UI 업데이트
+            button.dataset.visible = next;
+            button.textContent = next === 'Y' ? '변경' : '해제';
+            button.className = next === 'Y' ? 'btn btn-secondary' : 'btn btn-danger';
+
+            // 표시값 및 내부 상태 변경
+            document.getElementById("visibleDisplay_" + bodIdx).textContent = next;
+            changedBoards.set(bodIdx, next);
+        }
+
+        function saveBlockChanges() {
+            if (changedBoards.size === 0) {
+                alert("변경된 항목이 없습니다.");
+                return;
+            }
+
+            const form = document.getElementById("blockForm");
+
+            // ✅ 기존 hidden input 제거
+            form.querySelectorAll('input[name="bodIdx"], input[name="isVisible"]').forEach(el => el.remove());
+
+            // ✅ 변경된 항목만 추가
+            changedBoards.forEach((visible, bodIdx) => {
+                const inputId = document.createElement("input");
+                inputId.type = "hidden";
+                inputId.name = "bodIdx";
+                inputId.value = bodIdx;
+                form.appendChild(inputId);
+
+                const inputVisible = document.createElement("input");
+                inputVisible.type = "hidden";
+                inputVisible.name = "isVisible";
+                inputVisible.value = visible;
+                form.appendChild(inputVisible);
+            });
+
+            form.submit();
+        }
+    </script>
+</body>
+</html>

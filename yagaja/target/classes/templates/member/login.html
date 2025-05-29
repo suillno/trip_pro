@@ -13,6 +13,7 @@
     <!-- css 링크 -->
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/login_style.css" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  <!--0529 추가-->
   </head>
   <body>
     <!-- 로그인 박스 -->
@@ -44,7 +45,13 @@
         </div>
     </div>
 	<script th:if="${error}" th:inline="javascript">
-	    alert([[${error}]]);
+	  Swal.fire({
+	    icon: 'error',
+	    title: '로그인 실패',
+	    text: [[${error}]],
+	    confirmButtonText: '확인',
+	    confirmButtonColor: '#d33'
+	  });
 	</script>
   </body>
 </html>

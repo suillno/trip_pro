@@ -25,8 +25,8 @@
 			<section class="admin" th:if="${userInfo != null and userInfo.isAdmin == 1}">
 				<h4>관리자 페이지</h4>
 				<p><a href="/admin/memberDetail?pageNumber=1&pageSize=10&searchType=userId&searchMember=">회원관리</a></p>
-				<p><a href="admin.html">게시글관리</a></p>
-				<p><a href="admin.html">신고처리</a></p>
+				<p><a href="/board/reported">게시글관리</a></p>
+				<p><a href="/reported">신고처리</a></p>
 				<p><a href="/admin/stats">통계/분석</a></p>
 				<p><a href="/admin/adminAccount?pageNumber=1&pageSize=10&searchType=userId&searchMember=">관리자계정관리</a></p>
 			</section>
