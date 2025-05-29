@@ -54,8 +54,13 @@
       text: '회원님의 아이디는: ' + foundId + ' 입니다.',
       confirmButtonText: '확인',
       confirmButtonColor: '#3085d6'
-    });
-  } else if (foundId === null || foundId !== '') {
+    }).then((result) => {
+		if(result.isConfirmed) {
+			window.location.href = '/member/login';
+		}
+	});
+	
+  }else if (foundId === null || foundId === '') {
 	Swal.fire({
 		icon: 'warning',
 		title: '일치하는 회원 없음',
