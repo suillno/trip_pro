@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label for="userEmail" class="label">이메일</label>
-                <input type="text" th:value="${userInfo.email}" class="readonly-member" readonly id="userEmail" />
+                <input type="text" th:value="${maskedEmail}" class="readonly-member" readonly id="userEmail" />
             </div>
             <button class="button" type="submit">탈퇴</button>
         </fieldset>

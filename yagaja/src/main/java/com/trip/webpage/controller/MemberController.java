@@ -163,7 +163,13 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
 
-		mav.addObject("userInfo", memberVO);
+		if (memberVO != null) {
+	        String originalEmail = memberVO.getEmail();
+	        String maskedEmail = maskEmail(originalEmail);
+	        mav.addObject("userInfo", memberVO);
+	        mav.addObject("maskedEmail", maskedEmail);
+	    }
+		
 		return mav;
 	}
 
@@ -212,7 +218,13 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
 
-		mav.addObject("userInfo", memberVO);
+		if (memberVO != null) {
+	        String originalEmail = memberVO.getEmail();
+	        String maskedEmail = maskEmail(originalEmail);
+	        mav.addObject("userInfo", memberVO);
+	        mav.addObject("maskedEmail", maskedEmail);
+	    }
+		
 		mav.addObject("error", error);
 		return mav;
 	}
@@ -300,4 +312,19 @@ public class MemberController {
 		return password.toString();
 	}
 
+	// 이메일 마스킹 유틸 메서드
+	private String maskEmail(String email) {
+	    if (email == null || !email.contains("@")) return email;
+	    String[] parts = email.split("@");
+	    String name = parts[0];
+	    String domain = parts[1];
+
+	    if (name.length() <= 3) {
+	        return name + "@" + domain;
+	    }
+
+	    String visible = name.substring(0, 3);
+	    String masked = "*".repeat(name.length() - 3);
+	    return visible + masked + "@" + domain;
+	}
 }

@@ -40,6 +40,7 @@ ORDER BY REG2_DATE DESC
   SELECT *
   FROM BOARD_DEFAULT
   WHERE 1 = 1
+  AND IS_VISIBLE = 'N'
   <if test="cate != null and cate != ''">
     AND CATE = #{cate}
   </if>
