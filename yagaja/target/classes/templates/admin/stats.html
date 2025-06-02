@@ -23,6 +23,32 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
+		
+		/* ✅ 반응형 조절만 추가 */
+			@media (max-width: 768px) {
+				.chart-container {
+					width: 95%;
+					height: 350px;
+					margin: 20px auto;
+				}
+
+				.chart-container canvas {
+					width: 100% !important;
+					height: auto !important;
+				}
+
+				h2 {
+					font-size: 1.2rem;
+					text-align: center;
+					margin-top: 20px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.chart-container {
+					height: 280px;
+				}
+			}
 	</style>
 
 </head>
